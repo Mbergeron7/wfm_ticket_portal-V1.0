@@ -4,9 +4,34 @@
 <body>
   <h1>Submit WFM Request</h1>
   <form method="POST">
+
+    <!-- Advisor Name -->
     <label>Advisor Name:</label><br>
     <input type="text" name="advisor_name" required><br><br>
 
+    <!-- Line of Business -->
+    <label>Line of Business (LoB):</label><br>
+    <select name="lob" required>
+      <option value="ERO">ERO</option>
+      <option value="IT">IT</option>
+      <option value="MoveBuddy">MoveBuddy</option>
+      <option value="PS Admin">PS Admin</option>
+      <option value="PS BO">PS BO</option>
+      <option value="PS Case Mgr">PS Case Mgr</option>
+      <option value="PS CC">PS CC</option>
+      <option value="PS Onboarding">PS Onboarding</option>
+      <option value="PS Sales">PS Sales</option>
+      <option value="QA">QA</option>
+      <option value="SS Case Management">SS Case Management</option>
+      <option value="SS Onboarding">SS Onboarding</option>
+      <option value="SS Sales">SS Sales</option>
+      <option value="TL/LoD">TL/LoD</option>
+      <option value="Training">Training</option>
+      <option value="WL PS">WL PS</option>
+      <option value="WL SS">WL SS</option>
+    </select><br><br>
+
+    <!-- Team Lead -->
     <label>Team Lead:</label><br>
     <select name="team_lead" required>
       <option value="Adeyinka">Adeyinka</option>
@@ -31,13 +56,28 @@
       <option value="Teresa">Teresa</option>
     </select><br><br>
 
-    <label>Request Type:</label><br>
-    <select name="request_type" required>
-      <option value="Accommodation">Accommodation</option>
-      <option value="Add Hours">Add Hours</option>
-      <!-- Add more -->
+    <!-- WFM Request Type -->
+    <label>WFM Request Type:</label><br>
+    <select name="wfm_request" required>
+      <option value="Accommodation request/update">Accommodation request/update</option>
+      <option value="Add additional hours">Add additional hours</option>
+      <option value="Add/remove/change team meeting">Add/remove/change team meeting</option>
+      <option value="Add/remove/move training">Add/remove/move training</option>
+      <option value="Add offline segment">Add offline segment</option>
+      <option value="Advisor arrived late, remove absence">Advisor arrived late, remove absence</option>
+      <option value="CP skill update">CP skill update</option>
+      <option value="Employee status update (not for schedule changes)">Employee status update (not for schedule changes)</option>
+      <option value="Is OT available?">Is OT available?</option>
+      <option value="Move break/lunch because of meeting">Move break/lunch because of meeting</option>
+      <option value="Schedule Update - CP3 use">Schedule Update - CP3 use</option>
+      <option value="Schedule Error Adjustment">Schedule Error Adjustment</option>
+      <option value="Shift swap/offer">Shift swap/offer</option>
+      <option value="Suggestions/Feedback">Suggestions/Feedback</option>
+      <option value="Unpaid time off/vacation">Unpaid time off/vacation</option>
+      <option value="Testing">Testing</option>
     </select><br><br>
 
+    <!-- Details -->
     <label>Details:</label><br>
     <textarea name="details"></textarea><br><br>
 
@@ -45,4 +85,5 @@
   </form>
 </body>
 </html>
+
 
