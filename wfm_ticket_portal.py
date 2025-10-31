@@ -19,9 +19,9 @@ app.secret_key = 'your_secret_key_here'  # Replace with a secure random key
 
 # Whitelisted email addresses
 ALLOWED_USERS = [
-    'mbergeron@storagevaultcanada.com',
-    'jsauve@storagevaultcanada.com',
-    'ddevenny@storagevaultcanada.com',
+    'mike@example.com',
+    'jodi@example.com',
+    'lucas@example.com',
     'teresa@example.com'
 ]
 
@@ -51,5 +51,6 @@ def home():
 def logout():
     session.clear()
     return redirect('/login')
+
 
 
