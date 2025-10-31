@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
-<head><title>WFM Request</title></head>
+<head>
+  <title>WFM Request</title>
+</head>
 <body>
   <h1>Submit WFM Request</h1>
   <form method="POST">
@@ -8,6 +10,10 @@
     <!-- Advisor Name -->
     <label>Advisor Name:</label><br>
     <input type="text" name="advisor_name" required><br><br>
+
+    <!-- Date of Request -->
+    <label>Date of Request:</label><br>
+    <input type="date" name="request_date" required><br><br>
 
     <!-- Line of Business -->
     <label>Line of Business (LoB):</label><br>
@@ -88,6 +94,3 @@
   </form>
 </body>
 </html>
-
-
-
