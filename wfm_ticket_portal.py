@@ -21,7 +21,7 @@ app.secret_key = 'your_secret_key_here'  # Replace with a secure random key
 ALLOWED_USERS = [
     'mbergeron@storagevaultcanada.com',
     'jsauve@storagevaultcanada.com',
-    'lucas@example.com',
+    'ddevenny@storagevaultcanada.com',
     'teresa@example.com'
 ]
 
@@ -51,4 +51,5 @@ def home():
 def logout():
     session.clear()
     return redirect('/login')
+
 
