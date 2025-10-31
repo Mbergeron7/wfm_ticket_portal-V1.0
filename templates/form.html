@@ -2,21 +2,79 @@
 <html>
 <head>
   <title>WFM Request</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      padding: 40px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    form {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    label {
+      display: block;
+      margin-top: 20px;
+      font-weight: bold;
+      color: #444;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+
+    textarea {
+      resize: vertical;
+      height: 100px;
+    }
+
+    button {
+      margin-top: 30px;
+      padding: 12px 20px;
+      background-color: #0078D4;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #005fa3;
+    }
+  </style>
 </head>
 <body>
   <h1>Submit WFM Request</h1>
   <form method="POST">
 
-    <!-- Advisor Name -->
-    <label>Advisor Name:</label><br>
-    <input type="text" name="advisor_name" required><br><br>
+    <label>Advisor Name:</label>
+    <input type="text" name="advisor_name" required>
 
-    <!-- Date of Request -->
-    <label>Date of Request:</label><br>
-    <input type="date" name="request_date" required><br><br>
+    <label>Date of Request:</label>
+    <input type="date" name="request_date" required>
 
-    <!-- Line of Business -->
-    <label>Line of Business (LoB):</label><br>
+    <label>Line of Business (LoB):</label>
     <select name="lob" required>
       <option value="" disabled selected>Select LoB</option>
       <option value="ERO">ERO</option>
@@ -36,10 +94,9 @@
       <option value="Training">Training</option>
       <option value="WL PS">WL PS</option>
       <option value="WL SS">WL SS</option>
-    </select><br><br>
+    </select>
 
-    <!-- Team Lead -->
-    <label>Team Lead:</label><br>
+    <label>Team Lead:</label>
     <select name="team_lead" required>
       <option value="" disabled selected>Select Team Lead</option>
       <option value="Adeyinka">Adeyinka</option>
@@ -62,10 +119,9 @@
       <option value="Sean">Sean</option>
       <option value="Shavindri">Shavindri</option>
       <option value="Teresa">Teresa</option>
-    </select><br><br>
+    </select>
 
-    <!-- WFM Request Type -->
-    <label>WFM Request Type:</label><br>
+    <label>WFM Request Type:</label>
     <select name="wfm_request" required>
       <option value="" disabled selected>Select Request Type</option>
       <option value="Accommodation request/update">Accommodation request/update</option>
@@ -84,11 +140,10 @@
       <option value="Suggestions/Feedback">Suggestions/Feedback</option>
       <option value="Unpaid time off/vacation">Unpaid time off/vacation</option>
       <option value="Testing">Testing</option>
-    </select><br><br>
+    </select>
 
-    <!-- Details -->
-    <label>Details:</label><br>
-    <textarea name="details"></textarea><br><br>
+    <label>Details:</label>
+    <textarea name="details"></textarea>
 
     <button type="submit">Submit</button>
   </form>
