@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+geron@storagevaultcanada.comfrom flask import Flask, render_template, request
 
 app = Flask(__name__)
 
@@ -19,8 +19,8 @@ app.secret_key = 'your_secret_key_here'  # Replace with a secure random key
 
 # Whitelisted email addresses
 ALLOWED_USERS = [
-    'mike@example.com',
-    'jodi@example.com',
+    'mbergeron@storagevaultcanada.com',
+    'jsauve@storagevaultcanada.com',
     'lucas@example.com',
     'teresa@example.com'
 ]
@@ -51,3 +51,4 @@ def home():
 def logout():
     session.clear()
     return redirect('/login')
+
