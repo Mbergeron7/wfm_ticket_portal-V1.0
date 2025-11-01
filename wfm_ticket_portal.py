@@ -4,7 +4,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime
 import os
 from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Mail, Email, To, Cc, Content
+from sendgrid.helpers.mail import Mail, Email, To, Cc, Content, PlainTextContent
 
 app = Flask(__name__)
 app.secret_key = '9234b8aa0a7c5f289c4fee35b3153713d22a910f'
@@ -41,16 +41,17 @@ try:
 except Exception as e:
     print(f"❌ Google Sheets setup failed: {e}")
 
-def send_ticket_email(to_email, subject, html_body):
+def send_ticket_email(to_email, subject, html_body, plain_body):
     try:
         sg = SendGridAPIClient(api_key=os.environ.get("SENDGRID_API_KEY"))
         from_email = Email(os.environ.get("EMAIL_USER"))
         to = To(to_email)
         cc = [Cc(email) for email in CC_EMAILS]
-        content = Content("text/html", html_body)
 
-        mail = Mail(from_email=from_email, to_emails=to, subject=subject, html_content=content)
+        mail = Mail(from_email=from_email, to_emails=to, subject=subject)
         mail.cc = cc
+        mail.add_content(Content("text/html", html_body))
+        mail.add_content(PlainTextContent(plain_body))
 
         response = sg.send(mail)
         print(f"✅ Email sent: {response.status_code}")
@@ -129,7 +130,25 @@ def home():
                 </body>
                 </html>
                 """
-                send_ticket_email(row_data["Submitted By"], "WFM Ticket Received", html_body)
+
+                plain_body = f"""Hi {row_data['Advisor Name']},
+
+Your WFM ticket has been received.
+
+Date: {row_data['Date of Request']}
+LoB: {row_data['LoB']}
+Team Lead: {row_data['Team Lead']}
+Request Type: {row_data['WFM Request Type']}
+Details: {row_data['Details']}
+Submitted At: {row_data['Submitted At']}
+
+We'll notify you once it's resolved.
+
+Thanks,
+Workforce Management
+"""
+
+                send_ticket_email(row_data["Submitted By"], "WFM Ticket Received", html_body, plain_body)
             else:
                 print("⚠️ Skipping Google Sheets logging due to missing credentials.")
 
@@ -177,7 +196,18 @@ def close_ticket():
             </body>
             </html>
             """
-            send_ticket_email(submitted_by, "WFM Ticket Closed", html_body)
+
+            plain_body = f"""Hi {advisor_name},
+
+Your WFM ticket {ticket_id} has been marked as complete.
+
+If you have any questions, feel free to reach out.
+
+Thanks,
+Workforce Management
+"""
+
+            send_ticket_email(submitted_by, "WFM Ticket Closed", html_body, plain_body)
             return "Ticket closed and email sent."
         else:
             return "Ticket not found.", 404
@@ -188,5 +218,3 @@ def close_ticket():
 def logout():
     session.clear()
     return redirect('/login')
-
-
