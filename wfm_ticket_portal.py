@@ -14,7 +14,7 @@ ALLOWED_USERS = [
     'mbergeron@storagevaultcanada.com',
     'jsauve@storagevaultcanada.com',
     'ddevenny@storagevaultcanada.com',
-    'teresa@example.com'
+    'mikebergeron36@gmail.com'
 ]
 
 # Static CC list
@@ -188,4 +188,5 @@ def close_ticket():
 def logout():
     session.clear()
     return redirect('/login')
+
 
