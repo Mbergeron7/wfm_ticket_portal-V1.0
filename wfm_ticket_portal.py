@@ -62,19 +62,36 @@ def home():
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             closed_timestamp = ""  # Placeholder for future ticket closure
 
-            row = [
-                data.get('advisor_name', ''),
-                data.get('request_date', ''),
-                data.get('lob', ''),
-                data.get('team_lead', ''),
-                data.get('wfm_request', ''),
-                data.get('details', ''),
-                session.get('user_email', ''),
-                timestamp,
-                closed_timestamp
-            ]
+            # Build row and headers dynamically
+            row_data = {
+                "Advisor Name": data.get('advisor_name', ''),
+                "Date of Request": data.get('request_date', ''),
+                "LoB": data.get('lob', ''),
+                "Team Lead": data.get('team_lead', ''),
+                "WFM Request Type": data.get('wfm_request', ''),
+                "Details": data.get('details', ''),
+                "Submitted By": session.get('user_email', ''),
+                "Submitted At": timestamp,
+                "Closed At": closed_timestamp
+            }
 
             if sheet:
+                existing_values = sheet.get_all_values()
+                existing_headers = existing_values[0] if existing_values else []
+
+                # Insert headers if sheet is empty
+                if not existing_headers:
+                    sheet.insert_row(list(row_data.keys()), 1)
+                    existing_headers = list(row_data.keys())
+
+                # Add any new headers dynamically
+                for key in row_data.keys():
+                    if key not in existing_headers:
+                        existing_headers.append(key)
+                        sheet.update('1:1', [existing_headers])
+
+                # Align row with header order
+                row = [row_data.get(header, '') for header in existing_headers]
                 sheet.append_row(row)
                 print("✅ Row appended to Google Sheet.")
             else:
