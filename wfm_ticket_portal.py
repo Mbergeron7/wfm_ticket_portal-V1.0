@@ -19,7 +19,7 @@ ALLOWED_USERS = [
 
 # Static CC list
 CC_EMAILS = [
-    "teamlead@yourcompany.com",
+    "rc.wfm@storagevaultcanada.com",
     "wfm@yourcompany.com"
 ]
 
@@ -188,3 +188,4 @@ def close_ticket():
 def logout():
     session.clear()
     return redirect('/login')
+
