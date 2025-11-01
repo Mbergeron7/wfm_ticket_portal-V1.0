@@ -16,7 +16,7 @@ ALLOWED_USERS = [
 
 # Google Sheets setup
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-creds = ServiceAccountCredentials.from_json_keyfile_name("wfm-logger", scope)
+creds = ServiceAccountCredentials.from_json_keyfile_name("service_account.json", scope)
 client = gspread.authorize(creds)
 sheet = client.open_by_key("1gzJ30wmAAcwEJ8H_nte7ZgH6suYZjGX_w86BhPIRndU").sheet1
 
@@ -43,7 +43,7 @@ def home():
         if request.method == 'POST':
             data = request.form.to_dict()
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            closed_timestamp = ""  # Placeholder for future ticket closure logic
+            closed_timestamp = ""  # Placeholder for future ticket closure
 
             row = [
                 data.get('advisor_name', ''),
@@ -57,7 +57,7 @@ def home():
                 closed_timestamp
             ]
             sheet.append_row(row)
-            return "Form submitted and logged to Google Sheets"
+            return render_template('confirmation.html')
         return render_template('form.html')
     except Exception as e:
         return f"Form error: {e}", 500
@@ -66,6 +66,7 @@ def home():
 def logout():
     session.clear()
     return redirect('/login')
+
 
 
 
