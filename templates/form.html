@@ -8,19 +8,16 @@
       background-color: #f9f9f9;
       padding: 40px;
     }
-
     h1 {
       text-align: center;
       color: #333;
     }
-
     .user-banner {
       text-align: center;
       margin-bottom: 20px;
       font-size: 14px;
       color: #555;
     }
-
     .logout-button {
       display: block;
       margin: 0 auto 30px auto;
@@ -35,7 +32,6 @@
       text-decoration: none;
       width: fit-content;
     }
-
     form {
       max-width: 600px;
       margin: 0 auto;
@@ -44,14 +40,12 @@
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-
     label {
       display: block;
       margin-top: 20px;
       font-weight: bold;
       color: #444;
     }
-
     input[type="text"],
     input[type="date"],
     select,
@@ -64,12 +58,10 @@
       box-sizing: border-box;
       font-size: 14px;
     }
-
     textarea {
       resize: vertical;
       height: 100px;
     }
-
     button {
       margin-top: 30px;
       padding: 12px 20px;
@@ -80,7 +72,6 @@
       font-size: 16px;
       cursor: pointer;
     }
-
     button:hover {
       background-color: #005fa3;
     }
@@ -152,30 +143,50 @@
     </select>
 
     <label>WFM Request Type:</label>
-    <select name="wfm_request" required>
+    <select name="wfm_request" id="wfm_request" onchange="toggleFields()" required>
       <option value="" disabled selected>Select Request Type</option>
-      <option value="Accommodation request/update">Accommodation request/update</option>
-      <option value="Add additional hours">Add additional hours</option>
-      <option value="Add/remove/change team meeting">Add/remove/change team meeting</option>
-      <option value="Add/remove/move training">Add/remove/move training</option>
-      <option value="Add offline segment">Add offline segment</option>
-      <option value="Advisor arrived late, remove absence">Advisor arrived late, remove absence</option>
-      <option value="CP skill update">CP skill update</option>
-      <option value="Employee status update (not for schedule changes)">Employee status update (not for schedule changes)</option>
-      <option value="Is OT available?">Is OT available?</option>
-      <option value="Move break/lunch because of meeting">Move break/lunch because of meeting</option>
-      <option value="Schedule Update - CP3 use">Schedule Update - CP3 use</option>
-      <option value="Schedule Error Adjustment">Schedule Error Adjustment</option>
-      <option value="Shift swap/offer">Shift swap/offer</option>
-      <option value="Suggestions/Feedback">Suggestions/Feedback</option>
-      <option value="Unpaid time off/vacation">Unpaid time off/vacation</option>
-      <option value="Testing">Testing</option>
+      <option value="Accommodation">Accommodation request/update</option>
+      <option value="ShiftSwap">Shift swap/offer</option>
+      <option value="ScheduleError">Schedule Error Adjustment</option>
+      <option value="Other">Other</option>
     </select>
+
+    <!-- Dynamic Fields -->
+    <div id="AccommodationFields" style="display:none;">
+      <label>Type of Accommodation:</label>
+      <input type="text" name="accommodation_type">
+      <label>Final Date:</label>
+      <input type="date" name="final_date">
+    </div>
+
+    <div id="ShiftSwapFields" style="display:none;">
+      <label>Advisor Accepting Swap:</label>
+      <input type="text" name="swap_advisor">
+      <label>Date of Offered Shift:</label>
+      <input type="date" name="swap_date">
+    </div>
+
+    <div id="ScheduleErrorFields" style="display:none;">
+      <label>Old Start Time:</label>
+      <input type="text" name="old_start_time" placeholder="HH:MM AM/PM">
+      <label>New Start Time:</label>
+      <input type="text" name="new_start_time" placeholder="HH:MM AM/PM">
+    </div>
 
     <label>Details:</label>
     <textarea name="details"></textarea>
 
     <button type="submit">Submit</button>
   </form>
+
+  <script>
+    function toggleFields() {
+      const selected = document.getElementById("wfm_request").value;
+      const sections = ["Accommodation", "ShiftSwap", "ScheduleError"];
+      sections.forEach(type => {
+        document.getElementById(type + "Fields").style.display = (type === selected) ? "block" : "none";
+      });
+    }
+  </script>
 </body>
 </html>
