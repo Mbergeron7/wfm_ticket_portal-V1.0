@@ -3,9 +3,8 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime
 import os
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail, Email, To, Cc, Content
 
 app = Flask(__name__)
 app.secret_key = '9234b8aa0a7c5f289c4fee35b3153713d22a910f'
@@ -43,24 +42,20 @@ except Exception as e:
     print(f"❌ Google Sheets setup failed: {e}")
 
 def send_ticket_email(to_email, subject, html_body):
-    sender_email = os.environ.get("EMAIL_USER")
-    sender_password = os.environ.get("EMAIL_PASS")
-
-    msg = MIMEMultipart()
-    msg['From'] = sender_email
-    msg['To'] = to_email
-    msg['Cc'] = ", ".join(CC_EMAILS)
-    msg['Subject'] = subject
-    msg.attach(MIMEText(html_body, 'html'))
-
     try:
-        with smtplib.SMTP("smtp.office365.com", 587) as server:
-            server.starttls()
-            server.login(sender_email, sender_password)
-            server.sendmail(sender_email, [to_email] + CC_EMAILS, msg.as_string())
-            print("✅ Email sent to", to_email)
+        sg = SendGridAPIClient(api_key=os.environ.get("SENDGRID_API_KEY"))
+        from_email = Email(os.environ.get("EMAIL_USER"))
+        to = To(to_email)
+        cc = [Cc(email) for email in CC_EMAILS]
+        content = Content("text/html", html_body)
+
+        mail = Mail(from_email=from_email, to_emails=to, subject=subject, html_content=content)
+        mail.cc = cc
+
+        response = sg.send(mail)
+        print(f"✅ Email sent: {response.status_code}")
     except Exception as e:
-        print("❌ Email failed:", e)
+        print(f"❌ SendGrid error: {e}")
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -157,7 +152,7 @@ def close_ticket():
         headers = all_rows[0]
         ticket_index = None
 
-        for i, row in enumerate(all_rows[1:], start=2):  # start=2 for 1-based indexing
+        for i, row in enumerate(all_rows[1:], start=2):
             if ticket_id in row:
                 ticket_index = i
                 break
