@@ -33,7 +33,7 @@
       width: fit-content;
     }
     form {
-      max-width: 600px;
+      max-width: 700px;
       margin: 0 auto;
       background-color: #fff;
       padding: 30px;
@@ -48,6 +48,7 @@
     }
     input[type="text"],
     input[type="date"],
+    input[type="number"],
     select,
     textarea {
       width: 100%;
@@ -57,6 +58,9 @@
       border-radius: 4px;
       box-sizing: border-box;
       font-size: 14px;
+    }
+    input[type="file"] {
+      margin-top: 10px;
     }
     textarea {
       resize: vertical;
@@ -87,7 +91,7 @@
     <a href="/logout" class="logout-button">Logout</a>
   {% endif %}
 
-  <form method="POST">
+  <form method="POST" enctype="multipart/form-data">
     <label>Advisor Name:</label>
     <input type="text" name="advisor_name" required>
 
@@ -145,29 +149,69 @@
     <label>WFM Request Type:</label>
     <select name="wfm_request" id="wfm_request" onchange="toggleFields()" required>
       <option value="" disabled selected>Select Request Type</option>
-      {% for option in [
-        "Accommodation request/update", "Add additional hours", "Add/remove/change team meeting",
-        "Add/remove/move training", "Add offline segment", "Advisor arrived late, remove absence",
-        "CP skill update", "Employee status update (not for schedule changes)", "Is OT available?",
-        "Move break/lunch because of meeting", "Schedule Update - CP3 use", "Schedule Error Adjustment",
-        "Shift swap/offer", "Suggestions/Feedback", "Unpaid time off/vacation", "Testing"
-      ] %}
-        <option value="{{ option }}">{{ option }}</option>
-      {% endfor %}
+      <option value="Accommodation request/update">Accommodation request/update</option>
+      <option value="Add additional hours">Add additional hours</option>
+      <option value="Add/remove/change team meeting">Add/remove/change team meeting</option>
+      <option value="Add/remove/move training">Add/remove/move training</option>
+      <option value="Add offline segment">Add offline segment</option>
+      <option value="Advisor arrived late, remove absence">Advisor arrived late, remove absence</option>
+      <option value="CP skill update">CP skill update</option>
+      <option value="Employee status update (not for schedule changes)">Employee status update (not for schedule changes)</option>
+      <option value="Is OT available?">Is OT available?</option>
+      <option value="Move break/lunch because of meeting">Move break/lunch because of meeting</option>
+      <option value="Schedule Update - CP3 use">Schedule Update - CP3 use</option>
+      <option value="Schedule Error Adjustment">Schedule Error Adjustment</option>
+      <option value="Shift swap/offer">Shift swap/offer</option>
+      <option value="Suggestions/Feedback">Suggestions/Feedback</option>
+      <option value="Unpaid time off/vacation">Unpaid time off/vacation</option>
+      <option value="Testing">Testing</option>
     </select>
 
-    {% for option in [
-      "Accommodation request/update", "Add additional hours", "Add/remove/change team meeting",
-      "Add/remove/move training", "Add offline segment", "Advisor arrived late, remove absence",
-      "CP skill update", "Employee status update (not for schedule changes)", "Is OT available?",
-      "Move break/lunch because of meeting", "Schedule Update - CP3 use", "Schedule Error Adjustment",
-      "Shift swap/offer", "Suggestions/Feedback", "Unpaid time off/vacation", "Testing"
-    ] %}
-    <div id="{{ option | replace(' ', '') | replace('/', '') }}Fields" style="display:none;">
-      <label>Additional Info for "{{ option }}":</label>
-      <input type="text" name="{{ option | replace(' ', '_') | replace('/', '_') }}_details" placeholder="Enter details">
+    <!-- Start of Accommodation Section -->
+    <div id="AccommodationrequestupdateFields" style="display:none;">
+      <label>What are we doing for the accommodation?</label>
+      <input type="radio" name="accommodation_action" value="Add New"> Add New
+      <input type="radio" name="accommodation_action" value="Update Existing"> Update Existing
+      <input type="radio" name="accommodation_action" value="Remove"> Remove
+
+      <label>Type of Accommodation:</label>
+      <select name="accommodation_type">
+        <option value="" disabled selected>Select type</option>
+        <option value="School">School</option>
+        <option value="Personal">Personal</option>
+        <option value="Medical">Medical</option>
+      </select>
+
+      <label>Final Date of Accommodation:</label>
+      <input type="date" name="final_date">
+
+      <label>Return to Work Date:</label>
+      <input type="date" name="return_to_work_date">
+
+      <label>Do you have CP3 Approval?</label>
+      <input type="radio" name="cp3_approval_status" value="Yes" onclick="toggleCP3(true)"> Yes
+      <input type="radio" name="cp3_approval_status" value="No" onclick="toggleCP3(false)"> No
+
+      <div id="cp3Upload" style="display:none;">
+        <label>Upload CP3 Approval Screenshot:</label>
+        <input type="file" name="cp3_approval" accept=".pdf,.doc,.docx,.jpg,.png">
+            </div>
+
+      <label>Upload School Schedule (optional):</label>
+      <input type="file" name="school_schedule" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.png">
+
+      <label>Weekly Schedule:</label>
+      <input type="text" name="monday_schedule" placeholder="Monday start/end time (HH:MM AM/PM)">
+      <input type="text" name="tuesday_schedule" placeholder="Tuesday start/end time (HH:MM AM/PM)">
+      <input type="text" name="wednesday_schedule" placeholder="Wednesday start/end time (HH:MM AM/PM)">
+      <input type="text" name="thursday_schedule" placeholder="Thursday start/end time (HH:MM AM/PM)">
+      <input type="text" name="friday_schedule" placeholder="Friday start/end time (HH:MM AM/PM)">
+      <input type="text" name="saturday_schedule" placeholder="Saturday start/end time (HH:MM AM/PM)">
+      <input type="text" name="sunday_schedule" placeholder="Sunday start/end time (HH:MM AM/PM)">
+
+      <label>How many hours will they be working per week?</label>
+      <input type="number" name="weekly_hours" min="0" placeholder="Enter number of hours">
     </div>
-    {% endfor %}
 
     <label>Details:</label>
     <textarea name="details"></textarea>
@@ -187,8 +231,15 @@
       ];
       options.forEach(opt => {
         const id = opt.replace(/[\s\/]/g, '') + "Fields";
-        document.getElementById(id).style.display = (opt === selected) ? "block" : "none";
+        const section = document.getElementById(id);
+        if (section) {
+          section.style.display = (opt === selected) ? "block" : "none";
+        }
       });
+    }
+
+    function toggleCP3(show) {
+      document.getElementById("cp3Upload").style.display = show ? "block" : "none";
     }
   </script>
 </body>
