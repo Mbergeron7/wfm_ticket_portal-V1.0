@@ -16,7 +16,7 @@ ALLOWED_USERS = [
 
 # Google Sheets setup
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-creds = ServiceAccountCredentials.from_json_keyfile_name("service_account.json", scope)
+creds = ServiceAccountCredentials.from_json_keyfile_name("wfm-logger", scope)
 client = gspread.authorize(creds)
 sheet = client.open_by_key("1gzJ30wmAAcwEJ8H_nte7ZgH6suYZjGX_w86BhPIRndU").sheet1
 
@@ -66,5 +66,6 @@ def home():
 def logout():
     session.clear()
     return redirect('/login')
+
 
 
