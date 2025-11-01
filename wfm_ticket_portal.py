@@ -5,7 +5,7 @@ from datetime import datetime
 import os
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key_here'  # Replace with a secure random key
+app.secret_key = '9234b8aa0a7c5f289c4fee35b3153713d22a910f'  # Replace with a secure random key
 
 # Whitelisted email addresses
 ALLOWED_USERS = [
@@ -110,6 +110,7 @@ def home():
 def logout():
     session.clear()
     return redirect('/login')
+
 
 
 
