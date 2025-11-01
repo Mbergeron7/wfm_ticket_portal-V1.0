@@ -16,15 +16,20 @@ ALLOWED_USERS = [
 ]
 
 # Google Sheets setup
-print("Current working directory:", os.getcwd())
+print("📂 Current working directory:", os.getcwd())
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
 sheet = None
 
 try:
-    key_path = os.path.join(os.path.dirname(__file__), "service_account.json")
-    if not os.path.exists(key_path):
-        raise FileNotFoundError(f"service_account.json not found at {key_path}")
+    # Absolute path for local dev
+    local_path = r"C:\Users\mikeb\OneDrive - StorageVault Canada Inc\3.  Workforce Management\Mike Files\Power BI Files\Power Automate Schedule Files\Ticketing Tool Flask\wfm_ticket_portal\service_account.json"
     
+    # Fallback to relative path for deployment
+    fallback_path = os.path.join(os.path.dirname(__file__), "service_account.json")
+    
+    key_path = local_path if os.path.exists(local_path) else fallback_path
+    print(f"🔑 Using service account file: {key_path}")
+
     creds = ServiceAccountCredentials.from_json_keyfile_name(key_path, scope)
     client = gspread.authorize(creds)
     sheet = client.open_by_key("1gzJ30wmAAcwEJ8H_nte7ZgH6suYZjGX_w86BhPIRndU").sheet1
