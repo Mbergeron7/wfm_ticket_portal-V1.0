@@ -1,4 +1,6 @@
 from flask import Flask, render_template, request, redirect, session
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key_here'  # Replace with a secure random key
@@ -10,6 +12,12 @@ ALLOWED_USERS = [
     'ddevenny@storagevaultcanada.com',
     'teresa@example.com'
 ]
+
+# Google Sheets setup
+scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+creds = ServiceAccountCredentials.from_json_keyfile_name("service_account.json", scope)
+client = gspread.authorize(creds)
+sheet = client.open_by_key("1gzJ30wmAAcwEJ8H_nte7ZgH6suYZjGX_w86BhPIRndU").sheet1
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -32,8 +40,18 @@ def home():
         if not session.get('authenticated'):
             return redirect('/login')
         if request.method == 'POST':
-            print(request.form)  # Logs submitted form data
-            return "Form submitted"
+            data = request.form.to_dict()
+            row = [
+                data.get('advisor_name', ''),
+                data.get('request_date', ''),
+                data.get('lob', ''),
+                data.get('team_lead', ''),
+                data.get('wfm_request', ''),
+                data.get('details', ''),
+                session.get('user_email', '')
+            ]
+            sheet.append_row(row)
+            return "Form submitted and logged to Google Sheets"
         return render_template('form.html')
     except Exception as e:
         return f"Form error: {e}", 500
@@ -42,3 +60,4 @@ def home():
 def logout():
     session.clear()
     return redirect('/login')
+
