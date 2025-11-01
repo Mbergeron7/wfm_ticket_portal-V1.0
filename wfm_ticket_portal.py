@@ -20,7 +20,7 @@ ALLOWED_USERS = [
 # Static CC list
 CC_EMAILS = [
     "rc.wfm@storagevaultcanada.com",
-    "wfm@yourcompany.com"
+    "mbergeron@storagevaultcanada.com"
 ]
 
 # Google Sheets setup
@@ -218,3 +218,4 @@ Workforce Management
 def logout():
     session.clear()
     return redirect('/login')
+
