@@ -1,9 +1,10 @@
 from flask import Flask, render_template, request, redirect, session
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+from datetime import datetime
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key_here'  # Replace with a secure random key
+app.secret_key = 'your_secret_key_here'
 
 # Whitelisted email addresses
 ALLOWED_USERS = [
@@ -41,6 +42,9 @@ def home():
             return redirect('/login')
         if request.method == 'POST':
             data = request.form.to_dict()
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            closed_timestamp = ""  # Placeholder for future ticket closure logic
+
             row = [
                 data.get('advisor_name', ''),
                 data.get('request_date', ''),
@@ -48,7 +52,9 @@ def home():
                 data.get('team_lead', ''),
                 data.get('wfm_request', ''),
                 data.get('details', ''),
-                session.get('user_email', '')
+                session.get('user_email', ''),
+                timestamp,
+                closed_timestamp
             ]
             sheet.append_row(row)
             return "Form submitted and logged to Google Sheets"
@@ -60,4 +66,5 @@ def home():
 def logout():
     session.clear()
     return redirect('/login')
+
 
