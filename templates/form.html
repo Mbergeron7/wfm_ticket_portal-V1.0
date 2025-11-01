@@ -145,33 +145,29 @@
     <label>WFM Request Type:</label>
     <select name="wfm_request" id="wfm_request" onchange="toggleFields()" required>
       <option value="" disabled selected>Select Request Type</option>
-      <option value="Accommodation">Accommodation request/update</option>
-      <option value="ShiftSwap">Shift swap/offer</option>
-      <option value="ScheduleError">Schedule Error Adjustment</option>
-      <option value="Other">Other</option>
+      {% for option in [
+        "Accommodation request/update", "Add additional hours", "Add/remove/change team meeting",
+        "Add/remove/move training", "Add offline segment", "Advisor arrived late, remove absence",
+        "CP skill update", "Employee status update (not for schedule changes)", "Is OT available?",
+        "Move break/lunch because of meeting", "Schedule Update - CP3 use", "Schedule Error Adjustment",
+        "Shift swap/offer", "Suggestions/Feedback", "Unpaid time off/vacation", "Testing"
+      ] %}
+        <option value="{{ option }}">{{ option }}</option>
+      {% endfor %}
     </select>
 
-    <!-- Dynamic Fields -->
-    <div id="AccommodationFields" style="display:none;">
-      <label>Type of Accommodation:</label>
-      <input type="text" name="accommodation_type">
-      <label>Final Date:</label>
-      <input type="date" name="final_date">
+    {% for option in [
+      "Accommodation request/update", "Add additional hours", "Add/remove/change team meeting",
+      "Add/remove/move training", "Add offline segment", "Advisor arrived late, remove absence",
+      "CP skill update", "Employee status update (not for schedule changes)", "Is OT available?",
+      "Move break/lunch because of meeting", "Schedule Update - CP3 use", "Schedule Error Adjustment",
+      "Shift swap/offer", "Suggestions/Feedback", "Unpaid time off/vacation", "Testing"
+    ] %}
+    <div id="{{ option | replace(' ', '') | replace('/', '') }}Fields" style="display:none;">
+      <label>Additional Info for "{{ option }}":</label>
+      <input type="text" name="{{ option | replace(' ', '_') | replace('/', '_') }}_details" placeholder="Enter details">
     </div>
-
-    <div id="ShiftSwapFields" style="display:none;">
-      <label>Advisor Accepting Swap:</label>
-      <input type="text" name="swap_advisor">
-      <label>Date of Offered Shift:</label>
-      <input type="date" name="swap_date">
-    </div>
-
-    <div id="ScheduleErrorFields" style="display:none;">
-      <label>Old Start Time:</label>
-      <input type="text" name="old_start_time" placeholder="HH:MM AM/PM">
-      <label>New Start Time:</label>
-      <input type="text" name="new_start_time" placeholder="HH:MM AM/PM">
-    </div>
+    {% endfor %}
 
     <label>Details:</label>
     <textarea name="details"></textarea>
@@ -182,9 +178,16 @@
   <script>
     function toggleFields() {
       const selected = document.getElementById("wfm_request").value;
-      const sections = ["Accommodation", "ShiftSwap", "ScheduleError"];
-      sections.forEach(type => {
-        document.getElementById(type + "Fields").style.display = (type === selected) ? "block" : "none";
+      const options = [
+        "Accommodation request/update", "Add additional hours", "Add/remove/change team meeting",
+        "Add/remove/move training", "Add offline segment", "Advisor arrived late, remove absence",
+        "CP skill update", "Employee status update (not for schedule changes)", "Is OT available?",
+        "Move break/lunch because of meeting", "Schedule Update - CP3 use", "Schedule Error Adjustment",
+        "Shift swap/offer", "Suggestions/Feedback", "Unpaid time off/vacation", "Testing"
+      ];
+      options.forEach(opt => {
+        const id = opt.replace(/[\s\/]/g, '') + "Fields";
+        document.getElementById(id).style.display = (opt === selected) ? "block" : "none";
       });
     }
   </script>
