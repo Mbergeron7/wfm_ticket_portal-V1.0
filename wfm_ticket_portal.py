@@ -18,14 +18,19 @@ ALLOWED_USERS = [
 # Google Sheets setup
 print("Current working directory:", os.getcwd())
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+sheet = None
 
 try:
-    creds = ServiceAccountCredentials.from_json_keyfile_name("service_account.json", scope)
+    key_path = os.path.join(os.path.dirname(__file__), "service_account.json")
+    if not os.path.exists(key_path):
+        raise FileNotFoundError(f"service_account.json not found at {key_path}")
+    
+    creds = ServiceAccountCredentials.from_json_keyfile_name(key_path, scope)
     client = gspread.authorize(creds)
     sheet = client.open_by_key("1gzJ30wmAAcwEJ8H_nte7ZgH6suYZjGX_w86BhPIRndU").sheet1
-except FileNotFoundError:
-    print("ERROR: service_account.json not found. Make sure it's in the working directory.")
-    sheet = None
+    print("✅ Google Sheets connection established.")
+except Exception as e:
+    print(f"❌ Google Sheets setup failed: {e}")
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -66,8 +71,9 @@ def home():
 
             if sheet:
                 sheet.append_row(row)
+                print("✅ Row appended to Google Sheet.")
             else:
-                print("Skipping Google Sheets logging due to missing credentials.")
+                print("⚠️ Skipping Google Sheets logging due to missing credentials.")
 
             return render_template('confirmation.html')
         return render_template('form.html')
