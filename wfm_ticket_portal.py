@@ -2,9 +2,10 @@ from flask import Flask, render_template, request, redirect, session
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime
+from zoneinfo import ZoneInfo
 import os
 from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Mail, Email, To, Cc, Content, PlainTextContent
+from sendgrid.helpers.mail import Mail, Email, To, Content, PlainTextContent
 
 app = Flask(__name__)
 app.secret_key = '9234b8aa0a7c5f289c4fee35b3153713d22a910f'
@@ -15,10 +16,6 @@ ALLOWED_USERS = [
     'jsauve@storagevaultcanada.com',
     'ddevenny@storagevaultcanada.com',
     'mikebergeron36@gmail.com'
-]
-
-# Static CC list
-CC_EMAILS = [
 ]
 
 # Google Sheets setup
@@ -44,10 +41,8 @@ def send_ticket_email(to_email, subject, html_body, plain_body):
         sg = SendGridAPIClient(api_key=os.environ.get("SENDGRID_API_KEY"))
         from_email = Email(os.environ.get("EMAIL_USER"))
         to = To(to_email)
-        cc = [Cc(email) for email in CC_EMAILS]
 
         mail = Mail(from_email=from_email, to_emails=to, subject=subject)
-        mail.cc = cc
         mail.add_content(Content("text/html", html_body))
         mail.add_content(PlainTextContent(plain_body))
 
@@ -78,7 +73,7 @@ def home():
             return redirect('/login')
         if request.method == 'POST':
             data = request.form.to_dict()
-            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            timestamp = datetime.now(ZoneInfo("America/Toronto")).strftime("%Y-%m-%d %H:%M:%S")
             closed_timestamp = ""
 
             row_data = {
@@ -175,7 +170,7 @@ def close_ticket():
                 break
 
         if ticket_index:
-            closed_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            closed_at = datetime.now(ZoneInfo("America/Toronto")).strftime("%Y-%m-%d %H:%M:%S")
             col_index = headers.index("Closed At") + 1
             sheet.update_cell(ticket_index, col_index, closed_at)
 
@@ -216,5 +211,6 @@ Workforce Management
 def logout():
     session.clear()
     return redirect('/login')
+
 
 
