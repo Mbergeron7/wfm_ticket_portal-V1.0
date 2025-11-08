@@ -251,17 +251,37 @@
 
 <div id="AddadditionalhoursFields" style="display:none;">
   <label>How many days are we adding additional hours to?</label>
-  <input type="radio" name="additional_days" value="1 Day"> 1 Day
-  <input type="radio" name="additional_days" value="Multiple Days"> Multiple Days
+  <input type="radio" name="additional_days" value="1 Day" onclick="toggleWeeklyHours(false)"> 1 Day
+  <input type="radio" name="additional_days" value="Multiple Days" onclick="toggleWeeklyHours(true)"> Multiple Days
 
-  <label>Requested Date:</label>
-  <input type="date" name="additional_hours_date">
+  <div id="singleDayFields">
+    <label>Requested Date:</label>
+    <input type="date" name="additional_hours_date">
 
-  <label>Start Time:</label>
-  <input type="text" name="additional_start_time" placeholder="HH:MM AM/PM">
+    <label>Start Time:</label>
+    <input type="text" name="additional_start_time" placeholder="HH:MM AM/PM">
 
-  <label>End Time:</label>
-  <input type="text" name="additional_end_time" placeholder="HH:MM AM/PM">
+    <label>End Time:</label>
+    <input type="text" name="additional_end_time" placeholder="HH:MM AM/PM">
+  </div>
+
+  <div id="multiDayFields" style="display:none;">
+    <label>Weekly Schedule:</label>
+    <input type="text" name="mon_start" placeholder="Monday start time (HH:MM AM/PM)">
+    <input type="text" name="mon_end" placeholder="Monday end time (HH:MM AM/PM)">
+    <input type="text" name="tue_start" placeholder="Tuesday start time (HH:MM AM/PM)">
+    <input type="text" name="tue_end" placeholder="Tuesday end time (HH:MM AM/PM)">
+    <input type="text" name="wed_start" placeholder="Wednesday start time (HH:MM AM/PM)">
+    <input type="text" name="wed_end" placeholder="Wednesday end time (HH:MM AM/PM)">
+    <input type="text" name="thu_start" placeholder="Thursday start time (HH:MM AM/PM)">
+    <input type="text" name="thu_end" placeholder="Thursday end time (HH:MM AM/PM)">
+    <input type="text" name="fri_start" placeholder="Friday start time (HH:MM AM/PM)">
+    <input type="text" name="fri_end" placeholder="Friday end time (HH:MM AM/PM)">
+    <input type="text" name="sat_start" placeholder="Saturday start time (HH:MM AM/PM)">
+    <input type="text" name="sat_end" placeholder="Saturday end time (HH:MM AM/PM)">
+    <input type="text" name="sun_start" placeholder="Sunday start time (HH:MM AM/PM)">
+    <input type="text" name="sun_end" placeholder="Sunday end time (HH:MM AM/PM)">
+  </div>
 
   <label>Do you have CP3 Approval?</label>
   <input type="radio" name="additional_cp3_status" value="Yes" onclick="toggleAdditionalCP3(true)"> Yes
@@ -278,4 +298,5 @@
   <label>Notes or Reason:</label>
   <textarea name="additional_notes" placeholder="Explain why additional hours are needed"></textarea>
 </div>
+
 
