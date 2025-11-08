@@ -376,4 +376,36 @@
 </body>
 </html>
 
+<!-- Add/Remove/Change Team Meeting Section -->
+<div id="AddremovechangeteammeetingFields" style="display:none;">
+  <label>Action:</label>
+  <input type="radio" name="team_meeting_action" value="Add"> Add
+  <input type="radio" name="team_meeting_action" value="Remove"> Remove
+  <input type="radio" name="team_meeting_action" value="Change"> Change
+
+  <label>Meeting Date:</label>
+  <input type="date" name="team_meeting_date">
+
+  <label>Start Time:</label>
+  <input type="text" name="team_meeting_start" placeholder="HH:MM AM/PM">
+
+  <label>End Time:</label>
+  <input type="text" name="team_meeting_end" placeholder="HH:MM AM/PM">
+
+  <label>Meeting Platform:</label>
+  <select name="team_meeting_platform">
+    <option value="" disabled selected>Select platform</option>
+    <option value="Zoom">Zoom</option>
+    <option value="Teams">Teams</option>
+    <option value="Google Meet">Google Meet</option>
+    <option value="Other">Other</option>
+  </select>
+
+  <label>Meeting Link (if applicable):</label>
+  <input type="text" name="team_meeting_link" placeholder="Paste meeting URL">
+
+  <label>Notes or Reason:</label>
+  <textarea name="team_meeting_notes" placeholder="Why are we adding/removing/changing this meeting?"></textarea>
+</div>
+
 
