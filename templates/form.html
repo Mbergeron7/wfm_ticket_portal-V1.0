@@ -244,3 +244,33 @@
   </script>
 </body>
 </html>
+
+<div id="AddadditionalhoursFields" style="display:none;">
+  <label>How many days are we adding additional hours to?</label>
+  <input type="radio" name="additional_days" value="1 Day"> 1 Day
+  <input type="radio" name="additional_days" value="Multiple Days"> Multiple Days
+
+  <label>Requested Date:</label>
+  <input type="date" name="additional_hours_date">
+
+  <label>Start Time:</label>
+  <input type="text" name="additional_start_time" placeholder="HH:MM AM/PM">
+
+  <label>End Time:</label>
+  <input type="text" name="additional_end_time" placeholder="HH:MM AM/PM">
+
+  <label>Do you have CP3 Approval?</label>
+  <input type="radio" name="additional_cp3_status" value="Yes" onclick="toggleAdditionalCP3(true)"> Yes
+  <input type="radio" name="additional_cp3_status" value="No" onclick="toggleAdditionalCP3(false)"> No
+
+  <div id="additionalCp3Upload" style="display:none;">
+    <label>Upload CP3 Approval Screenshot:</label>
+    <input type="file" name="additional_cp3_upload" accept=".pdf,.doc,.docx,.jpg,.png">
+  </div>
+
+  <label>Weekly Hours (if applicable):</label>
+  <input type="number" name="additional_weekly_hours" min="0" placeholder="Enter number of hours">
+
+  <label>Notes or Reason:</label>
+  <textarea name="additional_notes" placeholder="Explain why additional hours are needed"></textarea>
+</div>
