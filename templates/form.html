@@ -219,29 +219,33 @@
     <button type="submit">Submit</button>
   </form>
 
-  <script>
-    function toggleFields() {
-      const selected = document.getElementById("wfm_request").value;
-      const options = [
-        "Accommodation request/update", "Add additional hours", "Add/remove/change team meeting",
-        "Add/remove/move training", "Add offline segment", "Advisor arrived late, remove absence",
-        "CP skill update", "Employee status update (not for schedule changes)", "Is OT available?",
-        "Move break/lunch because of meeting", "Schedule Update - CP3 use", "Schedule Error Adjustment",
-        "Shift swap/offer", "Suggestions/Feedback", "Unpaid time off/vacation", "Testing"
-      ];
-      options.forEach(opt => {
-        const id = opt.replace(/[\s\/]/g, '') + "Fields";
-        const section = document.getElementById(id);
-        if (section) {
-          section.style.display = (opt === selected) ? "block" : "none";
-        }
-      });
-    }
+<script>
+  function toggleFields() {
+    const selected = document.getElementById("wfm_request").value;
+    const options = [
+      "Accommodation request/update", "Add additional hours", "Add/remove/change team meeting",
+      "Add/remove/move training", "Add offline segment", "Advisor arrived late, remove absence",
+      "CP skill update", "Employee status update (not for schedule changes)", "Is OT available?",
+      "Move break/lunch because of meeting", "Schedule Update - CP3 use", "Schedule Error Adjustment",
+      "Shift swap/offer", "Suggestions/Feedback", "Unpaid time off/vacation", "Testing"
+    ];
+    options.forEach(opt => {
+      const id = opt.replace(/[\s\/]/g, '') + "Fields";
+      const section = document.getElementById(id);
+      if (section) {
+        section.style.display = (opt === selected) ? "block" : "none";
+      }
+    });
+  }
 
-    function toggleCP3(show) {
-      document.getElementById("cp3Upload").style.display = show ? "block" : "none";
-    }
-  </script>
+  function toggleCP3(show) {
+    document.getElementById("cp3Upload").style.display = show ? "block" : "none";
+  }
+
+  function toggleAdditionalCP3(show) {
+    document.getElementById("additionalCp3Upload").style.display = show ? "block" : "none";
+  }
+</script>
 </body>
 </html>
 
@@ -274,3 +278,4 @@
   <label>Notes or Reason:</label>
   <textarea name="additional_notes" placeholder="Explain why additional hours are needed"></textarea>
 </div>
+
