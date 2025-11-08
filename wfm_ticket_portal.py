@@ -16,6 +16,7 @@ ALLOWED_USERS = [
     'jsauve@storagevaultcanada.com',
     'ddevenny@storagevaultcanada.com',
     'mikebergeron36@gmail.com'
+    'szenasni@storagevaultcanada.com'
 ]
 
 # Google Sheets setup
@@ -211,6 +212,7 @@ Workforce Management
 def logout():
     session.clear()
     return redirect('/login')
+
 
 
 
