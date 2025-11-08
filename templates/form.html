@@ -92,7 +92,7 @@
   {% endif %}
 
   <form method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
-      <label>Advisor Name:</label>
+       <label>Advisor Name:</label>
     <input type="text" name="advisor_name" required>
 
     <label>Date of Request:</label>
@@ -165,13 +165,15 @@
       <option value="Suggestions/Feedback">Suggestions/Feedback</option>
       <option value="Unpaid time off/vacation">Unpaid time off/vacation</option>
       <option value="Testing">Testing</option>
-    </select>
-       <!-- Accommodation Section -->
+    </select> 
+        <!-- Accommodation Section -->
     <div id="AccommodationrequestupdateFields" style="display:none;">
       <label>What are we doing for the accommodation?</label>
-      <input type="radio" name="accommodation_action" value="Add New"> Add New
-      <input type="radio" name="accommodation_action" value="Update Existing"> Update Existing
-      <input type="radio" name="accommodation_action" value="Remove"> Remove
+      <div style="margin-top: 6px;">
+        <input type="radio" name="accommodation_action" value="Add New"> Add New
+        <input type="radio" name="accommodation_action" value="Update Existing"> Update Existing
+        <input type="radio" name="accommodation_action" value="Remove"> Remove
+      </div>
 
       <label>Type of Accommodation:</label>
       <select name="accommodation_type">
@@ -188,8 +190,10 @@
       <input type="date" name="return_to_work_date">
 
       <label>Do you have CP3 Approval?</label>
-      <input type="radio" name="cp3_approval_status" value="Yes" onclick="toggleAccommodationCP3(true)"> Yes
-      <input type="radio" name="cp3_approval_status" value="No" onclick="toggleAccommodationCP3(false)"> No
+      <div style="margin-top: 6px;">
+        <input type="radio" name="cp3_approval_status" value="Yes" onclick="toggleAccommodationCP3(true)"> Yes
+        <input type="radio" name="cp3_approval_status" value="No" onclick="toggleAccommodationCP3(false)"> No
+      </div>
 
       <div id="cp3Upload" style="display:none;">
         <label>Upload CP3 Approval Screenshot:</label>
@@ -210,12 +214,15 @@
 
       <label>How many hours will they be working per week?</label>
       <input type="number" name="weekly_hours" min="0" placeholder="Enter number of hours">
-    </div> 
-       <!-- Add Additional Hours Section -->
+    </div>
+
+    <!-- Add Additional Hours Section -->
     <div id="AddadditionalhoursFields" style="display:none;">
       <label>How many days are we adding additional hours to?</label>
-      <input type="radio" name="additional_days" value="1 Day" onclick="toggleAdditionalHoursMode(false)"> 1 Day
-      <input type="radio" name="additional_days" value="Multiple Days" onclick="toggleAdditionalHoursMode(true)"> Multiple Days
+      <div style="margin-top: 6px;">
+        <input type="radio" name="additional_days" value="1 Day" onclick="toggleAdditionalHoursMode(false)"> 1 Day
+        <input type="radio" name="additional_days" value="Multiple Days" onclick="toggleAdditionalHoursMode(true)"> Multiple Days
+      </div>
 
       <div id="singleDayFields">
         <label>Requested Date:</label>
@@ -248,15 +255,44 @@
 
       <label>Weekly Hours (if applicable):</label>
       <input type="number" name="additional_weekly_hours" min="0" placeholder="Enter number of hours">
+    </div>
+        <!-- Add/Remove/Change Team Meeting Section -->
+    <div id="AddremovechangeteammeetingFields" style="display:none;">
+      <label>Action:</label>
+      <div style="margin-top: 6px;">
+        <input type="radio" name="team_meeting_action" value="Add"> Add
+        <input type="radio" name="team_meeting_action" value="Remove"> Remove
+        <input type="radio" name="team_meeting_action" value="Change"> Change
+      </div>
 
-    </div> 
-        <label>Details:</label>
-    <textarea name="details" placeholder="Add any additional context or notes here"></textarea>
+      <label>Meeting Date:</label>
+      <input type="date" name="team_meeting_date">
+
+      <label>Start Time:</label>
+      <input type="text" name="team_meeting_start" placeholder="HH:MM AM/PM">
+
+      <label>End Time:</label>
+      <input type="text" name="team_meeting_end" placeholder="HH:MM AM/PM">
+
+      <label>Meeting Platform:</label>
+      <select name="team_meeting_platform">
+        <option value="" disabled selected>Select platform</option>
+        <option value="Zoom">Zoom</option>
+        <option value="Teams">Teams</option>
+        <option value="Google Meet">Google Meet</option>
+        <option value="Other">Other</option>
+      </select>
+
+      <label>Meeting Link (if applicable):</label>
+      <input type="text" name="team_meeting_link" placeholder="Paste meeting URL">
+
+      <label>Notes or Reason:</label>
+      <textarea name="team_meeting_notes" placeholder="Why are we adding/removing/changing this meeting?"></textarea>
+    </div>
 
     <button type="submit">Submit</button>
   </form>
-
-  <script>
+   <script>
     // 🔄 Show/hide request-specific sections
     function toggleRequestFields() {
       const selected = document.getElementById("wfm_request").value;
@@ -280,14 +316,6 @@
     // 📎 Toggle CP3 upload for Accommodation
     function toggleAccommodationCP3(show) {
       const cp3Section = document.getElementById("cp3Upload");
-      if (cp3Section) {
-        cp3Section.style.display = show ? "block" : "none";
-      }
-    }
-
-    // 📎 Toggle CP3 upload for Additional Hours
-    function toggleAdditionalHoursCP3(show) {
-      const cp3Section = document.getElementById("additionalCp3Upload");
       if (cp3Section) {
         cp3Section.style.display = show ? "block" : "none";
       }
@@ -327,24 +355,8 @@
         }
       }
 
-// Additional Hours validation
-if (requestType === "Add additional hours") {
-  // your existing logic
-}
-
-// Team Meeting validation
-if (requestType === "Add/remove/change team meeting") {
-  const action = document.querySelector('input[name="team_meeting_action"]:checked');
-  const date = document.querySelector('input[name="team_meeting_date"]');
-  const start = document.querySelector('input[name="team_meeting_start"]');
-  const end = document.querySelector('input[name="team_meeting_end"]');
-  const platform = document.querySelector('select[name="team_meeting_platform"]');
-
-  if (!action || !date.value || !start.value || !end.value || !platform.value) {
-    alert("Please complete all required fields for the team meeting request.");
-    return false;
-  }
-}
+      // Additional Hours validation
+      if (requestType === "Add additional hours") {
         const dayType = document.querySelector('input[name="additional_days"]:checked');
         if (!dayType) {
           alert("Please select whether you're adding hours for 1 Day or Multiple Days.");
@@ -379,47 +391,22 @@ if (requestType === "Add/remove/change team meeting") {
         }
       }
 
+      // Team Meeting validation
+      if (requestType === "Add/remove/change team meeting") {
+        const action = document.querySelector('input[name="team_meeting_action"]:checked');
+        const date = document.querySelector('input[name="team_meeting_date"]');
+        const start = document.querySelector('input[name="team_meeting_start"]');
+        const end = document.querySelector('input[name="team_meeting_end"]');
+        const platform = document.querySelector('select[name="team_meeting_platform"]');
+
+        if (!action || !date.value || !start.value || !end.value || !platform.value) {
+          alert("Please complete all required fields for the team meeting request.");
+          return false;
+        }
+      }
+
       return true;
     }
   </script>
 </body>
-</html>
-
-<!-- Add/Remove/Change Team Meeting Section -->
-<div id="AddremovechangeteammeetingFields" style="display:none;">
-  <label>Action:</label>
-  <div style="margin-top: 6px;">
-    <input type="radio" name="team_meeting_action" value="Add"> Add
-    <input type="radio" name="team_meeting_action" value="Remove"> Remove
-    <input type="radio" name="team_meeting_action" value="Change"> Change
-  </div>
-
-  <label>Meeting Date:</label>
-  <input type="date" name="team_meeting_date">
-
-  <label>Start Time:</label>
-  <input type="text" name="team_meeting_start" placeholder="HH:MM AM/PM">
-
-  <label>End Time:</label>
-  <input type="text" name="team_meeting_end" placeholder="HH:MM AM/PM">
-
-  <label>Meeting Platform:</label>
-  <select name="team_meeting_platform">
-    <option value="" disabled selected>Select platform</option>
-    <option value="Zoom">Zoom</option>
-    <option value="Teams">Teams</option>
-    <option value="Google Meet">Google Meet</option>
-    <option value="Other">Other</option>
-  </select>
-
-  <label>Meeting Link (if applicable):</label>
-  <input type="text" name="team_meeting_link" placeholder="Paste meeting URL">
-
-  <label>Notes or Reason:</label>
-  <textarea name="team_meeting_notes" placeholder="Why are we adding/removing/changing this meeting?"></textarea>
-</div>
-
-
-
-
-
+</html> 
