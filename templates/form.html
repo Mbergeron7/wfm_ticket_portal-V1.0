@@ -92,7 +92,7 @@
   {% endif %}
 
   <form method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
-    <label>Advisor Name:</label>
+      <label>Advisor Name:</label>
     <input type="text" name="advisor_name" required>
 
     <label>Date of Request:</label>
@@ -147,7 +147,7 @@
     </select>
 
     <label>WFM Request Type:</label>
-    <select name="wfm_request" id="wfm_request" onchange="toggleFields()" required>
+    <select name="wfm_request" id="wfm_request" onchange="toggleRequestFields()" required>
       <option value="" disabled selected>Select Request Type</option>
       <option value="Accommodation request/update">Accommodation request/update</option>
       <option value="Add additional hours">Add additional hours</option>
@@ -166,8 +166,7 @@
       <option value="Unpaid time off/vacation">Unpaid time off/vacation</option>
       <option value="Testing">Testing</option>
     </select>
-
-    <!-- Start of Accommodation Section -->
+       <!-- Accommodation Section -->
     <div id="AccommodationrequestupdateFields" style="display:none;">
       <label>What are we doing for the accommodation?</label>
       <input type="radio" name="accommodation_action" value="Add New"> Add New
@@ -189,13 +188,13 @@
       <input type="date" name="return_to_work_date">
 
       <label>Do you have CP3 Approval?</label>
-      <input type="radio" name="cp3_approval_status" value="Yes" onclick="toggleCP3(true)"> Yes
-      <input type="radio" name="cp3_approval_status" value="No" onclick="toggleCP3(false)"> No
+      <input type="radio" name="cp3_approval_status" value="Yes" onclick="toggleAccommodationCP3(true)"> Yes
+      <input type="radio" name="cp3_approval_status" value="No" onclick="toggleAccommodationCP3(false)"> No
 
       <div id="cp3Upload" style="display:none;">
         <label>Upload CP3 Approval Screenshot:</label>
         <input type="file" name="cp3_approval" accept=".pdf,.doc,.docx,.jpg,.png">
-            </div>
+      </div>
 
       <label>Upload School Schedule (optional):</label>
       <input type="file" name="school_schedule" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.png">
@@ -211,185 +210,179 @@
 
       <label>How many hours will they be working per week?</label>
       <input type="number" name="weekly_hours" min="0" placeholder="Enter number of hours">
-    </div>
+    </div> 
+       <!-- Add Additional Hours Section -->
+    <div id="AddadditionalhoursFields" style="display:none;">
+      <label>How many days are we adding additional hours to?</label>
+      <input type="radio" name="additional_days" value="1 Day" onclick="toggleAdditionalHoursMode(false)"> 1 Day
+      <input type="radio" name="additional_days" value="Multiple Days" onclick="toggleAdditionalHoursMode(true)"> Multiple Days
 
-    <label>Details:</label>
-    <textarea name="details"></textarea>
+      <div id="singleDayFields">
+        <label>Requested Date:</label>
+        <input type="date" name="additional_hours_date">
+
+        <label>Start Time:</label>
+        <input type="text" name="additional_start_time" placeholder="HH:MM AM/PM">
+
+        <label>End Time:</label>
+        <input type="text" name="additional_end_time" placeholder="HH:MM AM/PM">
+      </div>
+
+      <div id="multiDayFields" style="display:none;">
+        <label>Weekly Schedule:</label>
+        <input type="text" name="mon_start" placeholder="Monday start time (HH:MM AM/PM)">
+        <input type="text" name="mon_end" placeholder="Monday end time (HH:MM AM/PM)">
+        <input type="text" name="tue_start" placeholder="Tuesday start time (HH:MM AM/PM)">
+        <input type="text" name="tue_end" placeholder="Tuesday end time (HH:MM AM/PM)">
+        <input type="text" name="wed_start" placeholder="Wednesday start time (HH:MM AM/PM)">
+        <input type="text" name="wed_end" placeholder="Wednesday end time (HH:MM AM/PM)">
+        <input type="text" name="thu_start" placeholder="Thursday start time (HH:MM AM/PM)">
+        <input type="text" name="thu_end" placeholder="Thursday end time (HH:MM AM/PM)">
+        <input type="text" name="fri_start" placeholder="Friday start time (HH:MM AM/PM)">
+        <input type="text" name="fri_end" placeholder="Friday end time (HH:MM AM/PM)">
+        <input type="text" name="sat_start" placeholder="Saturday start time (HH:MM AM/PM)">
+        <input type="text" name="sat_end" placeholder="Saturday end time (HH:MM AM/PM)">
+        <input type="text" name="sun_start" placeholder="Sunday start time (HH:MM AM/PM)">
+        <input type="text" name="sun_end" placeholder="Sunday end time (HH:MM AM/PM)">
+      </div>
+
+      <label>Do you have CP3 Approval?</label>
+      <input type="radio" name="additional_cp3_status" value="Yes" onclick="toggleAdditionalHoursCP3(true)"> Yes
+      <input type="radio" name="additional_cp3_status" value="No" onclick="toggleAdditionalHoursCP3(false)"> No
+
+      <div id="additionalCp3Upload" style="display:none;">
+        <label>Upload CP3 Approval Screenshot:</label>
+        <input type="file" name="additional_cp3_upload" accept=".pdf,.doc,.docx,.jpg,.png">
+      </div>
+
+      <label>Weekly Hours (if applicable):</label>
+      <input type="number" name="additional_weekly_hours" min="0" placeholder="Enter number of hours">
+
+      <label>Notes or Reason:</label>
+      <textarea name="additional_notes" placeholder="Explain why additional hours are needed"></textarea>
+    </div> 
+        <label>Details:</label>
+    <textarea name="details" placeholder="Add any additional context or notes here"></textarea>
 
     <button type="submit">Submit</button>
   </form>
 
-<script>
-  // 🔄 Show/hide request-specific sections
-  function toggleRequestFields() {
-    const selected = document.getElementById("wfm_request").value;
-    const requestTypes = [
-      "Accommodation request/update", "Add additional hours", "Add/remove/change team meeting",
-      "Add/remove/move training", "Add offline segment", "Advisor arrived late, remove absence",
-      "CP skill update", "Employee status update (not for schedule changes)", "Is OT available?",
-      "Move break/lunch because of meeting", "Schedule Update - CP3 use", "Schedule Error Adjustment",
-      "Shift swap/offer", "Suggestions/Feedback", "Unpaid time off/vacation", "Testing"
-    ];
+  <script>
+    // 🔄 Show/hide request-specific sections
+    function toggleRequestFields() {
+      const selected = document.getElementById("wfm_request").value;
+      const requestTypes = [
+        "Accommodation request/update", "Add additional hours", "Add/remove/change team meeting",
+        "Add/remove/move training", "Add offline segment", "Advisor arrived late, remove absence",
+        "CP skill update", "Employee status update (not for schedule changes)", "Is OT available?",
+        "Move break/lunch because of meeting", "Schedule Update - CP3 use", "Schedule Error Adjustment",
+        "Shift swap/offer", "Suggestions/Feedback", "Unpaid time off/vacation", "Testing"
+      ];
 
-    requestTypes.forEach(type => {
-      const id = type.replace(/[\s\/]/g, '') + "Fields";
-      const section = document.getElementById(id);
-      if (section) {
-        section.style.display = (type === selected) ? "block" : "none";
-      }
-    });
-  }
-
-  // 📎 Toggle CP3 upload for Accommodation
-  function toggleAccommodationCP3(show) {
-    const cp3Section = document.getElementById("cp3Upload");
-    if (cp3Section) {
-      cp3Section.style.display = show ? "block" : "none";
-    }
-  }
-
-  // 📎 Toggle CP3 upload for Additional Hours
-  function toggleAdditionalHoursCP3(show) {
-    const cp3Section = document.getElementById("additionalCp3Upload");
-    if (cp3Section) {
-      cp3Section.style.display = show ? "block" : "none";
-    }
-  }
-
-  // 📅 Toggle between single-day and multi-day inputs for Additional Hours
-  function toggleAdditionalHoursMode(isMultipleDays) {
-    const singleDay = document.getElementById("singleDayFields");
-    const multiDay = document.getElementById("multiDayFields");
-
-    if (singleDay && multiDay) {
-      singleDay.style.display = isMultipleDays ? "none" : "block";
-      multiDay.style.display = isMultipleDays ? "block" : "none";
-    }
-  }
-
-  // ✅ Validate form before submission
-  function validateForm() {
-    const advisorName = document.querySelector('input[name="advisor_name"]');
-    const requestDate = document.querySelector('input[name="request_date"]');
-    const lob = document.querySelector('select[name="lob"]');
-    const teamLead = document.querySelector('select[name="team_lead"]');
-    const requestType = document.getElementById("wfm_request").value;
-
-    if (!advisorName.value || !requestDate.value || !lob.value || !teamLead.value || !requestType) {
-      alert("Please complete all required fields.");
-      return false;
+      requestTypes.forEach(type => {
+        const id = type.replace(/[\s\/]/g, '') + "Fields";
+        const section = document.getElementById(id);
+        if (section) {
+          section.style.display = (type === selected) ? "block" : "none";
+        }
+      });
     }
 
-    // Accommodation CP3 validation
-    if (requestType === "Accommodation request/update") {
-      const cp3Status = document.querySelector('input[name="cp3_approval_status"]:checked');
-      const cp3Upload = document.querySelector('input[name="cp3_approval"]');
-      if (cp3Status && cp3Status.value === "Yes" && !cp3Upload.value) {
-        alert("Please upload CP3 approval screenshot for Accommodation.");
-        return false;
+    // 📎 Toggle CP3 upload for Accommodation
+    function toggleAccommodationCP3(show) {
+      const cp3Section = document.getElementById("cp3Upload");
+      if (cp3Section) {
+        cp3Section.style.display = show ? "block" : "none";
       }
     }
 
-    // Additional Hours validation
-    if (requestType === "Add additional hours") {
-      const cp3Status = document.querySelector('input[name="additional_cp3_status"]:checked');
-      const cp3Upload = document.querySelector('input[name="additional_cp3_upload"]');
-      if (cp3Status && cp3Status.value === "Yes" && !cp3Upload.value) {
-        alert("Please upload CP3 approval screenshot for Additional Hours.");
+    // 📎 Toggle CP3 upload for Additional Hours
+    function toggleAdditionalHoursCP3(show) {
+      const cp3Section = document.getElementById("additionalCp3Upload");
+      if (cp3Section) {
+        cp3Section.style.display = show ? "block" : "none";
+      }
+    }
+
+    // 📅 Toggle between single-day and multi-day inputs for Additional Hours
+    function toggleAdditionalHoursMode(isMultipleDays) {
+      const singleDay = document.getElementById("singleDayFields");
+      const multiDay = document.getElementById("multiDayFields");
+
+      if (singleDay && multiDay) {
+        singleDay.style.display = isMultipleDays ? "none" : "block";
+        multiDay.style.display = isMultipleDays ? "block" : "none";
+      }
+    }
+
+    // ✅ Validate form before submission
+    function validateForm() {
+      const advisorName = document.querySelector('input[name="advisor_name"]');
+      const requestDate = document.querySelector('input[name="request_date"]');
+      const lob = document.querySelector('select[name="lob"]');
+      const teamLead = document.querySelector('select[name="team_lead"]');
+      const requestType = document.getElementById("wfm_request").value;
+
+      if (!advisorName.value || !requestDate.value || !lob.value || !teamLead.value || !requestType) {
+        alert("Please complete all required fields.");
         return false;
       }
 
-      const dayType = document.querySelector('input[name="additional_days"]:checked');
-      if (!dayType) {
-        alert("Please select whether you're adding hours for 1 Day or Multiple Days.");
-        return false;
-      }
-
-      if (dayType.value === "1 Day") {
-        const date = document.querySelector('input[name="additional_hours_date"]');
-        const start = document.querySelector('input[name="additional_start_time"]');
-        const end = document.querySelector('input[name="additional_end_time"]');
-        if (!date.value || !start.value || !end.value) {
-          alert("Please complete date, start time, and end time for the additional day.");
+      // Accommodation CP3 validation
+      if (requestType === "Accommodation request/update") {
+        const cp3Status = document.querySelector('input[name="cp3_approval_status"]:checked');
+        const cp3Upload = document.querySelector('input[name="cp3_approval"]');
+        if (cp3Status && cp3Status.value === "Yes" && !cp3Upload.value) {
+          alert("Please upload CP3 approval screenshot for Accommodation.");
           return false;
         }
       }
 
-      if (dayType.value === "Multiple Days") {
-        const days = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
-        let validDay = false;
-        for (let d of days) {
-          const start = document.querySelector(`input[name="${d}_start"]`);
-          const end = document.querySelector(`input[name="${d}_end"]`);
-          if (start && end && start.value && end.value) {
-            validDay = true;
-            break;
+      // Additional Hours validation
+      if (requestType === "Add additional hours") {
+        const cp3Status = document.querySelector('input[name="additional_cp3_status"]:checked');
+        const cp3Upload = document.querySelector('input[name="additional_cp3_upload"]');
+        if (cp3Status && cp3Status.value === "Yes" && !cp3Upload.value) {
+          alert("Please upload CP3 approval screenshot for Additional Hours.");
+          return false;
+        }
+
+        const dayType = document.querySelector('input[name="additional_days"]:checked');
+        if (!dayType) {
+          alert("Please select whether you're adding hours for 1 Day or Multiple Days.");
+          return false;
+        }
+
+        if (dayType.value === "1 Day") {
+          const date = document.querySelector('input[name="additional_hours_date"]');
+          const start = document.querySelector('input[name="additional_start_time"]');
+          const end = document.querySelector('input[name="additional_end_time"]');
+          if (!date.value || !start.value || !end.value) {
+            alert("Please complete date, start time, and end time for the additional day.");
+            return false;
           }
         }
-        if (!validDay) {
-          alert("Please enter at least one full day (start and end) for the weekly schedule.");
-          return false;
+
+        if (dayType.value === "Multiple Days") {
+          const days = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
+          let validDay = false;
+          for (let d of days) {
+            const start = document.querySelector(`input[name="${d}_start"]`);
+            const end = document.querySelector(`input[name="${d}_end"]`);
+            if (start && end && start.value && end.value) {
+              validDay = true;
+              break;
+            }
+          }
+          if (!validDay) {
+            alert("Please enter at least one full day (start and end) for the weekly schedule.");
+            return false;
+          }
         }
       }
-    }
 
-    return true;
-  }
-</script>
+      return true;
+    }
+  </script>
 </body>
 </html>
-
-<div id="AddadditionalhoursFields" style="display:none;">
-  <label>How many days are we adding additional hours to?</label>
-  <input type="radio" name="additional_days" value="1 Day" onclick="toggleWeeklyHours(false)"> 1 Day
-  <input type="radio" name="additional_days" value="Multiple Days" onclick="toggleWeeklyHours(true)"> Multiple Days
-
-  <div id="singleDayFields">
-    <label>Requested Date:</label>
-    <input type="date" name="additional_hours_date">
-
-    <label>Start Time:</label>
-    <input type="text" name="additional_start_time" placeholder="HH:MM AM/PM">
-
-    <label>End Time:</label>
-    <input type="text" name="additional_end_time" placeholder="HH:MM AM/PM">
-  </div>
-
-  <div id="multiDayFields" style="display:none;">
-    <label>Weekly Schedule:</label>
-    <input type="text" name="mon_start" placeholder="Monday start time (HH:MM AM/PM)">
-    <input type="text" name="mon_end" placeholder="Monday end time (HH:MM AM/PM)">
-    <input type="text" name="tue_start" placeholder="Tuesday start time (HH:MM AM/PM)">
-    <input type="text" name="tue_end" placeholder="Tuesday end time (HH:MM AM/PM)">
-    <input type="text" name="wed_start" placeholder="Wednesday start time (HH:MM AM/PM)">
-    <input type="text" name="wed_end" placeholder="Wednesday end time (HH:MM AM/PM)">
-    <input type="text" name="thu_start" placeholder="Thursday start time (HH:MM AM/PM)">
-    <input type="text" name="thu_end" placeholder="Thursday end time (HH:MM AM/PM)">
-    <input type="text" name="fri_start" placeholder="Friday start time (HH:MM AM/PM)">
-    <input type="text" name="fri_end" placeholder="Friday end time (HH:MM AM/PM)">
-    <input type="text" name="sat_start" placeholder="Saturday start time (HH:MM AM/PM)">
-    <input type="text" name="sat_end" placeholder="Saturday end time (HH:MM AM/PM)">
-    <input type="text" name="sun_start" placeholder="Sunday start time (HH:MM AM/PM)">
-    <input type="text" name="sun_end" placeholder="Sunday end time (HH:MM AM/PM)">
-  </div>
-
-  <label>Do you have CP3 Approval?</label>
-  <input type="radio" name="additional_cp3_status" value="Yes" onclick="toggleAdditionalCP3(true)"> Yes
-  <input type="radio" name="additional_cp3_status" value="No" onclick="toggleAdditionalCP3(false)"> No
-
-  <div id="additionalCp3Upload" style="display:none;">
-    <label>Upload CP3 Approval Screenshot:</label>
-    <input type="file" name="additional_cp3_upload" accept=".pdf,.doc,.docx,.jpg,.png">
-  </div>
-
-  <label>Weekly Hours (if applicable):</label>
-  <input type="number" name="additional_weekly_hours" min="0" placeholder="Enter number of hours">
-
-  <label>Notes or Reason:</label>
-  <textarea name="additional_notes" placeholder="Explain why additional hours are needed"></textarea>
-</div>
-
-
-
-
-
