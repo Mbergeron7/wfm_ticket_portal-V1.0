@@ -166,6 +166,9 @@
       <option value="Unpaid time off/vacation">Unpaid time off/vacation</option>
       <option value="Testing">Testing</option>
     </select>
+
+    <label>General Notes or Reason:</label>
+    <textarea name="general_notes" placeholder="Add any relevant context or explanation for this request."></textarea>
     <!-- Accommodation Section -->
 <div id="AccommodationrequestupdateFields" style="display:none;">
   <label>What are we doing for the accommodation?</label>
@@ -214,6 +217,9 @@
 
   <label>How many hours will they be working per week?</label>
   <input type="number" name="weekly_hours" min="0" placeholder="Enter number of hours">
+
+  <label>Notes or Reason:</label>
+  <textarea name="accommodation_notes" placeholder="Explain the context or reason for this accommodation request."></textarea>
 </div>
 
 <!-- Add Additional Hours Section -->
@@ -255,6 +261,9 @@
 
   <label>Weekly Hours (if applicable):</label>
   <input type="number" name="additional_weekly_hours" min="0" placeholder="Enter number of hours">
+
+  <label>Notes or Reason:</label>
+  <textarea name="additional_hours_notes" placeholder="Explain the context or reason for adding additional hours."></textarea>
 </div>
 <!-- Add/Remove/Change Team Meeting Section -->
 <div id="AddremovechangeteammeetingFields" style="display:none;">
@@ -275,7 +284,7 @@
   <input type="text" name="team_meeting_end" placeholder="HH:MM AM/PM">
 
   <label>Notes or Reason:</label>
-  <textarea name="team_meeting_notes" placeholder="Why are we adding/removing/changing this meeting?"></textarea>
+  <textarea name="team_meeting_notes" placeholder="Explain the context or reason for this meeting request."></textarea>
 </div>
 
 <button type="submit">Submit</button>
@@ -327,9 +336,15 @@
     const lob = document.querySelector('select[name="lob"]');
     const teamLead = document.querySelector('select[name="team_lead"]');
     const requestType = document.getElementById("wfm_request").value;
+    const generalNotes = document.querySelector('textarea[name="general_notes"]');
 
     if (!advisorName.value || !requestDate.value || !lob.value || !teamLead.value || !requestType) {
       alert("Please complete all required fields.");
+      return false;
+    }
+
+    if (!generalNotes.value.trim()) {
+      alert("Please provide general notes or a reason for this request.");
       return false;
     }
 
@@ -337,8 +352,15 @@
     if (requestType === "Accommodation request/update") {
       const cp3Status = document.querySelector('input[name="cp3_approval_status"]:checked');
       const cp3Upload = document.querySelector('input[name="cp3_approval"]');
+      const notes = document.querySelector('textarea[name="accommodation_notes"]');
+
       if (cp3Status && cp3Status.value === "Yes" && !cp3Upload.value) {
         alert("Please upload CP3 approval screenshot for Accommodation.");
+        return false;
+      }
+
+      if (!notes.value.trim()) {
+        alert("Please provide notes or a reason for the accommodation request.");
         return false;
       }
     }
@@ -346,6 +368,8 @@
     // ✅ Additional Hours validation
     if (requestType === "Add additional hours") {
       const dayType = document.querySelector('input[name="additional_days"]:checked');
+      const notes = document.querySelector('textarea[name="additional_hours_notes"]');
+
       if (!dayType) {
         alert("Please select whether you're adding hours for 1 Day or Multiple Days.");
         return false;
@@ -377,6 +401,11 @@
           return false;
         }
       }
+
+      if (!notes.value.trim()) {
+        alert("Please provide notes or a reason for the additional hours request.");
+        return false;
+      }
     }
 
     // ✅ Team Meeting validation
@@ -385,9 +414,15 @@
       const date = document.querySelector('input[name="team_meeting_date"]');
       const start = document.querySelector('input[name="team_meeting_start"]');
       const end = document.querySelector('input[name="team_meeting_end"]');
+      const notes = document.querySelector('textarea[name="team_meeting_notes"]');
 
       if (!action || !date.value || !start.value || !end.value) {
         alert("Please complete all required fields for the team meeting request.");
+        return false;
+      }
+
+      if (!notes.value.trim()) {
+        alert("Please provide notes or a reason for the team meeting request.");
         return false;
       }
     }
