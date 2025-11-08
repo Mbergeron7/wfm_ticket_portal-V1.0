@@ -220,9 +220,10 @@
   </form>
 
 <script>
-  function toggleFields() {
+  // 🔄 Show/hide request-specific sections
+  function toggleRequestFields() {
     const selected = document.getElementById("wfm_request").value;
-    const options = [
+    const requestTypes = [
       "Accommodation request/update", "Add additional hours", "Add/remove/change team meeting",
       "Add/remove/move training", "Add offline segment", "Advisor arrived late, remove absence",
       "CP skill update", "Employee status update (not for schedule changes)", "Is OT available?",
@@ -230,26 +231,40 @@
       "Shift swap/offer", "Suggestions/Feedback", "Unpaid time off/vacation", "Testing"
     ];
 
-    options.forEach(opt => {
-      const id = opt.replace(/[\s\/]/g, '') + "Fields";
+    requestTypes.forEach(type => {
+      const id = type.replace(/[\s\/]/g, '') + "Fields";
       const section = document.getElementById(id);
       if (section) {
-        section.style.display = (opt === selected) ? "block" : "none";
+        section.style.display = (type === selected) ? "block" : "none";
       }
     });
   }
 
-  function toggleCP3(show) {
-    document.getElementById("cp3Upload").style.display = show ? "block" : "none";
+  // 📎 Toggle CP3 upload for Accommodation
+  function toggleAccommodationCP3(show) {
+    const cp3Section = document.getElementById("cp3Upload");
+    if (cp3Section) {
+      cp3Section.style.display = show ? "block" : "none";
+    }
   }
 
-  function toggleAdditionalCP3(show) {
-    document.getElementById("additionalCp3Upload").style.display = show ? "block" : "none";
+  // 📎 Toggle CP3 upload for Additional Hours
+  function toggleAdditionalHoursCP3(show) {
+    const cp3Section = document.getElementById("additionalCp3Upload");
+    if (cp3Section) {
+      cp3Section.style.display = show ? "block" : "none";
+    }
   }
 
-  function toggleWeeklyHours(showMulti) {
-    document.getElementById("multiDayFields").style.display = showMulti ? "block" : "none";
-    document.getElementById("singleDayFields").style.display = showMulti ? "none" : "block";
+  // 📅 Toggle between single-day and multi-day inputs for Additional Hours
+  function toggleAdditionalHoursMode(isMultipleDays) {
+    const singleDay = document.getElementById("singleDayFields");
+    const multiDay = document.getElementById("multiDayFields");
+
+    if (singleDay && multiDay) {
+      singleDay.style.display = isMultipleDays ? "none" : "block";
+      multiDay.style.display = isMultipleDays ? "block" : "none";
+    }
   }
 </script>
 </body>
@@ -304,6 +319,7 @@
   <label>Notes or Reason:</label>
   <textarea name="additional_notes" placeholder="Explain why additional hours are needed"></textarea>
 </div>
+
 
 
 
