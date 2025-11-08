@@ -91,7 +91,7 @@
     <a href="/logout" class="logout-button">Logout</a>
   {% endif %}
 
-  <form method="POST" enctype="multipart/form-data">
+  <form method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
     <label>Advisor Name:</label>
     <input type="text" name="advisor_name" required>
 
@@ -266,6 +266,75 @@
       multiDay.style.display = isMultipleDays ? "block" : "none";
     }
   }
+
+  // ✅ Validate form before submission
+  function validateForm() {
+    const advisorName = document.querySelector('input[name="advisor_name"]');
+    const requestDate = document.querySelector('input[name="request_date"]');
+    const lob = document.querySelector('select[name="lob"]');
+    const teamLead = document.querySelector('select[name="team_lead"]');
+    const requestType = document.getElementById("wfm_request").value;
+
+    if (!advisorName.value || !requestDate.value || !lob.value || !teamLead.value || !requestType) {
+      alert("Please complete all required fields.");
+      return false;
+    }
+
+    // Accommodation CP3 validation
+    if (requestType === "Accommodation request/update") {
+      const cp3Status = document.querySelector('input[name="cp3_approval_status"]:checked');
+      const cp3Upload = document.querySelector('input[name="cp3_approval"]');
+      if (cp3Status && cp3Status.value === "Yes" && !cp3Upload.value) {
+        alert("Please upload CP3 approval screenshot for Accommodation.");
+        return false;
+      }
+    }
+
+    // Additional Hours validation
+    if (requestType === "Add additional hours") {
+      const cp3Status = document.querySelector('input[name="additional_cp3_status"]:checked');
+      const cp3Upload = document.querySelector('input[name="additional_cp3_upload"]');
+      if (cp3Status && cp3Status.value === "Yes" && !cp3Upload.value) {
+        alert("Please upload CP3 approval screenshot for Additional Hours.");
+        return false;
+      }
+
+      const dayType = document.querySelector('input[name="additional_days"]:checked');
+      if (!dayType) {
+        alert("Please select whether you're adding hours for 1 Day or Multiple Days.");
+        return false;
+      }
+
+      if (dayType.value === "1 Day") {
+        const date = document.querySelector('input[name="additional_hours_date"]');
+        const start = document.querySelector('input[name="additional_start_time"]');
+        const end = document.querySelector('input[name="additional_end_time"]');
+        if (!date.value || !start.value || !end.value) {
+          alert("Please complete date, start time, and end time for the additional day.");
+          return false;
+        }
+      }
+
+      if (dayType.value === "Multiple Days") {
+        const days = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
+        let validDay = false;
+        for (let d of days) {
+          const start = document.querySelector(`input[name="${d}_start"]`);
+          const end = document.querySelector(`input[name="${d}_end"]`);
+          if (start && end && start.value && end.value) {
+            validDay = true;
+            break;
+          }
+        }
+        if (!validDay) {
+          alert("Please enter at least one full day (start and end) for the weekly schedule.");
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
 </script>
 </body>
 </html>
@@ -319,6 +388,7 @@
   <label>Notes or Reason:</label>
   <textarea name="additional_notes" placeholder="Explain why additional hours are needed"></textarea>
 </div>
+
 
 
 
