@@ -379,9 +379,11 @@
 <!-- Add/Remove/Change Team Meeting Section -->
 <div id="AddremovechangeteammeetingFields" style="display:none;">
   <label>Action:</label>
-  <input type="radio" name="team_meeting_action" value="Add"> Add
-  <input type="radio" name="team_meeting_action" value="Remove"> Remove
-  <input type="radio" name="team_meeting_action" value="Change"> Change
+  <div style="margin-top: 6px;">
+    <input type="radio" name="team_meeting_action" value="Add"> Add
+    <input type="radio" name="team_meeting_action" value="Remove"> Remove
+    <input type="radio" name="team_meeting_action" value="Change"> Change
+  </div>
 
   <label>Meeting Date:</label>
   <input type="date" name="team_meeting_date">
@@ -407,5 +409,6 @@
   <label>Notes or Reason:</label>
   <textarea name="team_meeting_notes" placeholder="Why are we adding/removing/changing this meeting?"></textarea>
 </div>
+
 
 
