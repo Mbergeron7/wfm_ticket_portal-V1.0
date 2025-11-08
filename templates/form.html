@@ -229,6 +229,7 @@
       "Move break/lunch because of meeting", "Schedule Update - CP3 use", "Schedule Error Adjustment",
       "Shift swap/offer", "Suggestions/Feedback", "Unpaid time off/vacation", "Testing"
     ];
+
     options.forEach(opt => {
       const id = opt.replace(/[\s\/]/g, '') + "Fields";
       const section = document.getElementById(id);
@@ -244,6 +245,11 @@
 
   function toggleAdditionalCP3(show) {
     document.getElementById("additionalCp3Upload").style.display = show ? "block" : "none";
+  }
+
+  function toggleWeeklyHours(showMulti) {
+    document.getElementById("multiDayFields").style.display = showMulti ? "block" : "none";
+    document.getElementById("singleDayFields").style.display = showMulti ? "none" : "block";
   }
 </script>
 </body>
@@ -298,5 +304,6 @@
   <label>Notes or Reason:</label>
   <textarea name="additional_notes" placeholder="Explain why additional hours are needed"></textarea>
 </div>
+
 
 
