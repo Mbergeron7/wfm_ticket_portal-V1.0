@@ -256,39 +256,27 @@
       <label>Weekly Hours (if applicable):</label>
       <input type="number" name="additional_weekly_hours" min="0" placeholder="Enter number of hours">
     </div>
-        <!-- Add/Remove/Change Team Meeting Section -->
-    <div id="AddremovechangeteammeetingFields" style="display:none;">
-      <label>Action:</label>
-      <div style="margin-top: 6px;">
-        <input type="radio" name="team_meeting_action" value="Add"> Add
-        <input type="radio" name="team_meeting_action" value="Remove"> Remove
-        <input type="radio" name="team_meeting_action" value="Change"> Change
-      </div>
+<!-- Add/Remove/Change Team Meeting Section -->
+<div id="AddremovechangeteammeetingFields" style="display:none;">
+  <label>Action:</label>
+  <div style="margin-top: 6px;">
+    <input type="radio" name="team_meeting_action" value="Add"> Add
+    <input type="radio" name="team_meeting_action" value="Remove"> Remove
+    <input type="radio" name="team_meeting_action" value="Change"> Change
+  </div>
 
-      <label>Meeting Date:</label>
-      <input type="date" name="team_meeting_date">
+  <label>Meeting Date:</label>
+  <input type="date" name="team_meeting_date">
 
-      <label>Start Time:</label>
-      <input type="text" name="team_meeting_start" placeholder="HH:MM AM/PM">
+  <label>Start Time:</label>
+  <input type="text" name="team_meeting_start" placeholder="HH:MM AM/PM">
 
-      <label>End Time:</label>
-      <input type="text" name="team_meeting_end" placeholder="HH:MM AM/PM">
+  <label>End Time:</label>
+  <input type="text" name="team_meeting_end" placeholder="HH:MM AM/PM">
 
-      <label>Meeting Platform:</label>
-      <select name="team_meeting_platform">
-        <option value="" disabled selected>Select platform</option>
-        <option value="Zoom">Zoom</option>
-        <option value="Teams">Teams</option>
-        <option value="Google Meet">Google Meet</option>
-        <option value="Other">Other</option>
-      </select>
-
-      <label>Meeting Link (if applicable):</label>
-      <input type="text" name="team_meeting_link" placeholder="Paste meeting URL">
-
-      <label>Notes or Reason:</label>
-      <textarea name="team_meeting_notes" placeholder="Why are we adding/removing/changing this meeting?"></textarea>
-    </div>
+  <label>Notes or Reason:</label>
+  <textarea name="team_meeting_notes" placeholder="Why are we adding/removing/changing this meeting?"></textarea>
+</div>
 
     <button type="submit">Submit</button>
   </form>
@@ -392,21 +380,18 @@
       }
 
       // Team Meeting validation
-      if (requestType === "Add/remove/change team meeting") {
-        const action = document.querySelector('input[name="team_meeting_action"]:checked');
-        const date = document.querySelector('input[name="team_meeting_date"]');
-        const start = document.querySelector('input[name="team_meeting_start"]');
-        const end = document.querySelector('input[name="team_meeting_end"]');
-        const platform = document.querySelector('select[name="team_meeting_platform"]');
+if (requestType === "Add/remove/change team meeting") {
+  const action = document.querySelector('input[name="team_meeting_action"]:checked');
+  const date = document.querySelector('input[name="team_meeting_date"]');
+  const start = document.querySelector('input[name="team_meeting_start"]');
+  const end = document.querySelector('input[name="team_meeting_end"]');
 
-        if (!action || !date.value || !start.value || !end.value || !platform.value) {
-          alert("Please complete all required fields for the team meeting request.");
-          return false;
-        }
-      }
-
-      return true;
-    }
+  if (!action || !date.value || !start.value || !end.value) {
+    alert("Please complete all required fields for the team meeting request.");
+    return false;
+  }
+}
   </script>
 </body>
 </html> 
+
