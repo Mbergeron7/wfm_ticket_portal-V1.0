@@ -15,7 +15,7 @@ ALLOWED_USERS = [
     'mbergeron@storagevaultcanada.com',
     'jsauve@storagevaultcanada.com',
     'ddevenny@storagevaultcanada.com',
-    'mikebergeron36@gmail.com'
+    'mikebergeron36@gmail.com',
     'szenasni@storagevaultcanada.com'
 ]
 
@@ -212,6 +212,7 @@ Workforce Management
 def logout():
     session.clear()
     return redirect('/login')
+
 
 
 
