@@ -437,22 +437,21 @@
 <!-- Add/Remove/Move Training Section -->
 <div id="AddremovemovetrainingFields" style="display:none;">
   <label>Training Action:</label>
-  <div style="margin-top: 8px; margin-bottom: 12px;">
-    <label><input type="radio" name="training_action" value="Add"> Add</label>
-    <label><input type="radio" name="training_action" value="Remove"> Remove</label>
-    <label><input type="radio" name="training_action" value="Move"> Move</label>
-  </div>
+  <input type="radio" name="training_action" value="Add"> Add
+  <input type="radio" name="training_action" value="Remove"> Remove
+  <input type="radio" name="training_action" value="Move"> Move
 
   <label>Training Date:</label>
   <input type="date" name="training_date">
 
-  <label>Start Time <span style="font-weight: normal; color: #777;">(optional)</span>:</label>
+  <label>Start Time (optional):</label>
   <input type="text" name="training_start_time" placeholder="HH:MM AM/PM">
 
-  <label>End Time <span style="font-weight: normal; color: #777;">(optional)</span>:</label>
+  <label>End Time (optional):</label>
   <input type="text" name="training_end_time" placeholder="HH:MM AM/PM">
 
   <label>Notes or Reason:</label>
   <textarea name="training_notes" placeholder="Explain the context or reason for this training request."></textarea>
 </div>
+
 
