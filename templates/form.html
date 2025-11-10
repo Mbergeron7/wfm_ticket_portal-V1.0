@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>WFM Request</title>
+  <title>WFM Request Form</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       background-color: #f9f9f9;
       padding: 40px;
     }
+
     h1 {
       text-align: center;
       color: #333;
     }
+
     .user-banner {
       text-align: center;
       margin-bottom: 20px;
       font-size: 14px;
       color: #555;
     }
+
     .logout-button {
       display: block;
       margin: 0 auto 30px auto;
@@ -32,6 +35,7 @@
       text-decoration: none;
       width: fit-content;
     }
+
     form {
       max-width: 700px;
       margin: 0 auto;
@@ -39,33 +43,42 @@
       padding: 30px;
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      text-align: center;
     }
+
     label {
       display: block;
       margin-top: 20px;
       font-weight: bold;
       color: #444;
+      text-align: center;
     }
+
     input[type="text"],
     input[type="date"],
     input[type="number"],
     select,
     textarea {
-      width: 100%;
+      width: 80%;
+      margin: 10px auto;
+      display: block;
       padding: 10px;
-      margin-top: 6px;
       border: 1px solid #ccc;
       border-radius: 4px;
-      box-sizing: border-box;
       font-size: 14px;
+      box-sizing: border-box;
     }
+
+    input[type="radio"],
     input[type="file"] {
-      margin-top: 10px;
+      margin: 6px;
     }
+
     textarea {
       resize: vertical;
       height: 100px;
     }
+
     button {
       margin-top: 30px;
       padding: 12px 20px;
@@ -76,6 +89,7 @@
       font-size: 16px;
       cursor: pointer;
     }
+
     button:hover {
       background-color: #005fa3;
     }
@@ -92,7 +106,8 @@
   {% endif %}
 
   <form method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
-     <label>Advisor Name:</label>
+
+      <label>Advisor Name:</label>
     <input type="text" name="advisor_name" required>
 
     <label>Date of Request:</label>
@@ -165,15 +180,14 @@
       <option value="Suggestions/Feedback">Suggestions/Feedback</option>
       <option value="Unpaid time off/vacation">Unpaid time off/vacation</option>
       <option value="Testing">Testing</option>
-    </select> 
+    </select>
+
     <!-- Accommodation Section -->
 <div id="AccommodationrequestupdateFields" style="display:none;">
   <label>Accommodation Action:</label>
-  <div style="margin-top: 6px;">
-    <input type="radio" name="accommodation_action" value="Add"> Add
-    <input type="radio" name="accommodation_action" value="Update"> Update
-    <input type="radio" name="accommodation_action" value="Remove"> Remove
-  </div>
+  <input type="radio" name="accommodation_action" value="Add"> Add
+  <input type="radio" name="accommodation_action" value="Update"> Update
+  <input type="radio" name="accommodation_action" value="Remove"> Remove
 
   <label>Accommodation Type:</label>
   <select name="accommodation_type">
@@ -190,10 +204,8 @@
   <input type="date" name="return_to_work_date">
 
   <label>Do you have CP3 Approval?</label>
-  <div style="margin-top: 6px;">
-    <input type="radio" name="cp3_approval_status" value="Yes" onclick="toggleAccommodationCP3(true)"> Yes
-    <input type="radio" name="cp3_approval_status" value="No" onclick="toggleAccommodationCP3(false)"> No
-  </div>
+  <input type="radio" name="cp3_approval_status" value="Yes" onclick="toggleAccommodationCP3(true)"> Yes
+  <input type="radio" name="cp3_approval_status" value="No" onclick="toggleAccommodationCP3(false)"> No
 
   <div id="cp3Upload" style="display:none;">
     <label>Upload CP3 Approval Screenshot:</label>
@@ -221,10 +233,8 @@
 <!-- Add Additional Hours Section -->
 <div id="AddadditionalhoursFields" style="display:none;">
   <label>How many days are we adding additional hours to?</label>
-  <div style="margin-top: 6px;">
-    <input type="radio" name="additional_days" value="1 Day" onclick="toggleAdditionalHoursMode(false)"> 1 Day
-    <input type="radio" name="additional_days" value="Multiple Days" onclick="toggleAdditionalHoursMode(true)"> Multiple Days
-  </div>
+  <input type="radio" name="additional_days" value="1 Day" onclick="toggleAdditionalHoursMode(false)"> 1 Day
+  <input type="radio" name="additional_days" value="Multiple Days" onclick="toggleAdditionalHoursMode(true)"> Multiple Days
 
   <div id="singleDayFields">
     <label>Requested Date:</label>
@@ -261,14 +271,13 @@
   <label>Notes or Reason:</label>
   <textarea name="additional_hours_notes" placeholder="Explain the context or reason for adding additional hours."></textarea>
 </div>
+
 <!-- Add/Remove/Change Team Meeting Section -->
 <div id="AddremovechangeteammeetingFields" style="display:none;">
   <label>Meeting Action:</label>
-  <div style="margin-top: 6px;">
-    <input type="radio" name="team_meeting_action" value="Add"> Add
-    <input type="radio" name="team_meeting_action" value="Remove"> Remove
-    <input type="radio" name="team_meeting_action" value="Change"> Change
-  </div>
+  <input type="radio" name="team_meeting_action" value="Add"> Add
+  <input type="radio" name="team_meeting_action" value="Remove"> Remove
+  <input type="radio" name="team_meeting_action" value="Change"> Change
 
   <label>Meeting Date:</label>
   <input type="date" name="team_meeting_date">
@@ -283,6 +292,98 @@
   <textarea name="team_meeting_notes" placeholder="Explain the context or reason for this meeting request."></textarea>
 </div>
 
+<!-- Add/Remove/Move Training Section -->
+<div id="AddremovemovetrainingFields" style="display:none;">
+  <label>Training Action:</label>
+  <input type="radio" name="training_action" value="Add"> Add
+  <input type="radio" name="training_action" value="Remove"> Remove
+  <input type="radio" name="training_action" value="Move"> Move
+
+  <label>Training Date:</label>
+  <input type="date" name="training_date">
+
+  <label>Start Time (optional):</label>
+  <input type="text" name="training_start_time" placeholder="HH:MM AM/PM">
+
+  <label>End Time (optional):</label>
+  <input type="text" name="training_end_time" placeholder="HH:MM AM/PM">
+
+  <label>Notes or Reason:</label>
+  <textarea name="training_notes" placeholder="Explain the context or reason for this training request."></textarea>
+</div>
+<!-- Add Offline Segment -->
+<div id="AddofflinesegmentFields" style="display:none;">
+  <label>Notes or Reason:</label>
+  <textarea name="offline_segment_notes" placeholder="Explain the context or reason for this offline segment request."></textarea>
+</div>
+
+<!-- Advisor Arrived Late, Remove Absence -->
+<div id="AdvisorarrivedlateremoveabsenceFields" style="display:none;">
+  <label>Notes or Reason:</label>
+  <textarea name="late_arrival_notes" placeholder="Explain the context or reason for removing the absence."></textarea>
+</div>
+
+<!-- CP Skill Update -->
+<div id="CPskillupdateFields" style="display:none;">
+  <label>Notes or Reason:</label>
+  <textarea name="cp_skill_notes" placeholder="Explain the context or reason for this skill update."></textarea>
+</div>
+
+<!-- Employee Status Update -->
+<div id="EmployeestatusupdatenotforschedulechangesFields" style="display:none;">
+  <label>Notes or Reason:</label>
+  <textarea name="status_update_notes" placeholder="Explain the context or reason for this status update."></textarea>
+</div>
+
+<!-- Is OT Available -->
+<div id="IsOTavailableFields" style="display:none;">
+  <label>Notes or Reason:</label>
+  <textarea name="ot_availability_notes" placeholder="Explain the context or reason for this OT availability request."></textarea>
+</div>
+
+<!-- Move Break/Lunch Because of Meeting -->
+<div id="MovebreaklunchbecauseofmeetingFields" style="display:none;">
+  <label>Notes or Reason:</label>
+  <textarea name="move_break_notes" placeholder="Explain the context or reason for moving break/lunch."></textarea>
+</div>
+
+<!-- Schedule Update - CP3 Use -->
+<div id="ScheduleUpdateCP3useFields" style="display:none;">
+  <label>Notes or Reason:</label>
+  <textarea name="schedule_cp3_notes" placeholder="Explain the context or reason for this CP3 schedule update."></textarea>
+</div>
+
+<!-- Schedule Error Adjustment -->
+<div id="ScheduleErrorAdjustmentFields" style="display:none;">
+  <label>Notes or Reason:</label>
+  <textarea name="schedule_error_notes" placeholder="Explain the context or reason for this schedule error adjustment."></textarea>
+</div>
+
+<!-- Shift Swap/Offer -->
+<div id="ShiftswapofferFields" style="display:none;">
+  <label>Notes or Reason:</label>
+  <textarea name="shift_swap_notes" placeholder="Explain the context or reason for this shift swap or offer."></textarea>
+</div>
+
+<!-- Suggestions/Feedback -->
+<div id="SuggestionsFeedbackFields" style="display:none;">
+  <label>Notes or Reason:</label>
+  <textarea name="suggestions_notes" placeholder="Share your suggestion or feedback."></textarea>
+</div>
+
+<!-- Unpaid Time Off/Vacation -->
+<div id="UnpaidtimeoffvacationFields" style="display:none;">
+  <label>Notes or Reason:</label>
+  <textarea name="unpaid_timeoff_notes" placeholder="Explain the context or reason for this unpaid time off or vacation request."></textarea>
+</div>
+
+<!-- Testing -->
+<div id="TestingFields" style="display:none;">
+  <label>Notes or Reason:</label>
+  <textarea name="testing_notes" placeholder="Explain the context or reason for this testing request."></textarea>
+</div>
+
+<!-- Submit Button -->
 <button type="submit">Submit</button>
 </form>
 <script>
@@ -309,7 +410,7 @@
     ];
 
     allTypes.forEach(type => {
-      const id = type.replace(/[\s\/]/g, '') + "Fields";
+      const id = type.replace(/[\s\/()]/g, '') + "Fields";
       const section = document.getElementById(id);
       if (section) {
         section.style.display = (type === selected) ? "block" : "none";
@@ -349,28 +450,45 @@
       return false;
     }
 
-    // ✅ Accommodation validation
+    // Section-specific validation
+    const notesMap = {
+      "Accommodation request/update": "accommodation_notes",
+      "Add additional hours": "additional_hours_notes",
+      "Add/remove/change team meeting": "team_meeting_notes",
+      "Add/remove/move training": "training_notes",
+      "Add offline segment": "offline_segment_notes",
+      "Advisor arrived late, remove absence": "late_arrival_notes",
+      "CP skill update": "cp_skill_notes",
+      "Employee status update (not for schedule changes)": "status_update_notes",
+      "Is OT available?": "ot_availability_notes",
+      "Move break/lunch because of meeting": "move_break_notes",
+      "Schedule Update - CP3 use": "schedule_cp3_notes",
+      "Schedule Error Adjustment": "schedule_error_notes",
+      "Shift swap/offer": "shift_swap_notes",
+      "Suggestions/Feedback": "suggestions_notes",
+      "Unpaid time off/vacation": "unpaid_timeoff_notes",
+      "Testing": "testing_notes"
+    };
+
+    const notesField = document.querySelector(`textarea[name="${notesMap[requestType]}"]`);
+    if (notesField && !notesField.value.trim()) {
+      alert("Please provide notes or a reason for this request.");
+      return false;
+    }
+
+    // CP3 logic
     if (requestType === "Accommodation request/update") {
       const cp3Status = document.querySelector('input[name="cp3_approval_status"]:checked');
       const cp3Upload = document.querySelector('input[name="cp3_approval"]');
-      const notes = document.querySelector('textarea[name="accommodation_notes"]');
-
       if (cp3Status && cp3Status.value === "Yes" && !cp3Upload.value) {
         alert("Please upload CP3 approval screenshot.");
         return false;
       }
-
-      if (!notes.value.trim()) {
-        alert("Please provide notes or a reason for the accommodation request.");
-        return false;
-      }
     }
 
-    // ✅ Additional Hours validation
+    // Additional Hours logic
     if (requestType === "Add additional hours") {
       const dayType = document.querySelector('input[name="additional_days"]:checked');
-      const notes = document.querySelector('textarea[name="additional_hours_notes"]');
-
       if (!dayType) {
         alert("Please select whether you're adding hours for 1 Day or Multiple Days.");
         return false;
@@ -402,30 +520,6 @@
           return false;
         }
       }
-
-      if (!notes.value.trim()) {
-        alert("Please provide notes or a reason for the additional hours request.");
-        return false;
-      }
-    }
-
-    // ✅ Team Meeting validation
-    if (requestType === "Add/remove/change team meeting") {
-      const action = document.querySelector('input[name="team_meeting_action"]:checked');
-      const date = document.querySelector('input[name="team_meeting_date"]');
-      const start = document.querySelector('input[name="team_meeting_start"]');
-      const end = document.querySelector('input[name="team_meeting_end"]');
-      const notes = document.querySelector('textarea[name="team_meeting_notes"]');
-
-      if (!action || !date.value || !start.value || !end.value) {
-        alert("Please complete all required fields for the team meeting.");
-        return false;
-      }
-
-      if (!notes.value.trim()) {
-        alert("Please provide notes or a reason for the team meeting request.");
-        return false;
-      }
     }
 
     return true;
@@ -433,26 +527,3 @@
 </script>
 </body>
 </html>
-
-<!-- Add/Remove/Move Training Section -->
-<div id="AddremovemovetrainingFields" style="display:none;">
-  <label>Training Action:</label>
-  <input type="radio" name="training_action" value="Add"> Add
-  <input type="radio" name="training_action" value="Remove"> Remove
-  <input type="radio" name="training_action" value="Move"> Move
-
-  <label>Training Date:</label>
-  <input type="date" name="training_date">
-
-  <label>Start Time (optional):</label>
-  <input type="text" name="training_start_time" placeholder="HH:MM AM/PM">
-
-  <label>End Time (optional):</label>
-  <input type="text" name="training_end_time" placeholder="HH:MM AM/PM">
-
-  <label>Notes or Reason:</label>
-  <textarea name="training_notes" placeholder="Explain the context or reason for this training request."></textarea>
-</div>
-
-
-
