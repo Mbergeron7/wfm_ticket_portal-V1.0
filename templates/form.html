@@ -527,3 +527,33 @@
 </script>
 </body>
 </html>
+
+<!-- Add Offline Segment Section -->
+<div id="AddofflinesegmentFields" style="display:none;">
+  <label>Offline Segment Date:</label>
+  <input type="date" name="offline_segment_date">
+
+  <label>Start Time:</label>
+  <input type="text" name="offline_segment_start" placeholder="HH:MM AM/PM">
+
+  <label>End Time:</label>
+  <input type="text" name="offline_segment_end" placeholder="HH:MM AM/PM">
+
+  <label>Which segment is being updated?</label>
+  <select name="offline_segment_type" required>
+    <option value="" disabled selected>Select segment</option>
+    <option value="After Shift">After Shift</option>
+    <option value="Client Account">Client Account</option>
+    <option value="Coaching">Coaching</option>
+    <option value="Code of Conduct">Code of Conduct</option>
+    <option value="Knowledge Assessment">Knowledge Assessment</option>
+    <option value="Leader on Duty">Leader on Duty</option>
+    <option value="Meeting">Meeting</option>
+    <option value="Personal">Personal</option>
+    <option value="Spirit Committee">Spirit Committee</option>
+    <option value="System Outage">System Outage</option>
+  </select>
+
+  <label>Notes or Reason:</label>
+  <textarea name="offline_segment_notes" placeholder="Explain the context or reason for this offline segment request."></textarea>
+</div>
