@@ -77,38 +77,65 @@
   <form method="POST" onsubmit="return validateForm()">
 
     <!-- Core Fields -->
+        <!-- Advisor Name -->
     <label>Advisor Name:</label>
     <input type="text" name="advisor_name" required>
 
+    <!-- Date of Request -->
     <label>Date of Request:</label>
     <input type="date" name="request_date" required>
 
+    <!-- Line of Business (LoB) -->
     <label>Line of Business (LoB):</label>
     <select name="lob" required>
       <option value="" disabled selected>Select LoB</option>
       <option value="ERO">ERO</option>
       <option value="IT">IT</option>
-      <option value="Sales">Sales</option>
-      <option value="Support">Support</option>
-      <option value="Billing">Billing</option>
-      <option value="Retention">Retention</option>
-      <option value="Tech">Tech</option>
-      <option value="Other">Other</option>
+      <option value="MoveBuddy">MoveBuddy</option>
+      <option value="PS Admin">PS Admin</option>
+      <option value="PS BO">PS BO</option>
+      <option value="PS Case Mgr">PS Case Mgr</option>
+      <option value="PS CC">PS CC</option>
+      <option value="PS Onboarding">PS Onboarding</option>
+      <option value="PS Sales">PS Sales</option>
+      <option value="QA">QA</option>
+      <option value="SS Case Management">SS Case Management</option>
+      <option value="SS Onboarding">SS Onboarding</option>
+      <option value="SS Sales">SS Sales</option>
+      <option value="TL/LoD">TL/LoD</option>
+      <option value="Training">Training</option>
+      <option value="WL PS">WL PS</option>
+      <option value="WL SS">WL SS</option>
+      <option value="Workforce Management">Workforce Management</option>
     </select>
 
+    <!-- Team Lead -->
     <label>Team Lead:</label>
     <select name="team_lead" required>
       <option value="" disabled selected>Select Team Lead</option>
+      <option value="Adeyinka">Adeyinka</option>
+      <option value="Alana">Alana</option>
+      <option value="Alexandra">Alexandra</option>
+      <option value="Aman">Aman</option>
+      <option value="Bryan">Bryan</option>
+      <option value="Cushana">Cushana</option>
+      <option value="David">David</option>
+      <option value="Dee">Dee</option>
+      <option value="Jodi">Jodi</option>
+      <option value="Julianne">Julianne</option>
+      <option value="Kristin">Kristin</option>
+      <option value="Lucas">Lucas</option>
+      <option value="Maggie">Maggie</option>
       <option value="Mike">Mike</option>
-      <option value="Sarah">Sarah</option>
-      <option value="James">James</option>
-      <option value="Priya">Priya</option>
-      <option value="Carlos">Carlos</option>
-      <option value="Aisha">Aisha</option>
-      <option value="Liam">Liam</option>
-      <option value="Emily">Emily</option>
+      <option value="Odette">Odette</option>
+      <option value="Pat">Pat</option>
+      <option value="Salomon">Salomon</option>
+      <option value="Sean">Sean</option>
+      <option value="Shavindri">Shavindri</option>
+      <option value="Teresa">Teresa</option>
     </select>
 
+    <!-- WFM Request Type -->
     <label>WFM Request Type:</label>
     <select name="wfm_request" id="wfm_request" onchange="toggleRequestFields()" required>
       <option value="" disabled selected>Select Request Type</option>
@@ -486,3 +513,4 @@
 </script>
 </body>
 </html>
+
