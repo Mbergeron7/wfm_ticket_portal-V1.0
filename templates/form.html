@@ -343,8 +343,17 @@
   <textarea name="offline_segment_notes" placeholder="Explain the context or reason for this offline segment request."></textarea>
 </div>
 
- <!-- Advisor Arrived Late, Remove Absence -->
+<!-- Advisor Arrived Late, Remove Absence -->
 <div id="AdvisorarrivedlateremoveabsenceFields" style="display:none;">
+  <label>Date of Late Arrival:</label>
+  <input type="date" name="late_arrival_date">
+
+  <label>Start Time:</label>
+  <input type="text" name="late_arrival_start" placeholder="HH:MM AM/PM">
+
+  <label>End Time:</label>
+  <input type="text" name="late_arrival_end" placeholder="HH:MM AM/PM">
+
   <label>Notes or Reason:</label>
   <textarea name="late_arrival_notes" placeholder="Explain the context or reason for removing the absence."></textarea>
 </div>
@@ -554,3 +563,4 @@
 </script>
 </body>
 </html>
+
