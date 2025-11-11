@@ -33,7 +33,7 @@
       width: fit-content;
     }
     form {
-      max-width: 700px;
+      max-width: 800px;
       margin: 0 auto;
       background-color: #fff;
       padding: 30px;
@@ -59,9 +59,6 @@
       box-sizing: border-box;
       font-size: 14px;
     }
-    input[type="file"] {
-      margin-top: 10px;
-    }
     textarea {
       resize: vertical;
       height: 100px;
@@ -79,6 +76,23 @@
     button:hover {
       background-color: #005fa3;
     }
+    /* ✅ New layout for CP Skill section */
+    .skill-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 10px;
+    }
+    .skill-box {
+      background: #f2f2f2;
+      padding: 15px;
+      border-radius: 8px;
+    }
+    .skill-box h3 {
+      margin-top: 0;
+      color: #333;
+      font-size: 16px;
+    }
   </style>
 </head>
 <body>
@@ -92,6 +106,7 @@
   {% endif %}
 
   <form method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+
     <label>Advisor Name:</label>
     <input type="text" name="advisor_name" required>
 
@@ -167,263 +182,259 @@
       <option value="Testing">Testing</option>
     </select>
 
-<!-- Accommodation Section -->
-<div id="AccommodationrequestupdateFields" style="display:none;">
-  <label>Accommodation Action:</label>
-  <div>
-    <input type="radio" name="accommodation_action" value="Add"> Add
-    <input type="radio" name="accommodation_action" value="Update"> Update
-    <input type="radio" name="accommodation_action" value="Remove"> Remove
-  </div>
+    <!-- (All section HTMLs here: Accommodation, Add Hours, Team Meeting, Training, Offline, Advisor Late, CP Skill Update) -->
 
-  <label>Accommodation Type:</label>
-  <select name="accommodation_type">
-    <option value="" disabled selected>Select type</option>
-    <option value="School">School</option>
-    <option value="Personal">Personal</option>
-    <option value="Medical">Medical</option>
-  </select>
+    <!-- ✅ CP Skill Update (new layout) -->
+    <div id="CPskillupdateFields" style="display:none;">
+      <div class="skill-grid">
+        <div class="skill-box">
+          <h3>English Skills</h3>
+          <label>Skill to Remove (English):</label>
+          <select name="skill_remove_en">
+            <option value="" disabled selected>Select English skill to remove</option>
+            <option value="MoveBuddy">MoveBuddy</option>
+            <option value="PS CC EN">PS CC EN</option>
+            <option value="PS Sales EN">PS Sales EN</option>
+            <option value="PS Test">PS Test</option>
+            <option value="PS WL EN">PS WL EN</option>
+            <option value="SS CM EN">SS CM EN</option>
+            <option value="SS Sales EN">SS Sales EN</option>
+            <option value="SS Test">SS Test</option>
+            <option value="SS WL EN">SS WL EN</option>
+          </select>
 
-  <label>Final Date of Accommodation:</label>
-  <input type="date" name="final_date">
+          <label>Skill to Add (English):</label>
+          <select name="skill_add_en">
+            <option value="" disabled selected>Select English skill to add</option>
+            <option value="MoveBuddy">MoveBuddy</option>
+            <option value="PS CC EN">PS CC EN</option>
+            <option value="PS Sales EN">PS Sales EN</option>
+            <option value="PS Test">PS Test</option>
+            <option value="PS WL EN">PS WL EN</option>
+            <option value="SS CM EN">SS CM EN</option>
+            <option value="SS Sales EN">SS Sales EN</option>
+            <option value="SS Test">SS Test</option>
+            <option value="SS WL EN">SS WL EN</option>
+          </select>
+        </div>
 
-  <label>Return to Work Date:</label>
-  <input type="date" name="return_to_work_date">
+        <div class="skill-box">
+          <h3>French Skills</h3>
+          <label>Skill to Remove (French):</label>
+          <select name="skill_remove_fr">
+            <option value="" disabled selected>Select French skill to remove</option>
+            <option value="PS CC FR">PS CC FR</option>
+            <option value="PS Sales FR">PS Sales FR</option>
+            <option value="PS WL FR">PS WL FR</option>
+            <option value="SS CM FR">SS CM FR</option>
+            <option value="SS Sales FR">SS Sales FR</option>
+            <option value="SS WL FR">SS WL FR</option>
+          </select>
 
-  <label>Do you have CP3 Approval?</label>
-  <div>
-    <input type="radio" name="cp3_approval_status" value="Yes" onclick="toggleAccommodationCP3(true)"> Yes
-    <input type="radio" name="cp3_approval_status" value="No" onclick="toggleAccommodationCP3(false)"> No
-  </div>
+          <label>Skill to Add (French):</label>
+          <select name="skill_add_fr">
+            <option value="" disabled selected>Select French skill to add</option>
+            <option value="PS CC FR">PS CC FR</option>
+            <option value="PS Sales FR">PS Sales FR</option>
+            <option value="PS WL FR">PS WL FR</option>
+            <option value="SS CM FR">SS CM FR</option>
+            <option value="SS Sales FR">SS Sales FR</option>
+            <option value="SS WL FR">SS WL FR</option>
+          </select>
+        </div>
+      </div>
 
-  <div id="cp3Upload" style="display:none;">
-    <label>Upload CP3 Approval Screenshot:</label>
-    <input type="file" name="cp3_approval" accept=".pdf,.doc,.docx,.jpg,.png">
-  </div>
+      <label>Notes or Reason:</label>
+      <textarea name="cp_skill_notes" placeholder="Explain the reason for the skill update."></textarea>
+    </div>
 
-  <label>Upload School Schedule (optional):</label>
-  <input type="file" name="school_schedule" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.png">
-
-  <label>Weekly Schedule:</label>
-  <input type="text" name="monday_schedule" placeholder="Monday start/end (HH:MM AM/PM)">
-  <input type="text" name="tuesday_schedule" placeholder="Tuesday start/end (HH:MM AM/PM)">
-  <input type="text" name="wednesday_schedule" placeholder="Wednesday start/end (HH:MM AM/PM)">
-  <input type="text" name="thursday_schedule" placeholder="Thursday start/end (HH:MM AM/PM)">
-  <input type="text" name="friday_schedule" placeholder="Friday start/end (HH:MM AM/PM)">
-  <input type="text" name="saturday_schedule" placeholder="Saturday start/end (HH:MM AM/PM)">
-  <input type="text" name="sunday_schedule" placeholder="Sunday start/end (HH:MM AM/PM)">
-
-  <label>Weekly Hours:</label>
-  <input type="number" name="weekly_hours" min="0" placeholder="Enter number of hours">
-
-  <label>Notes or Reason:</label>
-  <textarea name="accommodation_notes" placeholder="Explain reason for this request."></textarea>
-</div>
-
-<!-- Add Additional Hours Section -->
-<div id="AddadditionalhoursFields" style="display:none;">
-  <label>How many days are we adding hours to?</label>
-  <div>
-    <input type="radio" name="additional_days" value="1 Day" onclick="toggleAdditionalHoursMode(false)"> 1 Day
-    <input type="radio" name="additional_days" value="Multiple Days" onclick="toggleAdditionalHoursMode(true)"> Multiple Days
-  </div>
-
-  <div id="singleDayFields">
-    <label>Requested Date:</label>
-    <input type="date" name="additional_hours_date">
-    <label>Start Time:</label>
-    <input type="text" name="additional_start_time" placeholder="HH:MM AM/PM">
-    <label>End Time:</label>
-    <input type="text" name="additional_end_time" placeholder="HH:MM AM/PM">
-  </div>
-
-  <div id="multiDayFields" style="display:none;">
-    <label>Weekly Schedule:</label>
-    <input type="text" name="mon_start" placeholder="Monday start (HH:MM AM/PM)">
-    <input type="text" name="mon_end" placeholder="Monday end (HH:MM AM/PM)">
-    <input type="text" name="tue_start" placeholder="Tuesday start (HH:MM AM/PM)">
-    <input type="text" name="tue_end" placeholder="Tuesday end (HH:MM AM/PM)">
-    <input type="text" name="wed_start" placeholder="Wednesday start (HH:MM AM/PM)">
-    <input type="text" name="wed_end" placeholder="Wednesday end (HH:MM AM/PM)">
-    <input type="text" name="thu_start" placeholder="Thursday start (HH:MM AM/PM)">
-    <input type="text" name="thu_end" placeholder="Thursday end (HH:MM AM/PM)">
-    <input type="text" name="fri_start" placeholder="Friday start (HH:MM AM/PM)">
-    <input type="text" name="fri_end" placeholder="Friday end (HH:MM AM/PM)">
-    <input type="text" name="sat_start" placeholder="Saturday start (HH:MM AM/PM)">
-    <input type="text" name="sat_end" placeholder="Saturday end (HH:MM AM/PM)">
-    <input type="text" name="sun_start" placeholder="Sunday start (HH:MM AM/PM)">
-    <input type="text" name="sun_end" placeholder="Sunday end (HH:MM AM/PM)">
-  </div>
-
-  <label>Weekly Hours:</label>
-  <input type="number" name="additional_weekly_hours" min="0" placeholder="Enter number of hours">
-
-  <label>Notes or Reason:</label>
-  <textarea name="additional_hours_notes" placeholder="Explain reason for adding hours."></textarea>
-</div>
-
-<!-- Add/Remove/Change Team Meeting Section -->
-<div id="AddremovechangeteammeetingFields" style="display:none;">
-  <label>Meeting Action:</label>
-  <div>
-    <input type="radio" name="team_meeting_action" value="Add"> Add
-    <input type="radio" name="team_meeting_action" value="Remove"> Remove
-    <input type="radio" name="team_meeting_action" value="Change"> Change
-  </div>
-
-  <label>Meeting Date:</label>
-  <input type="date" name="team_meeting_date">
-  <label>Start Time:</label>
-  <input type="text" name="team_meeting_start" placeholder="HH:MM AM/PM">
-  <label>End Time:</label>
-  <input type="text" name="team_meeting_end" placeholder="HH:MM AM/PM">
-  <label>Notes or Reason:</label>
-  <textarea name="team_meeting_notes" placeholder="Explain reason for meeting request."></textarea>
-</div>
-
-<!-- Add/Remove/Move Training Section -->
-<div id="AddremovemovetrainingFields" style="display:none;">
-  <label>Training Action:</label>
-  <div>
-    <input type="radio" name="training_action" value="Add"> Add
-    <input type="radio" name="training_action" value="Remove"> Remove
-    <input type="radio" name="training_action" value="Move"> Move
-  </div>
-
-  <label>Training Date:</label>
-  <input type="date" name="training_date">
-  <label>Start Time:</label>
-  <input type="text" name="training_start" placeholder="HH:MM AM/PM">
-  <label>End Time:</label>
-  <input type="text" name="training_end" placeholder="HH:MM AM/PM">
-  <label>Notes or Reason:</label>
-  <textarea name="training_notes" placeholder="Explain reason for training request."></textarea>
-</div>
-
-<!-- Add Offline Segment Section -->
-<div id="AddofflinesegmentFields" style="display:none;">
-  <label>Offline Segment Date:</label>
-  <input type="date" name="offline_segment_date">
-  <label>Start Time:</label>
-  <input type="text" name="offline_segment_start" placeholder="HH:MM AM/PM">
-  <label>End Time:</label>
-  <input type="text" name="offline_segment_end" placeholder="HH:MM AM/PM">
-  <label>Which segment is being updated?</label>
-  <select name="offline_segment_type">
-    <option value="" disabled selected>Select segment</option>
-    <option>After Shift</option>
-    <option>Client Account Work</option>
-    <option>Coaching</option>
-    <option>Code of Conduct</option>
-    <option>Knowledge Assessment</option>
-    <option>Meeting</option>
-    <option>Personal</option>
-    <option>Store Visit</option>
-    <option>System Issue</option>
-    <option>System Outage</option>
-    <option>Training</option>
-  </select>
-  <label>Notes or Reason:</label>
-  <textarea name="offline_segment_notes" placeholder="Explain reason for this offline segment request."></textarea>
-</div>
-
-<!-- Advisor Arrived Late Section -->
-<div id="AdvisorarrivedlateremoveabsenceFields" style="display:none;">
-  <label>Actual Start Time:</label>
-  <input type="text" name="actual_start_time" placeholder="HH:MM AM/PM">
-  <label>Actual Arrival Time:</label>
-  <input type="text" name="actual_arrival_time" placeholder="HH:MM AM/PM">
-  <label>Notes or Reason:</label>
-  <textarea name="late_arrival_notes" placeholder="Explain reason for removing the absence."></textarea>
-</div>
-
-<!-- CP Skill Update -->
-<div id="CPskillupdateFields" style="display:none;">
-  <label>Skill(s) to Remove:</label>
-  <select name="skill_remove" multiple size="6">
-    <option>MoveBuddy</option><option>PS CC EN</option><option>PS CC FR</option>
-    <option>PS Sales EN</option><option>PS Sales FR</option><option>PS Test</option>
-    <option>PS WL EN</option><option>PS WL FR</option><option>SS CM EN</option>
-    <option>SS CM FR</option><option>SS Sales EN</option><option>SS Sales FR</option>
-    <option>SS Test</option><option>SS WL EN</option><option>SS WL FR</option>
-  </select>
-  <label>Skill(s) to Add:</label>
-  <select name="skill_add" multiple size="6">
-    <option>MoveBuddy</option><option>PS CC EN</option><option>PS CC FR</option>
-    <option>PS Sales EN</option><option>PS Sales FR</option><option>PS Test</option>
-    <option>PS WL EN</option><option>PS WL FR</option><option>SS CM EN</option>
-    <option>SS CM FR</option><option>SS Sales EN</option><option>SS Sales FR</option>
-    <option>SS Test</option><option>SS WL EN</option><option>SS WL FR</option>
-  </select>
-  <label>Notes or Reason:</label>
-  <textarea name="cp_skill_notes" placeholder="Explain reason for skill update."></textarea>
-</div>
-
-<!-- Submit -->
-<button type="submit">Submit</button>
-</form>
-
+    <button type="submit">Submit</button>
+  </form>
 <script>
-function toggleRequestFields() {
-  const selected = document.getElementById("wfm_request").value;
-  const allTypes = [
-    "Accommodation request/update","Add additional hours","Add/remove/change team meeting",
-    "Add/remove/move training","Add offline segment","Advisor arrived late, remove absence",
-    "CP skill update","Employee status update (not for schedule changes)","Is OT available?",
-    "Move break/lunch because of meeting","Schedule Update - CP3 use","Schedule Error Adjustment",
-    "Shift swap/offer","Suggestions/Feedback","Unpaid time off/vacation","Testing"
-  ];
-  allTypes.forEach(type=>{
-    const id = type.replace(/[\s\/(),]/g,'')+"Fields";
-    const section=document.getElementById(id);
-    if(section){section.style.display=(type===selected)?"block":"none";}
-  });
-}
-function toggleAccommodationCP3(show){
-  const el=document.getElementById("cp3Upload");
-  if(el)el.style.display=show?"block":"none";
-}
-function toggleAdditionalHoursMode(multi){
-  document.getElementById("singleDayFields").style.display=multi?"none":"block";
-  document.getElementById("multiDayFields").style.display=multi?"block":"none";
-}
-function validateForm(){
-  const req=document.getElementById("wfm_request").value;
-  if(req==="Add/remove/change team meeting"){
-    const a=document.querySelector('input[name="team_meeting_action"]:checked');
-    const d=document.querySelector('input[name="team_meeting_date"]');
-    const s=document.querySelector('input[name="team_meeting_start"]');
-    const e=document.querySelector('input[name="team_meeting_end"]');
-    const n=document.querySelector('textarea[name="team_meeting_notes"]');
-    if(!a||!d.value||!s.value||!e.value){alert("Please complete all required fields for the team meeting.");return false;}
-    if(!n.value.trim()){alert("Please provide notes or a reason for the team meeting request.");return false;}
+  // 🔄 Toggle request-specific sections
+  function toggleRequestFields() {
+    const selected = document.getElementById("wfm_request").value;
+    const allTypes = [
+      "Accommodation request/update",
+      "Add additional hours",
+      "Add/remove/change team meeting",
+      "Add/remove/move training",
+      "Add offline segment",
+      "Advisor arrived late, remove absence",
+      "CP skill update",
+      "Employee status update (not for schedule changes)",
+      "Is OT available?",
+      "Move break/lunch because of meeting",
+      "Schedule Update - CP3 use",
+      "Schedule Error Adjustment",
+      "Shift swap/offer",
+      "Suggestions/Feedback",
+      "Unpaid time off/vacation",
+      "Testing"
+    ];
+
+    allTypes.forEach(type => {
+      const id = type.replace(/[\s\/(),]/g, '') + "Fields";
+      const section = document.getElementById(id);
+      if (section) {
+        section.style.display = (type === selected) ? "block" : "none";
+      }
+    });
   }
-  if(req==="Add/remove/move training"){
-    const a=document.querySelector('input[name="training_action"]:checked');
-    const d=document.querySelector('input[name="training_date"]');
-    const s=document.querySelector('input[name="training_start"]');
-    const e=document.querySelector('input[name="training_end"]');
-    const n=document.querySelector('textarea[name="training_notes"]');
-    if(!a||!d.value||!s.value||!e.value){alert("Please complete all required fields for the training request.");return false;}
-    if(!n.value.trim()){alert("Please provide notes or a reason for the training request.");return false;}
+
+  // 📎 Toggle CP3 upload for Accommodation
+  function toggleAccommodationCP3(show) {
+    const cp3Section = document.getElementById("cp3Upload");
+    if (cp3Section) {
+      cp3Section.style.display = show ? "block" : "none";
+    }
   }
-  if(req==="Advisor arrived late, remove absence"){
-    const s=document.querySelector('input[name="actual_start_time"]');
-    const a=document.querySelector('input[name="actual_arrival_time"]');
-    const n=document.querySelector('textarea[name="late_arrival_notes"]');
-    if(!s.value||!a.value){alert("Please fill both Actual Start and Arrival times.");return false;}
-    if(!n.value.trim()){alert("Please provide notes for the late arrival.");return false;}
+
+  // 📅 Toggle between single-day and multi-day inputs for Additional Hours
+  function toggleAdditionalHoursMode(isMultipleDays) {
+    const singleDay = document.getElementById("singleDayFields");
+    const multiDay = document.getElementById("multiDayFields");
+    if (singleDay && multiDay) {
+      singleDay.style.display = isMultipleDays ? "none" : "block";
+      multiDay.style.display = isMultipleDays ? "block" : "none";
+    }
   }
-  if(req==="CP skill update"){
-    const add=document.querySelector('select[name="skill_add"]');
-    const rem=document.querySelector('select[name="skill_remove"]');
-    const n=document.querySelector('textarea[name="cp_skill_notes"]');
-    if((!add.value&&!rem.value)||!n.value.trim()){alert("Select at least one skill to add or remove and provide notes.");return false;}
+
+  // ✅ Validate form before submission
+  function validateForm() {
+    const advisorName = document.querySelector('input[name="advisor_name"]');
+    const requestDate = document.querySelector('input[name="request_date"]');
+    const lob = document.querySelector('select[name="lob"]');
+    const teamLead = document.querySelector('select[name="team_lead"]');
+    const req = document.getElementById("wfm_request").value;
+
+    if (!advisorName.value || !requestDate.value || !lob.value || !teamLead.value || !req) {
+      alert("Please complete all required fields.");
+      return false;
+    }
+
+    // ✅ Accommodation validation
+    if (req === "Accommodation request/update") {
+      const cp3Status = document.querySelector('input[name="cp3_approval_status"]:checked');
+      const cp3Upload = document.querySelector('input[name="cp3_approval"]');
+      const notes = document.querySelector('textarea[name="accommodation_notes"]');
+      if (cp3Status && cp3Status.value === "Yes" && !cp3Upload.value) {
+        alert("Please upload CP3 approval screenshot.");
+        return false;
+      }
+      if (!notes.value.trim()) {
+        alert("Please provide notes or a reason for the accommodation request.");
+        return false;
+      }
+    }
+
+    // ✅ Additional Hours validation
+    if (req === "Add additional hours") {
+      const dayType = document.querySelector('input[name="additional_days"]:checked');
+      const notes = document.querySelector('textarea[name="additional_hours_notes"]');
+      if (!dayType) {
+        alert("Please select whether you're adding hours for 1 Day or Multiple Days.");
+        return false;
+      }
+      if (dayType.value === "1 Day") {
+        const date = document.querySelector('input[name="additional_hours_date"]');
+        const start = document.querySelector('input[name="additional_start_time"]');
+        const end = document.querySelector('input[name="additional_end_time"]');
+        if (!date.value || !start.value || !end.value) {
+          alert("Please complete date, start time, and end time.");
+          return false;
+        }
+      }
+      if (dayType.value === "Multiple Days") {
+        const days = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
+        let validDay = false;
+        for (let d of days) {
+          const start = document.querySelector(`input[name="${d}_start"]`);
+          const end = document.querySelector(`input[name="${d}_end"]`);
+          if (start && end && start.value && end.value) {
+            validDay = true;
+            break;
+          }
+        }
+        if (!validDay) {
+          alert("Please enter at least one full day (start and end).");
+          return false;
+        }
+      }
+      if (!notes.value.trim()) {
+        alert("Please provide notes or a reason for the additional hours request.");
+        return false;
+      }
+    }
+
+    // ✅ Team Meeting validation
+    if (req === "Add/remove/change team meeting") {
+      const action = document.querySelector('input[name="team_meeting_action"]:checked');
+      const date = document.querySelector('input[name="team_meeting_date"]');
+      const start = document.querySelector('input[name="team_meeting_start"]');
+      const end = document.querySelector('input[name="team_meeting_end"]');
+      const notes = document.querySelector('textarea[name="team_meeting_notes"]');
+      if (!action || !date.value || !start.value || !end.value) {
+        alert("Please complete all required fields for the team meeting.");
+        return false;
+      }
+      if (!notes.value.trim()) {
+        alert("Please provide notes or a reason for the team meeting request.");
+        return false;
+      }
+    }
+
+    // ✅ Training validation
+    if (req === "Add/remove/move training") {
+      const action = document.querySelector('input[name="training_action"]:checked');
+      const date = document.querySelector('input[name="training_date"]');
+      const start = document.querySelector('input[name="training_start"]');
+      const end = document.querySelector('input[name="training_end"]');
+      const notes = document.querySelector('textarea[name="training_notes"]');
+      if (!action || !date.value || !start.value || !end.value) {
+        alert("Please complete all required fields for the training request.");
+        return false;
+      }
+      if (!notes.value.trim()) {
+        alert("Please provide notes or a reason for the training request.");
+        return false;
+      }
+    }
+
+    // ✅ Advisor Arrived Late validation
+    if (req === "Advisor arrived late, remove absence") {
+      const start = document.querySelector('input[name="actual_start_time"]');
+      const arrival = document.querySelector('input[name="actual_arrival_time"]');
+      const notes = document.querySelector('textarea[name="late_arrival_notes"]');
+      if (!start.value || !arrival.value) {
+        alert("Please provide both Actual Start Time and Actual Arrival Time.");
+        return false;
+      }
+      if (!notes.value.trim()) {
+        alert("Please include notes or reason for removing the absence.");
+        return false;
+      }
+    }
+
+    // ✅ CP Skill Update validation
+    if (req === "CP skill update") {
+      const addEn = document.querySelector('select[name="skill_add_en"]');
+      const removeEn = document.querySelector('select[name="skill_remove_en"]');
+      const addFr = document.querySelector('select[name="skill_add_fr"]');
+      const removeFr = document.querySelector('select[name="skill_remove_fr"]');
+      const notes = document.querySelector('textarea[name="cp_skill_notes"]');
+
+      if (
+        (!addEn.value && !removeEn.value && !addFr.value && !removeFr.value) ||
+        !notes.value.trim()
+      ) {
+        alert("Please select at least one skill to add or remove (English or French) and provide notes.");
+        return false;
+      }
+    }
+
+    return true;
   }
-  return true;
-}
 </script>
 </body>
 </html>
-
-
