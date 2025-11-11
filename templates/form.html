@@ -339,22 +339,59 @@
 
 <!-- CP Skill Update -->
 <div id="CPskillupdateFields" style="display:none;">
-  <label>Skill(s) to Remove:</label>
-  <select name="skill_remove" multiple size="6">
-    <option>MoveBuddy</option><option>PS CC EN</option><option>PS CC FR</option>
-    <option>PS Sales EN</option><option>PS Sales FR</option><option>PS Test</option>
-    <option>PS WL EN</option><option>PS WL FR</option><option>SS CM EN</option>
-    <option>SS CM FR</option><option>SS Sales EN</option><option>SS Sales FR</option>
-    <option>SS Test</option><option>SS WL EN</option><option>SS WL FR</option>
+  <!-- Remove Section -->
+  <label>Skill(s) to Remove – English:</label>
+  <select name="skill_remove_en">
+    <option value="">-- Select English Skill to Remove --</option>
+    <option>MoveBuddy</option>
+    <option>PS CC EN</option>
+    <option>PS Sales EN</option>
+    <option>PS WL EN</option>
+    <option>SS CM EN</option>
+    <option>SS Sales EN</option>
+    <option>SS WL EN</option>
+    <option>PS Test</option>
+    <option>SS Test</option>
   </select>
-  <label>Skill(s) to Add:</label>
-  <select name="skill_add" multiple size="6">
-    <option>MoveBuddy</option><option>PS CC EN</option><option>PS CC FR</option>
-    <option>PS Sales EN</option><option>PS Sales FR</option><option>PS Test</option>
-    <option>PS WL EN</option><option>PS WL FR</option><option>SS CM EN</option>
-    <option>SS CM FR</option><option>SS Sales EN</option><option>SS Sales FR</option>
-    <option>SS Test</option><option>SS WL EN</option><option>SS WL FR</option>
+
+  <label>Skill(s) to Remove – French:</label>
+  <select name="skill_remove_fr">
+    <option value="">-- Select French Skill to Remove --</option>
+    <option>PS CC FR</option>
+    <option>PS Sales FR</option>
+    <option>PS WL FR</option>
+    <option>SS CM FR</option>
+    <option>SS Sales FR</option>
+    <option>SS WL FR</option>
   </select>
+
+  <!-- Add Section -->
+  <label>Skill(s) to Add – English:</label>
+  <select name="skill_add_en">
+    <option value="">-- Select English Skill to Add --</option>
+    <option>MoveBuddy</option>
+    <option>PS CC EN</option>
+    <option>PS Sales EN</option>
+    <option>PS WL EN</option>
+    <option>SS CM EN</option>
+    <option>SS Sales EN</option>
+    <option>SS WL EN</option>
+    <option>PS Test</option>
+    <option>SS Test</option>
+  </select>
+
+  <label>Skill(s) to Add – French:</label>
+  <select name="skill_add_fr">
+    <option value="">-- Select French Skill to Add --</option>
+    <option>PS CC FR</option>
+    <option>PS Sales FR</option>
+    <option>PS WL FR</option>
+    <option>SS CM FR</option>
+    <option>SS Sales FR</option>
+    <option>SS WL FR</option>
+  </select>
+
+  <!-- Notes -->
   <label>Notes or Reason:</label>
   <textarea name="cp_skill_notes" placeholder="Explain reason for skill update."></textarea>
 </div>
@@ -425,3 +462,4 @@ function validateForm(){
 </script>
 </body>
 </html>
+
