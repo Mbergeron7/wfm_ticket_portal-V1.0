@@ -33,7 +33,7 @@
       width: fit-content;
     }
     form {
-      max-width: 700px;
+      max-width: 750px;
       margin: 0 auto;
       background-color: #fff;
       padding: 30px;
@@ -146,7 +146,7 @@
       <option value="Teresa">Teresa</option>
     </select>
 
-    <!-- Full request type list -->
+    <!-- WFM Request Type -->
     <label>WFM Request Type:</label>
     <select name="wfm_request" id="wfm_request" onchange="toggleRequestFields()" required>
       <option value="" disabled selected>Select Request Type</option>
@@ -168,14 +168,12 @@
       <option value="Testing">Testing</option>
     </select>
 
-    <!-- Accommodation request/update -->
+    <!-- Accommodation -->
     <div id="AccommodationrequestupdateFields" style="display:none;">
       <label>Accommodation Action:</label>
-      <div>
-        <input type="radio" name="accommodation_action" value="Add"> Add
-        <input type="radio" name="accommodation_action" value="Update"> Update
-        <input type="radio" name="accommodation_action" value="Remove"> Remove
-      </div>
+      <input type="radio" name="accommodation_action" value="Add"> Add
+      <input type="radio" name="accommodation_action" value="Update"> Update
+      <input type="radio" name="accommodation_action" value="Remove"> Remove
 
       <label>Accommodation Type:</label>
       <select name="accommodation_type">
@@ -186,27 +184,36 @@
       </select>
 
       <label>Do you have CP3 Approval?</label>
-      <div>
-        <input type="radio" name="cp3_approval_status" value="Yes" onclick="toggleAccommodationCP3(true)"> Yes
-        <input type="radio" name="cp3_approval_status" value="No" onclick="toggleAccommodationCP3(false)"> No
-      </div>
+      <input type="radio" name="cp3_approval_status" value="Yes" onclick="toggleAccommodationCP3(true)"> Yes
+      <input type="radio" name="cp3_approval_status" value="No" onclick="toggleAccommodationCP3(false)"> No
 
       <div id="cp3Upload" style="display:none;">
         <label>Upload CP3 Approval Screenshot:</label>
         <input type="file" name="cp3_approval" accept=".pdf,.jpg,.png">
       </div>
 
+      <label>Weekly Schedule:</label>
+      <input type="text" name="monday_schedule" placeholder="Monday start/end (HH:MM AM/PM)">
+      <input type="text" name="tuesday_schedule" placeholder="Tuesday start/end (HH:MM AM/PM)">
+      <input type="text" name="wednesday_schedule" placeholder="Wednesday start/end (HH:MM AM/PM)">
+      <input type="text" name="thursday_schedule" placeholder="Thursday start/end (HH:MM AM/PM)">
+      <input type="text" name="friday_schedule" placeholder="Friday start/end (HH:MM AM/PM)">
+      <input type="text" name="saturday_schedule" placeholder="Saturday start/end (HH:MM AM/PM)">
+      <input type="text" name="sunday_schedule" placeholder="Sunday start/end (HH:MM AM/PM)">
+
+      <label>Weekly Hours:</label>
+      <input type="number" name="weekly_hours" min="0" placeholder="Enter weekly hours">
+
       <label>Notes or Reason:</label>
       <textarea name="accommodation_notes" placeholder="Explain the context or reason."></textarea>
     </div>
 
-    <!-- Add additional hours -->
+    <!-- Add Additional Hours -->
     <div id="AddadditionalhoursFields" style="display:none;">
-      <label>How many days?</label>
-      <div>
-        <input type="radio" name="additional_days" value="1 Day" onclick="toggleAdditionalHoursMode(false)"> 1 Day
-        <input type="radio" name="additional_days" value="Multiple Days" onclick="toggleAdditionalHoursMode(true)"> Multiple Days
-      </div>
+      <label>How many days are we adding hours to?</label>
+      <input type="radio" name="additional_days" value="1 Day" onclick="toggleAdditionalHoursMode(false)"> 1 Day
+      <input type="radio" name="additional_days" value="Multiple Days" onclick="toggleAdditionalHoursMode(true)"> Multiple Days
+
       <div id="singleDayFields">
         <label>Date:</label>
         <input type="date" name="additional_hours_date">
@@ -215,66 +222,64 @@
         <label>End Time:</label>
         <input type="text" name="additional_end_time" placeholder="HH:MM AM/PM">
       </div>
+
       <div id="multiDayFields" style="display:none;">
         <label>Weekly Schedule:</label>
-        <input type="text" name="mon_start" placeholder="Monday start">
-        <input type="text" name="mon_end" placeholder="Monday end">
-        <input type="text" name="tue_start" placeholder="Tuesday start">
-        <input type="text" name="tue_end" placeholder="Tuesday end">
+        <input type="text" name="mon_start" placeholder="Monday start (HH:MM AM/PM)">
+        <input type="text" name="mon_end" placeholder="Monday end (HH:MM AM/PM)">
+        <input type="text" name="tue_start" placeholder="Tuesday start (HH:MM AM/PM)">
+        <input type="text" name="tue_end" placeholder="Tuesday end (HH:MM AM/PM)">
+        <input type="text" name="wed_start" placeholder="Wednesday start (HH:MM AM/PM)">
+        <input type="text" name="wed_end" placeholder="Wednesday end (HH:MM AM/PM)">
+        <input type="text" name="thu_start" placeholder="Thursday start (HH:MM AM/PM)">
+        <input type="text" name="thu_end" placeholder="Thursday end (HH:MM AM/PM)">
+        <input type="text" name="fri_start" placeholder="Friday start (HH:MM AM/PM)">
+        <input type="text" name="fri_end" placeholder="Friday end (HH:MM AM/PM)">
+        <input type="text" name="sat_start" placeholder="Saturday start (HH:MM AM/PM)">
+        <input type="text" name="sat_end" placeholder="Saturday end (HH:MM AM/PM)">
+        <input type="text" name="sun_start" placeholder="Sunday start (HH:MM AM/PM)">
+        <input type="text" name="sun_end" placeholder="Sunday end (HH:MM AM/PM)">
       </div>
+
+      <label>Weekly Hours (if applicable):</label>
+      <input type="number" name="additional_weekly_hours" placeholder="Enter total weekly hours">
+
       <label>Notes or Reason:</label>
       <textarea name="additional_hours_notes" placeholder="Explain the context or reason."></textarea>
     </div>
 
-    <!-- Add/remove/change team meeting -->
-    <div id="AddremovechangeteammeetingFields" style="display:none;">
-      <label>Meeting Action:</label>
-      <div>
-        <input type="radio" name="team_meeting_action" value="Add"> Add
-        <input type="radio" name="team_meeting_action" value="Remove"> Remove
-        <input type="radio" name="team_meeting_action" value="Change"> Change
-      </div>
-      <label>Date:</label>
-      <input type="date" name="team_meeting_date">
-      <label>Start Time:</label>
-      <input type="text" name="team_meeting_start" placeholder="HH:MM AM/PM">
-      <label>End Time:</label>
-      <input type="text" name="team_meeting_end" placeholder="HH:MM AM/PM">
-      <label>Notes or Reason:</label>
-      <textarea name="team_meeting_notes"></textarea>
-    </div>
-
-    <!-- Add/remove/move training -->
-    <div id="AddremovemovetrainingFields" style="display:none;">
-      <label>Training Action:</label>
-      <div>
-        <input type="radio" name="training_action" value="Add"> Add
-        <input type="radio" name="training_action" value="Remove"> Remove
-        <input type="radio" name="training_action" value="Move"> Move
-      </div>
-      <label>Date:</label>
-      <input type="date" name="training_date">
-      <label>Start Time:</label>
-      <input type="text" name="training_start" placeholder="HH:MM AM/PM">
-      <label>End Time:</label>
-      <input type="text" name="training_end" placeholder="HH:MM AM/PM">
-      <label>Notes or Reason:</label>
-      <textarea name="training_notes"></textarea>
-    </div>
-
-    <!-- Add offline segment -->
+    <!-- Add Offline Segment -->
     <div id="AddofflinesegmentFields" style="display:none;">
-      <label>Date:</label>
-      <input type="date" name="offline_date">
+      <label>Offline Segment Date:</label>
+      <input type="date" name="offline_segment_date">
+
       <label>Start Time:</label>
-      <input type="text" name="offline_start" placeholder="HH:MM AM/PM">
+      <input type="text" name="offline_segment_start" placeholder="HH:MM AM/PM">
+
       <label>End Time:</label>
-      <input type="text" name="offline_end" placeholder="HH:MM AM/PM">
+      <input type="text" name="offline_segment_end" placeholder="HH:MM AM/PM">
+
+      <label>Which segment is being updated?</label>
+      <select name="offline_segment_type">
+        <option value="" disabled selected>Select segment</option>
+        <option value="After Shift">After Shift</option>
+        <option value="Client Account Work">Client Account Work</option>
+        <option value="Coaching">Coaching</option>
+        <option value="Code of Conduct">Code of Conduct</option>
+        <option value="Knowledge Assessment">Knowledge Assessment</option>
+        <option value="Meeting">Meeting</option>
+        <option value="Personal">Personal</option>
+        <option value="Store Visit">Store Visit</option>
+        <option value="System Issue">System Issue</option>
+        <option value="System Outage">System Outage</option>
+        <option value="Training">Training</option>
+      </select>
+
       <label>Notes or Reason:</label>
-      <textarea name="offline_segment_notes"></textarea>
+      <textarea name="offline_segment_notes" placeholder="Explain the context or reason."></textarea>
     </div>
 
-    <!-- Advisor arrived late, remove absence -->
+    <!-- Advisor Arrived Late -->
     <div id="AdvisorarrivedlateremoveabsenceFields" style="display:none;">
       <label>Notes or Reason:</label>
       <textarea name="late_arrival_notes" placeholder="Explain the context or reason for removing the absence."></textarea>
@@ -304,9 +309,8 @@
       "Unpaid time off/vacation",
       "Testing"
     ];
-
     allTypes.forEach(type => {
-      const id = type.replace(/[\s\/(),]/g, '') + "Fields"; // handles commas & spaces
+      const id = type.replace(/[\s\/(),]/g, '') + "Fields";
       const section = document.getElementById(id);
       if (section) section.style.display = (type === selected) ? "block" : "none";
     });
