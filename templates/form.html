@@ -168,7 +168,7 @@
       <option value="Testing">Testing</option>
     </select>
 
-    <!-- Accommodation -->
+    <!-- Accommodation Section -->
     <div id="AccommodationrequestupdateFields" style="display:none;">
       <label>Accommodation Action:</label>
       <input type="radio" name="accommodation_action" value="Add"> Add
@@ -193,22 +193,22 @@
       </div>
 
       <label>Weekly Schedule:</label>
-      <input type="text" name="monday_schedule" placeholder="Monday start/end (HH:MM AM/PM)">
-      <input type="text" name="tuesday_schedule" placeholder="Tuesday start/end (HH:MM AM/PM)">
-      <input type="text" name="wednesday_schedule" placeholder="Wednesday start/end (HH:MM AM/PM)">
-      <input type="text" name="thursday_schedule" placeholder="Thursday start/end (HH:MM AM/PM)">
-      <input type="text" name="friday_schedule" placeholder="Friday start/end (HH:MM AM/PM)">
-      <input type="text" name="saturday_schedule" placeholder="Saturday start/end (HH:MM AM/PM)">
-      <input type="text" name="sunday_schedule" placeholder="Sunday start/end (HH:MM AM/PM)">
+      <input type="text" name="monday_schedule" placeholder="Monday start/end">
+      <input type="text" name="tuesday_schedule" placeholder="Tuesday start/end">
+      <input type="text" name="wednesday_schedule" placeholder="Wednesday start/end">
+      <input type="text" name="thursday_schedule" placeholder="Thursday start/end">
+      <input type="text" name="friday_schedule" placeholder="Friday start/end">
+      <input type="text" name="saturday_schedule" placeholder="Saturday start/end">
+      <input type="text" name="sunday_schedule" placeholder="Sunday start/end">
 
       <label>Weekly Hours:</label>
       <input type="number" name="weekly_hours" min="0" placeholder="Enter weekly hours">
 
       <label>Notes or Reason:</label>
-      <textarea name="accommodation_notes" placeholder="Explain the context or reason."></textarea>
+      <textarea name="accommodation_notes"></textarea>
     </div>
 
-    <!-- Add Additional Hours -->
+    <!-- Add Additional Hours Section -->
     <div id="AddadditionalhoursFields" style="display:none;">
       <label>How many days are we adding hours to?</label>
       <input type="radio" name="additional_days" value="1 Day" onclick="toggleAdditionalHoursMode(false)"> 1 Day
@@ -225,27 +225,47 @@
 
       <div id="multiDayFields" style="display:none;">
         <label>Weekly Schedule:</label>
-        <input type="text" name="mon_start" placeholder="Monday start (HH:MM AM/PM)">
-        <input type="text" name="mon_end" placeholder="Monday end (HH:MM AM/PM)">
-        <input type="text" name="tue_start" placeholder="Tuesday start (HH:MM AM/PM)">
-        <input type="text" name="tue_end" placeholder="Tuesday end (HH:MM AM/PM)">
-        <input type="text" name="wed_start" placeholder="Wednesday start (HH:MM AM/PM)">
-        <input type="text" name="wed_end" placeholder="Wednesday end (HH:MM AM/PM)">
-        <input type="text" name="thu_start" placeholder="Thursday start (HH:MM AM/PM)">
-        <input type="text" name="thu_end" placeholder="Thursday end (HH:MM AM/PM)">
-        <input type="text" name="fri_start" placeholder="Friday start (HH:MM AM/PM)">
-        <input type="text" name="fri_end" placeholder="Friday end (HH:MM AM/PM)">
-        <input type="text" name="sat_start" placeholder="Saturday start (HH:MM AM/PM)">
-        <input type="text" name="sat_end" placeholder="Saturday end (HH:MM AM/PM)">
-        <input type="text" name="sun_start" placeholder="Sunday start (HH:MM AM/PM)">
-        <input type="text" name="sun_end" placeholder="Sunday end (HH:MM AM/PM)">
+        <input type="text" name="mon_start" placeholder="Monday start">
+        <input type="text" name="mon_end" placeholder="Monday end">
+        <input type="text" name="tue_start" placeholder="Tuesday start">
+        <input type="text" name="tue_end" placeholder="Tuesday end">
+        <input type="text" name="wed_start" placeholder="Wednesday start">
+        <input type="text" name="wed_end" placeholder="Wednesday end">
+        <input type="text" name="thu_start" placeholder="Thursday start">
+        <input type="text" name="thu_end" placeholder="Thursday end">
+        <input type="text" name="fri_start" placeholder="Friday start">
+        <input type="text" name="fri_end" placeholder="Friday end">
+        <input type="text" name="sat_start" placeholder="Saturday start">
+        <input type="text" name="sat_end" placeholder="Saturday end">
+        <input type="text" name="sun_start" placeholder="Sunday start">
+        <input type="text" name="sun_end" placeholder="Sunday end">
       </div>
 
       <label>Weekly Hours (if applicable):</label>
       <input type="number" name="additional_weekly_hours" placeholder="Enter total weekly hours">
 
       <label>Notes or Reason:</label>
-      <textarea name="additional_hours_notes" placeholder="Explain the context or reason."></textarea>
+      <textarea name="additional_hours_notes"></textarea>
+    </div>
+
+    <!-- Add/Remove/Change Team Meeting Section -->
+    <div id="AddremovechangeteammeetingFields" style="display:none;">
+      <label>Meeting Action:</label>
+      <input type="radio" name="team_meeting_action" value="Add"> Add
+      <input type="radio" name="team_meeting_action" value="Remove"> Remove
+      <input type="radio" name="team_meeting_action" value="Change"> Change
+
+      <label>Meeting Date:</label>
+      <input type="date" name="team_meeting_date">
+
+      <label>Start Time:</label>
+      <input type="text" name="team_meeting_start" placeholder="HH:MM AM/PM">
+
+      <label>End Time:</label>
+      <input type="text" name="team_meeting_end" placeholder="HH:MM AM/PM">
+
+      <label>Notes or Reason:</label>
+      <textarea name="team_meeting_notes" placeholder="Explain the context or reason for this meeting request."></textarea>
     </div>
 
     <!-- Add Offline Segment -->
@@ -276,11 +296,17 @@
       </select>
 
       <label>Notes or Reason:</label>
-      <textarea name="offline_segment_notes" placeholder="Explain the context or reason."></textarea>
+      <textarea name="offline_segment_notes"></textarea>
     </div>
 
     <!-- Advisor Arrived Late -->
     <div id="AdvisorarrivedlateremoveabsenceFields" style="display:none;">
+      <label>Actual Start Time:</label>
+      <input type="text" name="actual_start_time" placeholder="HH:MM AM/PM">
+
+      <label>Actual Arrival Time:</label>
+      <input type="text" name="actual_arrival_time" placeholder="HH:MM AM/PM">
+
       <label>Notes or Reason:</label>
       <textarea name="late_arrival_notes" placeholder="Explain the context or reason for removing the absence."></textarea>
     </div>
@@ -331,14 +357,36 @@
   }
 
   function validateForm() {
-    const required = ['advisor_name', 'request_date', 'lob', 'team_lead'];
-    for (let name of required) {
-      const el = document.querySelector(`[name="${name}"]`);
-      if (!el.value.trim()) {
-        alert("Please complete all required fields.");
+    const advisorName = document.querySelector('input[name="advisor_name"]');
+    const requestDate = document.querySelector('input[name="request_date"]');
+    const lob = document.querySelector('select[name="lob"]');
+    const teamLead = document.querySelector('select[name="team_lead"]');
+    const requestType = document.getElementById("wfm_request").value;
+
+    if (!advisorName.value || !requestDate.value || !lob.value || !teamLead.value || !requestType) {
+      alert("Please complete all required fields.");
+      return false;
+    }
+
+    // ✅ Team Meeting validation
+    if (requestType === "Add/remove/change team meeting") {
+      const action = document.querySelector('input[name="team_meeting_action"]:checked');
+      const date = document.querySelector('input[name="team_meeting_date"]');
+      const start = document.querySelector('input[name="team_meeting_start"]');
+      const end = document.querySelector('input[name="team_meeting_end"]');
+      const notes = document.querySelector('textarea[name="team_meeting_notes"]');
+
+      if (!action || !date.value || !start.value || !end.value) {
+        alert("Please complete all required fields for the team meeting.");
+        return false;
+      }
+
+      if (!notes.value.trim()) {
+        alert("Please provide notes or a reason for the team meeting request.");
         return false;
       }
     }
+
     return true;
   }
 </script>
