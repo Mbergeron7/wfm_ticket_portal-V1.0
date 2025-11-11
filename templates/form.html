@@ -400,6 +400,31 @@
 <button type="submit">Submit</button>
 </form>
 
+<!-- Employee status update (not for schedule changes) -->
+<div id="EmployeestatusupdatenotforschedulechangesFields" class="section">
+  <label>Employee Name or ID:</label>
+  <input type="text" name="status_update_employee" required>
+
+  <label>Status Change:</label>
+  <select name="status_update_type" id="status_update_type" onchange="toggleReturnToWork()" required>
+    <option value="" disabled selected>Select status</option>
+    <option value="Active">Active</option>
+    <option value="Inactive">Inactive</option>
+    <option value="Update">Update</option>
+  </select>
+
+  <label>Effective Date:</label>
+  <input type="date" name="status_update_effective_date" required>
+
+  <div id="returnToWorkContainer" style="display:none;">
+    <label>Return to Work Date:</label>
+    <input type="date" name="status_update_return_date">
+  </div>
+
+  <label>Notes or Reason:</label>
+  <textarea name="status_update_notes" placeholder="Explain the context or reason for this status change." required></textarea>
+</div>
+
 <script>
 function toggleRequestFields() {
   const selected = document.getElementById("wfm_request").value;
@@ -410,56 +435,112 @@ function toggleRequestFields() {
     "Move break/lunch because of meeting","Schedule Update - CP3 use","Schedule Error Adjustment",
     "Shift swap/offer","Suggestions/Feedback","Unpaid time off/vacation","Testing"
   ];
-  allTypes.forEach(type=>{
-    const id = type.replace(/[\s\/(),]/g,'')+"Fields";
-    const section=document.getElementById(id);
-    if(section){section.style.display=(type===selected)?"block":"none";}
+  allTypes.forEach(type => {
+    const id = type.replace(/[\s\/(),]/g, '') + "Fields";
+    const section = document.getElementById(id);
+    if (section) section.style.display = (type === selected) ? "block" : "none";
   });
 }
-function toggleAccommodationCP3(show){
-  const el=document.getElementById("cp3Upload");
-  if(el)el.style.display=show?"block":"none";
+
+function toggleAccommodationCP3(show) {
+  const el = document.getElementById("cp3Upload");
+  if (el) el.style.display = show ? "block" : "none";
 }
-function toggleAdditionalHoursMode(multi){
-  document.getElementById("singleDayFields").style.display=multi?"none":"block";
-  document.getElementById("multiDayFields").style.display=multi?"block":"none";
+
+function toggleAdditionalHoursMode(multi) {
+  document.getElementById("singleDayFields").style.display = multi ? "none" : "block";
+  document.getElementById("multiDayFields").style.display = multi ? "block" : "none";
 }
-function validateForm(){
-  const req=document.getElementById("wfm_request").value;
-  if(req==="Add/remove/change team meeting"){
-    const a=document.querySelector('input[name="team_meeting_action"]:checked');
-    const d=document.querySelector('input[name="team_meeting_date"]');
-    const s=document.querySelector('input[name="team_meeting_start"]');
-    const e=document.querySelector('input[name="team_meeting_end"]');
-    const n=document.querySelector('textarea[name="team_meeting_notes"]');
-    if(!a||!d.value||!s.value||!e.value){alert("Please complete all required fields for the team meeting.");return false;}
-    if(!n.value.trim()){alert("Please provide notes or a reason for the team meeting request.");return false;}
+
+function toggleReturnToWork() {
+  const status = document.getElementById("status_update_type").value;
+  const returnField = document.getElementById("returnToWorkContainer");
+  if (returnField) {
+    returnField.style.display = (status === "Inactive") ? "block" : "none";
   }
-  if(req==="Add/remove/move training"){
-    const a=document.querySelector('input[name="training_action"]:checked');
-    const d=document.querySelector('input[name="training_date"]');
-    const s=document.querySelector('input[name="training_start"]');
-    const e=document.querySelector('input[name="training_end"]');
-    const n=document.querySelector('textarea[name="training_notes"]');
-    if(!a||!d.value||!s.value||!e.value){alert("Please complete all required fields for the training request.");return false;}
-    if(!n.value.trim()){alert("Please provide notes or a reason for the training request.");return false;}
+}
+
+function validateForm() {
+  const req = document.getElementById("wfm_request").value;
+
+  if (req === "Add/remove/change team meeting") {
+    const a = document.querySelector('input[name="team_meeting_action"]:checked');
+    const d = document.querySelector('input[name="team_meeting_date"]');
+    const s = document.querySelector('input[name="team_meeting_start"]');
+    const e = document.querySelector('input[name="team_meeting_end"]');
+    const n = document.querySelector('textarea[name="team_meeting_notes"]');
+    if (!a || !d.value || !s.value || !e.value) {
+      alert("Please complete all required fields for the team meeting.");
+      return false;
+    }
+    if (!n.value.trim()) {
+      alert("Please provide notes or a reason for the team meeting request.");
+      return false;
+    }
   }
-  if(req==="Advisor arrived late, remove absence"){
-    const s=document.querySelector('input[name="actual_start_time"]');
-    const a=document.querySelector('input[name="actual_arrival_time"]');
-    const n=document.querySelector('textarea[name="late_arrival_notes"]');
-    if(!s.value||!a.value){alert("Please fill both Actual Start and Arrival times.");return false;}
-    if(!n.value.trim()){alert("Please provide notes for the late arrival.");return false;}
+
+  if (req === "Add/remove/move training") {
+    const a = document.querySelector('input[name="training_action"]:checked');
+    const d = document.querySelector('input[name="training_date"]');
+    const s = document.querySelector('input[name="training_start"]');
+    const e = document.querySelector('input[name="training_end"]');
+    const n = document.querySelector('textarea[name="training_notes"]');
+    if (!a || !d.value || !s.value || !e.value) {
+      alert("Please complete all required fields for the training request.");
+      return false;
+    }
+    if (!n.value.trim()) {
+      alert("Please provide notes or a reason for the training request.");
+      return false;
+    }
   }
-  if(req==="CP skill update"){
-    const add=document.querySelector('select[name="skill_add"]');
-    const rem=document.querySelector('select[name="skill_remove"]');
-    const n=document.querySelector('textarea[name="cp_skill_notes"]');
-    if((!add.value&&!rem.value)||!n.value.trim()){alert("Select at least one skill to add or remove and provide notes.");return false;}
+
+  if (req === "Advisor arrived late, remove absence") {
+    const s = document.querySelector('input[name="actual_start_time"]');
+    const a = document.querySelector('input[name="actual_arrival_time"]');
+    const n = document.querySelector('textarea[name="late_arrival_notes"]');
+    if (!s.value || !a.value) {
+      alert("Please fill both Actual Start and Arrival times.");
+      return false;
+    }
+    if (!n.value.trim()) {
+      alert("Please provide notes for the late arrival.");
+      return false;
+    }
   }
+
+  if (req === "CP skill update") {
+    const add = document.querySelector('select[name="skill_add"]');
+    const rem = document.querySelector('select[name="skill_remove"]');
+    const n = document.querySelector('textarea[name="cp_skill_notes"]');
+    if ((!add.value && !rem.value) || !n.value.trim()) {
+      alert("Select at least one skill to add or remove and provide notes.");
+      return false;
+    }
+  }
+
+  if (req === "Employee status update (not for schedule changes)") {
+    const emp = document.querySelector('input[name="status_update_employee"]');
+    const type = document.querySelector('select[name="status_update_type"]');
+    const eff = document.querySelector('input[name="status_update_effective_date"]');
+    const ret = document.querySelector('input[name="status_update_return_date"]');
+    const notes = document.querySelector('textarea[name="status_update_notes"]');
+    if (!emp.value || !type.value || !eff.value) {
+      alert("Please complete all required fields for the status update.");
+      return false;
+    }
+    if (type.value === "Inactive" && !ret.value) {
+      alert("Please provide a Return to Work date for inactive status.");
+      return false;
+    }
+    if (!notes.value.trim()) {
+      alert("Please provide notes or a reason for the status update.");
+      return false;
+    }
+  }
+
   return true;
 }
 </script>
 </body>
 </html>
-
