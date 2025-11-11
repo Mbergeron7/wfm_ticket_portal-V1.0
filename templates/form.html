@@ -400,20 +400,21 @@
 <button type="submit">Submit</button>
 </form>
 
-<!-- Employee status update (not for schedule changes) -->
+<!-- Employee Status Update (Not for Schedule Changes) -->
 <div id="EmployeestatusupdatenotforschedulechangesFields" class="section">
+  <h3>Employee Status Update</h3>
+
   <label>Employee Name or ID:</label>
-  <input type="text" name="status_update_employee" required>
+  <input type="text" name="status_update_employee" placeholder="Enter full name or ID" required>
 
   <label>Status Change:</label>
-  <select name="status_update_type" id="status_update_type" onchange="toggleReturnToWork()" required>
-    <option value="" disabled selected>Select status</option>
-    <option value="Active">Active</option>
-    <option value="Inactive">Inactive</option>
-    <option value="Update">Update</option>
-  </select>
+  <div style="margin-top: 8px;">
+    <input type="radio" name="status_update_type" value="Active" onclick="toggleReturnToWork()" required> Active
+    <input type="radio" name="status_update_type" value="Inactive" onclick="toggleReturnToWork()"> Inactive
+    <input type="radio" name="status_update_type" value="Update" onclick="toggleReturnToWork()"> Update
+  </div>
 
-  <label>Effective Date:</label>
+  <label style="margin-top: 20px;">Effective Date of Status Change:</label>
   <input type="date" name="status_update_effective_date" required>
 
   <div id="returnToWorkContainer" style="display:none;">
@@ -425,15 +426,19 @@
   <textarea name="status_update_notes" placeholder="Explain the context or reason for this status change." required></textarea>
 </div>
 
+  <label>Notes or Reason:</label>
+  <textarea name="status_update_notes" placeholder="Explain the context or reason for this status change." required></textarea>
+</div>
+
 <script>
 function toggleRequestFields() {
   const selected = document.getElementById("wfm_request").value;
   const allTypes = [
-    "Accommodation request/update","Add additional hours","Add/remove/change team meeting",
-    "Add/remove/move training","Add offline segment","Advisor arrived late, remove absence",
-    "CP skill update","Employee status update (not for schedule changes)","Is OT available?",
-    "Move break/lunch because of meeting","Schedule Update - CP3 use","Schedule Error Adjustment",
-    "Shift swap/offer","Suggestions/Feedback","Unpaid time off/vacation","Testing"
+    "Accommodation request/update", "Add additional hours", "Add/remove/change team meeting",
+    "Add/remove/move training", "Add offline segment", "Advisor arrived late, remove absence",
+    "CP skill update", "Employee status update (not for schedule changes)", "Is OT available?",
+    "Move break/lunch because of meeting", "Schedule Update - CP3 use", "Schedule Error Adjustment",
+    "Shift swap/offer", "Suggestions/Feedback", "Unpaid time off/vacation", "Testing"
   ];
   allTypes.forEach(type => {
     const id = type.replace(/[\s\/(),]/g, '') + "Fields";
@@ -453,10 +458,10 @@ function toggleAdditionalHoursMode(multi) {
 }
 
 function toggleReturnToWork() {
-  const status = document.getElementById("status_update_type").value;
+  const status = document.querySelector('input[name="status_update_type"]:checked');
   const returnField = document.getElementById("returnToWorkContainer");
   if (returnField) {
-    returnField.style.display = (status === "Inactive") ? "block" : "none";
+    returnField.style.display = (status && status.value === "Inactive") ? "block" : "none";
   }
 }
 
@@ -521,11 +526,11 @@ function validateForm() {
 
   if (req === "Employee status update (not for schedule changes)") {
     const emp = document.querySelector('input[name="status_update_employee"]');
-    const type = document.querySelector('select[name="status_update_type"]');
+    const type = document.querySelector('input[name="status_update_type"]:checked');
     const eff = document.querySelector('input[name="status_update_effective_date"]');
     const ret = document.querySelector('input[name="status_update_return_date"]');
     const notes = document.querySelector('textarea[name="status_update_notes"]');
-    if (!emp.value || !type.value || !eff.value) {
+    if (!emp.value || !type || !eff.value) {
       alert("Please complete all required fields for the status update.");
       return false;
     }
@@ -544,3 +549,4 @@ function validateForm() {
 </script>
 </body>
 </html>
+
