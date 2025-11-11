@@ -268,6 +268,26 @@
       <textarea name="team_meeting_notes" placeholder="Explain the context or reason for this meeting request."></textarea>
     </div>
 
+    <!-- Add/Remove/Move Training Section -->
+    <div id="AddremovemovetrainingFields" style="display:none;">
+      <label>Training Action:</label>
+      <input type="radio" name="training_action" value="Add"> Add
+      <input type="radio" name="training_action" value="Remove"> Remove
+      <input type="radio" name="training_action" value="Move"> Move
+
+      <label>Training Date:</label>
+      <input type="date" name="training_date">
+
+      <label>Start Time:</label>
+      <input type="text" name="training_start" placeholder="HH:MM AM/PM">
+
+      <label>End Time:</label>
+      <input type="text" name="training_end" placeholder="HH:MM AM/PM">
+
+      <label>Notes or Reason:</label>
+      <textarea name="training_notes" placeholder="Explain the context or reason for this training request."></textarea>
+    </div>
+
     <!-- Add Offline Segment -->
     <div id="AddofflinesegmentFields" style="display:none;">
       <label>Offline Segment Date:</label>
@@ -383,6 +403,25 @@
 
       if (!notes.value.trim()) {
         alert("Please provide notes or a reason for the team meeting request.");
+        return false;
+      }
+    }
+
+    // ✅ Training validation
+    if (requestType === "Add/remove/move training") {
+      const action = document.querySelector('input[name="training_action"]:checked');
+      const date = document.querySelector('input[name="training_date"]');
+      const start = document.querySelector('input[name="training_start"]');
+      const end = document.querySelector('input[name="training_end"]');
+      const notes = document.querySelector('textarea[name="training_notes"]');
+
+      if (!action || !date.value || !start.value || !end.value) {
+        alert("Please complete all required fields for the training request.");
+        return false;
+      }
+
+      if (!notes.value.trim()) {
+        alert("Please provide notes or a reason for the training request.");
         return false;
       }
     }
