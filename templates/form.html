@@ -360,6 +360,7 @@
     <option value="" disabled selected>Select language</option>
     <option value="English">English</option>
     <option value="French">French</option>
+    <option value="Bilingual">Bilingual</option>
   </select>
 
   <!-- Original Remove Section (English) -->
@@ -393,6 +394,23 @@
     </select>
   </div>
 
+  <!-- New Remove Section (Bilingual) -->
+  <div id="orig_remove_bi">
+    <label>Skill(s) to Remove – Bilingual:</label>
+    <select name="skill_remove_bi">
+      <option value="">-- Select Bilingual Skill to Remove --</option>
+      <option>MoveBuddy Bilingual</option>
+      <option>PS CC Bilingual</option>
+      <option>PS Sales Bilingual</option>
+      <option>PS Test Bilingual</option>
+      <option>SS CM Bilingual</option>
+      <option>SS Sales Bilingual</option>
+      <option>SS Test Bilingual</option>
+      <option>SS WL Bilingual</option>
+      <option>PS WL Bilingual</option>
+    </select>
+  </div>
+
   <!-- Original Add Section (English) -->
   <div id="orig_add_en">
     <label>Skill(s) to Add – English:</label>
@@ -421,6 +439,23 @@
       <option>SS CM FR</option>
       <option>SS Sales FR</option>
       <option>SS WL FR</option>
+    </select>
+  </div>
+
+  <!-- New Add Section (Bilingual) -->
+  <div id="orig_add_bi">
+    <label>Skill(s) to Add – Bilingual:</label>
+    <select name="skill_add_bi">
+      <option value="">-- Select Bilingual Skill to Add --</option>
+      <option>MoveBuddy Bilingual</option>
+      <option>PS CC Bilingual</option>
+      <option>PS Sales Bilingual</option>
+      <option>PS Test Bilingual</option>
+      <option>SS CM Bilingual</option>
+      <option>SS Sales Bilingual</option>
+      <option>SS Test Bilingual</option>
+      <option>SS WL Bilingual</option>
+      <option>PS WL Bilingual</option>
     </select>
   </div>
 
@@ -564,10 +599,12 @@ function toggleReturnToWork() {
 function toggleCPSkillLanguage() {
   const lang = document.getElementById("cp_language").value;
   // Show/hide original blocks -- keep them in DOM so nothing is removed
-  document.getElementById("orig_remove_en").style.display = (lang === "English") ? "block" : "none";
-  document.getElementById("orig_add_en").style.display = (lang === "English") ? "block" : "none";
-  document.getElementById("orig_remove_fr").style.display = (lang === "French") ? "block" : "none";
-  document.getElementById("orig_add_fr").style.display = (lang === "French") ? "block" : "none";
+  if (document.getElementById("orig_remove_en")) document.getElementById("orig_remove_en").style.display = (lang === "English") ? "block" : "none";
+  if (document.getElementById("orig_add_en")) document.getElementById("orig_add_en").style.display = (lang === "English") ? "block" : "none";
+  if (document.getElementById("orig_remove_fr")) document.getElementById("orig_remove_fr").style.display = (lang === "French") ? "block" : "none";
+  if (document.getElementById("orig_add_fr")) document.getElementById("orig_add_fr").style.display = (lang === "French") ? "block" : "none";
+  if (document.getElementById("orig_remove_bi")) document.getElementById("orig_remove_bi").style.display = (lang === "Bilingual") ? "block" : "none";
+  if (document.getElementById("orig_add_bi")) document.getElementById("orig_add_bi").style.display = (lang === "Bilingual") ? "block" : "none";
 }
 
 /* Basic page-load: hide all CP skill original selects until language selected (but keep DOM) */
@@ -577,6 +614,8 @@ document.addEventListener("DOMContentLoaded", function() {
   if (document.getElementById("orig_add_en")) document.getElementById("orig_add_en").style.display = "none";
   if (document.getElementById("orig_remove_fr")) document.getElementById("orig_remove_fr").style.display = "none";
   if (document.getElementById("orig_add_fr")) document.getElementById("orig_add_fr").style.display = "none";
+  if (document.getElementById("orig_remove_bi")) document.getElementById("orig_remove_bi").style.display = "none";
+  if (document.getElementById("orig_add_bi")) document.getElementById("orig_add_bi").style.display = "none";
 
   // Also ensure Employee return-to-work container hidden initially
   const rtw = document.getElementById("returnToWorkContainer");
@@ -670,6 +709,20 @@ function validateForm() {
         const remFr = document.querySelector('select[name="skill_remove_fr"]');
         if (!remFr || !remFr.value) {
           alert("Select a French skill to remove.");
+          return false;
+        }
+      }
+    } else if (lang.value === "Bilingual") {
+      if (action.value === "Add") {
+        const addBi = document.querySelector('select[name="skill_add_bi"]');
+        if (!addBi || !addBi.value) {
+          alert("Select a bilingual skill to add.");
+          return false;
+        }
+      } else if (action.value === "Remove") {
+        const remBi = document.querySelector('select[name="skill_remove_bi"]');
+        if (!remBi || !remBi.value) {
+          alert("Select a bilingual skill to remove.");
           return false;
         }
       }
