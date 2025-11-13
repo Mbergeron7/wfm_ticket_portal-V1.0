@@ -545,26 +545,60 @@
 <div id="ScheduleUpdateCP3useFields" style="display:none;">
   <h3>Schedule Update - CP3 Use</h3>
 
-  <label>Old Start Time:</label>
-  <input type="time" name="cp3_old_start">
+  <p style="font-size: 13px; color: #555;">Select whether this update applies to a single day or a full week:</p>
+  <label><input type="radio" name="cp3_type" value="single" onclick="toggleCP3Type()"> Single Day</label>
+  <label><input type="radio" name="cp3_type" value="multi" onclick="toggleCP3Type()"> Multiple Days (Week Of)</label>
 
-  <label>Old End Time:</label>
-  <input type="time" name="cp3_old_end">
+  <div id="cp3_single_day" style="margin-top:15px; display:none;">
+    <label>Date:</label>
+    <input type="date" name="cp3_date">
 
-  <label>New Start Time:</label>
-  <input type="time" name="cp3_new_start">
+    <label>Old Start Time:</label>
+    <input type="time" name="cp3_old_start">
 
-  <label>New End Time:</label>
-  <input type="time" name="cp3_new_end">
+    <label>Old End Time:</label>
+    <input type="time" name="cp3_old_end">
+
+    <label>New Start Time:</label>
+    <input type="time" name="cp3_new_start">
+
+    <label>New End Time:</label>
+    <input type="time" name="cp3_new_end">
+  </div>
+
+  <div id="cp3_multi_day" style="margin-top:15px; display:none;">
+    <label>Week Of:</label>
+    <input type="date" name="cp3_week_of">
+
+    <p style="font-size: 13px; color: #555;">Enter new hours for each day of the week (leave blank if no change):</p>
+
+    <label>Monday:</label>
+    <input type="text" name="cp3_monday" placeholder="New Hours (e.g. 9:00 AM - 5:00 PM)">
+
+    <label>Tuesday:</label>
+    <input type="text" name="cp3_tuesday" placeholder="New Hours (e.g. 9:00 AM - 5:00 PM)">
+
+    <label>Wednesday:</label>
+    <input type="text" name="cp3_wednesday" placeholder="New Hours (e.g. 9:00 AM - 5:00 PM)">
+
+    <label>Thursday:</label>
+    <input type="text" name="cp3_thursday" placeholder="New Hours (e.g. 9:00 AM - 5:00 PM)">
+
+    <label>Friday:</label>
+    <input type="text" name="cp3_friday" placeholder="New Hours (e.g. 9:00 AM - 5:00 PM)">
+
+    <label>Saturday:</label>
+    <input type="text" name="cp3_saturday" placeholder="New Hours (optional)">
+
+    <label>Sunday:</label>
+    <input type="text" name="cp3_sunday" placeholder="New Hours (optional)">
+  </div>
 
   <hr style="margin: 25px 0;">
 
   <label>CP3 Approval Upload:</label>
   <input type="file" name="cp3_approval_file" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
-
-  <p style="font-size: 13px; color: #555;">
-    Please upload the approved CP3 form or email confirmation for schedule changes.
-  </p>
+  <p style="font-size: 13px; color: #555;">Please upload the approved CP3 form or email confirmation for schedule changes.</p>
 
   <hr style="margin: 25px 0;">
 
@@ -572,6 +606,21 @@
   <textarea name="cp3_notes" placeholder="Add any relevant details about this schedule update."></textarea>
 </div>
 
+<script>
+function toggleCP3Type() {
+  const single = document.getElementById('cp3_single_day');
+  const multi = document.getElementById('cp3_multi_day');
+  const selected = document.querySelector('input[name="cp3_type"]:checked')?.value;
+
+  if (selected === 'single') {
+    single.style.display = 'block';
+    multi.style.display = 'none';
+  } else if (selected === 'multi') {
+    single.style.display = 'none';
+    multi.style.display = 'block';
+  }
+}
+</script>
 
 <!-- Schedule Error Adjustment -->
 <div id="ScheduleErrorAdjustmentFields" style="display:none;">
@@ -818,5 +867,6 @@ function validateForm() {
 </script>
 </body>
 </html>
+
 
 
