@@ -549,49 +549,65 @@
   <label><input type="radio" name="cp3_type" value="single" onclick="toggleCP3Type()"> Single Day</label>
   <label><input type="radio" name="cp3_type" value="multi" onclick="toggleCP3Type()"> Multiple Days (Week Of)</label>
 
+  <!-- Single Day Section -->
   <div id="cp3_single_day" style="margin-top:15px; display:none;">
     <label>Date:</label>
     <input type="date" name="cp3_date">
 
     <label>Old Start Time:</label>
-    <input type="time" name="cp3_old_start">
+    <input type="text" name="cp3_old_start" placeholder="e.g. 9:00 AM">
 
     <label>Old End Time:</label>
-    <input type="time" name="cp3_old_end">
+    <input type="text" name="cp3_old_end" placeholder="e.g. 5:00 PM">
 
     <label>New Start Time:</label>
-    <input type="time" name="cp3_new_start">
+    <input type="text" name="cp3_new_start" placeholder="e.g. 8:30 AM">
 
     <label>New End Time:</label>
-    <input type="time" name="cp3_new_end">
+    <input type="text" name="cp3_new_end" placeholder="e.g. 4:30 PM">
   </div>
 
+  <!-- Multi Day Section -->
   <div id="cp3_multi_day" style="margin-top:15px; display:none;">
     <label>Week Of:</label>
     <input type="date" name="cp3_week_of">
 
-    <p style="font-size: 13px; color: #555;">Enter new hours for each day of the week (leave blank if no change):</p>
+    <p style="font-size: 13px; color: #555;">Select which days to update and enter the new hours for those days:</p>
 
-    <label>Monday:</label>
-    <input type="text" name="cp3_monday" placeholder="New Hours (e.g. 9:00 AM - 5:00 PM)">
+    <div class="cp3-day">
+      <label><input type="checkbox" onclick="toggleDayInput('cp3_monday')"> Monday:</label>
+      <input type="text" id="cp3_monday" name="cp3_monday" placeholder="New Hours (e.g. 9:00 AM - 5:00 PM)" disabled>
+    </div>
 
-    <label>Tuesday:</label>
-    <input type="text" name="cp3_tuesday" placeholder="New Hours (e.g. 9:00 AM - 5:00 PM)">
+    <div class="cp3-day">
+      <label><input type="checkbox" onclick="toggleDayInput('cp3_tuesday')"> Tuesday:</label>
+      <input type="text" id="cp3_tuesday" name="cp3_tuesday" placeholder="New Hours (e.g. 9:00 AM - 5:00 PM)" disabled>
+    </div>
 
-    <label>Wednesday:</label>
-    <input type="text" name="cp3_wednesday" placeholder="New Hours (e.g. 9:00 AM - 5:00 PM)">
+    <div class="cp3-day">
+      <label><input type="checkbox" onclick="toggleDayInput('cp3_wednesday')"> Wednesday:</label>
+      <input type="text" id="cp3_wednesday" name="cp3_wednesday" placeholder="New Hours (e.g. 9:00 AM - 5:00 PM)" disabled>
+    </div>
 
-    <label>Thursday:</label>
-    <input type="text" name="cp3_thursday" placeholder="New Hours (e.g. 9:00 AM - 5:00 PM)">
+    <div class="cp3-day">
+      <label><input type="checkbox" onclick="toggleDayInput('cp3_thursday')"> Thursday:</label>
+      <input type="text" id="cp3_thursday" name="cp3_thursday" placeholder="New Hours (e.g. 9:00 AM - 5:00 PM)" disabled>
+    </div>
 
-    <label>Friday:</label>
-    <input type="text" name="cp3_friday" placeholder="New Hours (e.g. 9:00 AM - 5:00 PM)">
+    <div class="cp3-day">
+      <label><input type="checkbox" onclick="toggleDayInput('cp3_friday')"> Friday:</label>
+      <input type="text" id="cp3_friday" name="cp3_friday" placeholder="New Hours (e.g. 9:00 AM - 5:00 PM)" disabled>
+    </div>
 
-    <label>Saturday:</label>
-    <input type="text" name="cp3_saturday" placeholder="New Hours (optional)">
+    <div class="cp3-day">
+      <label><input type="checkbox" onclick="toggleDayInput('cp3_saturday')"> Saturday:</label>
+      <input type="text" id="cp3_saturday" name="cp3_saturday" placeholder="New Hours (optional)" disabled>
+    </div>
 
-    <label>Sunday:</label>
-    <input type="text" name="cp3_sunday" placeholder="New Hours (optional)">
+    <div class="cp3-day">
+      <label><input type="checkbox" onclick="toggleDayInput('cp3_sunday')"> Sunday:</label>
+      <input type="text" id="cp3_sunday" name="cp3_sunday" placeholder="New Hours (optional)" disabled>
+    </div>
   </div>
 
   <hr style="margin: 25px 0;">
@@ -618,6 +634,16 @@ function toggleCP3Type() {
   } else if (selected === 'multi') {
     single.style.display = 'none';
     multi.style.display = 'block';
+  }
+}
+
+function toggleDayInput(dayId) {
+  const input = document.getElementById(dayId);
+  if (input) {
+    input.disabled = !input.disabled;
+    if (input.disabled) {
+      input.value = '';
+    }
   }
 }
 </script>
@@ -867,6 +893,7 @@ function validateForm() {
 </script>
 </body>
 </html>
+
 
 
 
