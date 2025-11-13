@@ -648,13 +648,107 @@ function toggleDayInput(dayId) {
 }
 </script>
 
-<!-- Schedule Error Adjustment -->
-<div id="ScheduleErrorAdjustmentFields" style="display:none;">
-  <label>Error Description:</label>
-  <textarea name="schedule_error_description"></textarea>
-  <label>Corrective Action:</label>
-  <textarea name="schedule_correction"></textarea>
+<!-- Schedule Error Adjust -->
+<div id="ScheduleErrorAdjustFields" style="display:none;">
+  <h3>Schedule Error Adjust</h3>
+
+  <p style="font-size: 13px; color: #555;">Select whether this adjustment applies to a single day or a full week:</p>
+  <label><input type="radio" name="error_adjust_type" value="single" onclick="toggleErrorAdjustType()"> Single Day</label>
+  <label><input type="radio" name="error_adjust_type" value="multi" onclick="toggleErrorAdjustType()"> Multiple Days (Week Of)</label>
+
+  <!-- Single Day Section -->
+  <div id="error_adjust_single_day" style="margin-top:15px; display:none;">
+    <label>Date:</label>
+    <input type="date" name="error_adjust_date">
+
+    <label>Old Start Time:</label>
+    <input type="text" name="error_adjust_old_start" placeholder="e.g. 9:00 AM">
+
+    <label>Old End Time:</label>
+    <input type="text" name="error_adjust_old_end" placeholder="e.g. 5:00 PM">
+
+    <label>New Start Time:</label>
+    <input type="text" name="error_adjust_new_start" placeholder="e.g. 8:30 AM">
+
+    <label>New End Time:</label>
+    <input type="text" name="error_adjust_new_end" placeholder="e.g. 4:30 PM">
+  </div>
+
+  <!-- Multi Day Section -->
+  <div id="error_adjust_multi_day" style="margin-top:15px; display:none;">
+    <label>Week Of:</label>
+    <input type="date" name="error_adjust_week_of">
+
+    <p style="font-size: 13px; color: #555;">Select which days to adjust and enter the corrected hours for those days:</p>
+
+    <div class="error-day">
+      <label><input type="checkbox" onclick="toggleErrorDayInput('error_adjust_monday')"> Monday:</label>
+      <input type="text" id="error_adjust_monday" name="error_adjust_monday" placeholder="New Hours (e.g. 9:00 AM - 5:00 PM)" disabled>
+    </div>
+
+    <div class="error-day">
+      <label><input type="checkbox" onclick="toggleErrorDayInput('error_adjust_tuesday')"> Tuesday:</label>
+      <input type="text" id="error_adjust_tuesday" name="error_adjust_tuesday" placeholder="New Hours (e.g. 9:00 AM - 5:00 PM)" disabled>
+    </div>
+
+    <div class="error-day">
+      <label><input type="checkbox" onclick="toggleErrorDayInput('error_adjust_wednesday')"> Wednesday:</label>
+      <input type="text" id="error_adjust_wednesday" name="error_adjust_wednesday" placeholder="New Hours (e.g. 9:00 AM - 5:00 PM)" disabled>
+    </div>
+
+    <div class="error-day">
+      <label><input type="checkbox" onclick="toggleErrorDayInput('error_adjust_thursday')"> Thursday:</label>
+      <input type="text" id="error_adjust_thursday" name="error_adjust_thursday" placeholder="New Hours (e.g. 9:00 AM - 5:00 PM)" disabled>
+    </div>
+
+    <div class="error-day">
+      <label><input type="checkbox" onclick="toggleErrorDayInput('error_adjust_friday')"> Friday:</label>
+      <input type="text" id="error_adjust_friday" name="error_adjust_friday" placeholder="New Hours (e.g. 9:00 AM - 5:00 PM)" disabled>
+    </div>
+
+    <div class="error-day">
+      <label><input type="checkbox" onclick="toggleErrorDayInput('error_adjust_saturday')"> Saturday:</label>
+      <input type="text" id="error_adjust_saturday" name="error_adjust_saturday" placeholder="New Hours (optional)" disabled>
+    </div>
+
+    <div class="error-day">
+      <label><input type="checkbox" onclick="toggleErrorDayInput('error_adjust_sunday')"> Sunday:</label>
+      <input type="text" id="error_adjust_sunday" name="error_adjust_sunday" placeholder="New Hours (optional)" disabled>
+    </div>
+  </div>
+
+  <hr style="margin: 25px 0;">
+
+  <label>Notes:</label>
+  <textarea name="error_adjust_notes" placeholder="Add any relevant details about this schedule adjustment."></textarea>
 </div>
+
+<script>
+function toggleErrorAdjustType() {
+  const single = document.getElementById('error_adjust_single_day');
+  const multi = document.getElementById('error_adjust_multi_day');
+  const selected = document.querySelector('input[name="error_adjust_type"]:checked')?.value;
+
+  if (selected === 'single') {
+    single.style.display = 'block';
+    multi.style.display = 'none';
+  } else if (selected === 'multi') {
+    single.style.display = 'none';
+    multi.style.display = 'block';
+  }
+}
+
+function toggleErrorDayInput(dayId) {
+  const input = document.getElementById(dayId);
+  if (input) {
+    input.disabled = !input.disabled;
+    if (input.disabled) {
+      input.value = '';
+    }
+  }
+}
+</script>
+
 
 <!-- Shift swap/offer -->
 <div id="ShiftswapofferFields" style="display:none;">
@@ -893,6 +987,7 @@ function validateForm() {
 </script>
 </body>
 </html>
+
 
 
 
