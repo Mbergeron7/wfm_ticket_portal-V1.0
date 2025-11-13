@@ -494,9 +494,42 @@
 <div id="IsOTavailableFields" style="display:none;">
   <label>OT Date:</label>
   <input type="date" name="ot_date">
+
   <label>Notes:</label>
-  <textarea name="ot_notes"></textarea>
+  <textarea name="ot_notes" placeholder="Add any notes about OT availability."></textarea>
+
+  <hr style="margin: 25px 0;">
+
+  <h3>OT Availability</h3>
+
+  <p style="font-size: 13px; color: #555;">Enter the start and end times you’re available for overtime each day (if applicable):</p>
+
+  <label>Monday:</label>
+  <input type="text" name="ot_monday" placeholder="Start/End (HH:MM AM/PM)">
+  
+  <label>Tuesday:</label>
+  <input type="text" name="ot_tuesday" placeholder="Start/End (HH:MM AM/PM)">
+  
+  <label>Wednesday:</label>
+  <input type="text" name="ot_wednesday" placeholder="Start/End (HH:MM AM/PM)">
+  
+  <label>Thursday:</label>
+  <input type="text" name="ot_thursday" placeholder="Start/End (HH:MM AM/PM)">
+  
+  <label>Friday:</label>
+  <input type="text" name="ot_friday" placeholder="Start/End (HH:MM AM/PM)">
+  
+  <label>Saturday:</label>
+  <input type="text" name="ot_saturday" placeholder="Start/End (HH:MM AM/PM)">
+  
+  <label>Sunday:</label>
+  <input type="text" name="ot_sunday" placeholder="Start/End (HH:MM AM/PM)">
+
+  <label>Total Weekly OT Hours (optional):</label>
+  <input type="number" name="ot_weekly_hours" min="0" placeholder="Enter total OT hours">
+
 </div>
+
 
 <!-- Move break/lunch because of meeting -->
 <div id="MovebreaklunchbecauseofmeetingFields" style="display:none;">
@@ -759,3 +792,4 @@ function validateForm() {
 </script>
 </body>
 </html>
+
