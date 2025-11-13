@@ -541,11 +541,37 @@
   <textarea name="break_notes"></textarea>
 </div>
 
-<!-- Schedule Update - CP3 use -->
+<!-- Schedule Update - CP3 Use -->
 <div id="ScheduleUpdateCP3useFields" style="display:none;">
-  <label>Schedule Update Details:</label>
-  <textarea name="schedule_update_details"></textarea>
+  <h3>Schedule Update - CP3 Use</h3>
+
+  <label>Old Start Time:</label>
+  <input type="time" name="cp3_old_start">
+
+  <label>Old End Time:</label>
+  <input type="time" name="cp3_old_end">
+
+  <label>New Start Time:</label>
+  <input type="time" name="cp3_new_start">
+
+  <label>New End Time:</label>
+  <input type="time" name="cp3_new_end">
+
+  <hr style="margin: 25px 0;">
+
+  <label>CP3 Approval Upload:</label>
+  <input type="file" name="cp3_approval_file" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
+
+  <p style="font-size: 13px; color: #555;">
+    Please upload the approved CP3 form or email confirmation for schedule changes.
+  </p>
+
+  <hr style="margin: 25px 0;">
+
+  <label>Notes:</label>
+  <textarea name="cp3_notes" placeholder="Add any relevant details about this schedule update."></textarea>
 </div>
+
 
 <!-- Schedule Error Adjustment -->
 <div id="ScheduleErrorAdjustmentFields" style="display:none;">
@@ -792,4 +818,5 @@ function validateForm() {
 </script>
 </body>
 </html>
+
 
