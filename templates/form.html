@@ -755,11 +755,97 @@ function toggleErrorAdjustmentDayInput(dayId) {
 }
 </script>
 
-<!-- Shift swap/offer -->
-<div id="ShiftswapofferFields" style="display:none;">
-  <label>Swap/Offer Details:</label>
-  <textarea name="swap_offer_details"></textarea>
+<!-- Shift Swap / Offer -->
+<div id="ShiftSwapOfferFields" style="display:none;">
+  <h3>Shift Swap / Offer</h3>
+
+  <p style="font-size: 13px; color: #555;">Select the type of request:</p>
+  <label><input type="radio" name="shift_type" value="offer" onclick="toggleShiftType()"> Shift Offer</label>
+  <label><input type="radio" name="shift_type" value="swap" onclick="toggleShiftType()"> Shift Swap</label>
+
+  <!-- Shift Offer Section -->
+  <div id="shift_offer_section" style="margin-top:15px; display:none;">
+    <label>Date of Shift:</label>
+    <input type="date" name="shift_offer_date">
+
+    <label>Shift Start Time:</label>
+    <input type="text" name="shift_offer_start" placeholder="e.g. 9:00 AM">
+
+    <label>Shift End Time:</label>
+    <input type="text" name="shift_offer_end" placeholder="e.g. 5:00 PM">
+
+    <label>Person Offering the Shift:</label>
+    <input type="text" name="shift_offer_person" placeholder="Full Name">
+  </div>
+
+  <!-- Shift Swap Section -->
+  <div id="shift_swap_section" style="margin-top:15px; display:none;">
+    <h4>Employee 1 (Your Shift)</h4>
+    <label>Date of Your Shift:</label>
+    <input type="date" name="shift_swap_emp1_date">
+
+    <label>Your Shift Start Time:</label>
+    <input type="text" name="shift_swap_emp1_start" placeholder="e.g. 9:00 AM">
+
+    <label>Your Shift End Time:</label>
+    <input type="text" name="shift_swap_emp1_end" placeholder="e.g. 5:00 PM">
+
+    <label>Your Name:</label>
+    <input type="text" name="shift_swap_emp1_name" placeholder="Full Name">
+
+    <hr style="margin: 20px 0;">
+
+    <h4>Employee 2 (Swap Partner)</h4>
+    <label>Date of Partner's Shift:</label>
+    <input type="date" name="shift_swap_emp2_date">
+
+    <label>Partner's Shift Start Time:</label>
+    <input type="text" name="shift_swap_emp2_start" placeholder="e.g. 8:00 AM">
+
+    <label>Partner's Shift End Time:</label>
+    <input type="text" name="shift_swap_emp2_end" placeholder="e.g. 4:00 PM">
+
+    <label>Partner's Name:</label>
+    <input type="text" name="shift_swap_emp2_name" placeholder="Full Name">
+  </div>
+
+  <hr style="margin: 25px 0;">
+
+  <label>Was this submitted in PeopleWare?</label>
+  <select name="shift_peopleware_submitted">
+    <option value="">-- Select an option --</option>
+    <option value="yes">Yes</option>
+    <option value="no">No</option>
+  </select>
+
+  <hr style="margin: 25px 0;">
+
+  <label>Optional: Upload Screenshot for Swap Error</label>
+  <input type="file" name="shift_swap_file" accept=".png,.jpg,.jpeg,.pdf">
+  <p style="font-size: 13px; color: #555;">Attach a screenshot or document if this request involves a swap error (optional).</p>
+
+  <hr style="margin: 25px 0;">
+
+  <label>Notes:</label>
+  <textarea name="shift_swap_notes" placeholder="Add any relevant details about this shift swap or offer."></textarea>
 </div>
+
+<script>
+function toggleShiftType() {
+  const offer = document.getElementById('shift_offer_section');
+  const swap = document.getElementById('shift_swap_section');
+  const selected = document.querySelector('input[name="shift_type"]:checked')?.value;
+
+  if (selected === 'offer') {
+    offer.style.display = 'block';
+    swap.style.display = 'none';
+  } else if (selected === 'swap') {
+    offer.style.display = 'none';
+    swap.style.display = 'block';
+  }
+}
+</script>
+
 
 <!-- Suggestions/Feedback -->
 <div id="SuggestionsFeedbackFields" style="display:none;">
@@ -992,6 +1078,7 @@ function validateForm() {
 </script>
 </body>
 </html>
+
 
 
 
