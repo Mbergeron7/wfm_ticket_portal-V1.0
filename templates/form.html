@@ -856,13 +856,77 @@ function toggleShiftType() {
   <textarea name="suggestions_feedback_text"></textarea>
 </div>
 
-<!-- Unpaid time off/vacation -->
+<!-- Unpaid Time Off / Vacation -->
 <div id="UnpaidtimeoffvacationFields" style="display:none;">
-  <label>Dates Requested:</label>
-  <input type="text" name="unpaid_dates" placeholder="e.g., YYYY-MM-DD to YYYY-MM-DD">
-  <label>Reason:</label>
-  <textarea name="unpaid_reason"></textarea>
+  <h3>Unpaid Time Off / Vacation</h3>
+
+  <!-- Type Selector -->
+  <label>Select Request Type:</label>
+  <select name="timeoff_type" id="timeoff_type" onchange="toggleCP3Upload()" required>
+    <option value="">-- Select Type --</option>
+    <option value="unpaid_time_off">Unpaid Time Off</option>
+    <option value="paid_vacation">Paid Vacation</option>
+    <option value="appointment">Appointment</option>
+  </select>
+
+  <hr style="margin: 20px 0;">
+
+  <!-- Date From -->
+  <label>Date From:</label>
+  <input type="date" name="timeoff_date_from" id="timeoff_date_from" oninput="validateTimeOffDates()">
+
+  <!-- Date To -->
+  <label>Date To:</label>
+  <input type="date" name="timeoff_date_to" id="timeoff_date_to" oninput="validateTimeOffDates()">
+
+  <p id="timeoff_date_error" style="color:red; font-size:13px; display:none;">
+    "Date To" cannot be earlier than "Date From."
+  </p>
+
+  <hr style="margin: 20px 0;">
+
+  <label>Reason / Notes:</label>
+  <textarea name="timeoff_reason" placeholder="Add any details about this request..."></textarea>
+
+  <hr style="margin: 20px 0;">
+
+  <!-- CP3 Upload (Auto-hidden / shown) -->
+  <div id="cp3_upload_container" style="display:none;">
+    <label>Optional: Upload CP3 Approval</label>
+    <input type="file" name="timeoff_cp3_file" accept=".png,.jpg,.jpeg,.pdf">
+    <p style="font-size: 13px; color: #555;">
+      Upload only if CP3 approval is required for this request.
+    </p>
+  </div>
 </div>
+
+<script>
+/* Auto-show or hide CP3 upload based on selection */
+function toggleCP3Upload() {
+  const type = document.getElementById("timeoff_type").value;
+  const cp3 = document.getElementById("cp3_upload_container");
+
+  // Show CP3 only for Unpaid Time Off & Appointment
+  if (type === "unpaid_time_off" || type === "appointment") {
+    cp3.style.display = "block";
+  } else {
+    cp3.style.display = "none";
+  }
+}
+
+/* Validate that Date To is not earlier than Date From */
+function validateTimeOffDates() {
+  const from = document.getElementById("timeoff_date_from").value;
+  const to = document.getElementById("timeoff_date_to").value;
+  const errorMsg = document.getElementById("timeoff_date_error");
+
+  if (from && to && to < from) {
+    errorMsg.style.display = "block";
+  } else {
+    errorMsg.style.display = "none";
+  }
+}
+</script>
 
 <!-- Testing -->
 <div id="TestingFields" style="display:none;">
@@ -1081,6 +1145,7 @@ function validateForm() {
 </script>
 </body>
 </html>
+
 
 
 
