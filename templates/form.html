@@ -1,474 +1,206 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>WFM Request Portal</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <script>
-    // --- Toggle Sections ---
-    function toggleRequestFields() {
-        const selected = document.getElementById("wfm_request").value;
-        const allTypes = [
-            "Accommodation request/update", "Add additional hours", "Add/remove/change team meeting",
-            "Add/remove/move training", "Add offline segment", "Advisor arrived late, remove absence",
-            "CP skill update", "Employee status update (not for schedule changes)", "Is OT available?",
-            "Move break/lunch because of meeting", "Schedule Update - CP3 use", "Schedule Error Adjustment",
-            "Shift swap/offer", "Suggestions/Feedback", "Unpaid time off/vacation", "Testing"
-        ];
-        allTypes.forEach(type => {
-            const id = type.replace(/[\s\/(),?'-]/g, '') + "Fields";
-            const section = document.getElementById(id);
-            if (section) section.style.display = (type === selected) ? "block" : "none";
-        });
+function toggleRequestFields() {
+  const selected = document.getElementById("wfm_request").value;
+  const allTypes = [
+    "Accommodation request/update", "Add additional hours", "Add/remove/change team meeting",
+    "Add/remove/move training", "Add offline segment", "Advisor arrived late, remove absence",
+    "CP skill update", "Employee status update (not for schedule changes)", "Is OT available?",
+    "Move break/lunch because of meeting", "Schedule Update - CP3 use", "Schedule Error Adjustment",
+    "Shift swap/offer", "Suggestions/Feedback", "Unpaid time off/vacation", "Testing"
+  ];
+  allTypes.forEach(type => {
+    // build the id the same way original script expected
+    const id = type.replace(/[\s\/(),?'-]/g, '') + "Fields";
+    const section = document.getElementById(id);
+    if (section) section.style.display = (type === selected) ? "block" : "none";
+  });
+}
+
+/* Accommodation CP3 toggle */
+function toggleAccommodationCP3(show) {
+  const el = document.getElementById("cp3Upload");
+  if (el) el.style.display = show ? "block" : "none";
+}
+
+/* Additional hours mode toggle */
+function toggleAdditionalHoursMode(multi) {
+  const single = document.getElementById("singleDayFields");
+  const multiEl = document.getElementById("multiDayFields");
+  if (single && multiEl) {
+    single.style.display = multi ? "none" : "block";
+    multiEl.style.display = multi ? "block" : "none";
+  }
+}
+
+/* Return to work toggle for Employee Status */
+function toggleReturnToWork() {
+  const status = document.querySelector('input[name="status_update_type"]:checked');
+  const returnField = document.getElementById("returnToWorkContainer");
+  if (returnField) {
+    returnField.style.display = (status && status.value === "Inactive") ? "block" : "none";
+  }
+}
+
+/* CP skill language show/hide: keep original selects present but help user by focusing language */
+function toggleCPSkillLanguage() {
+  const lang = document.getElementById("cp_language").value;
+  // Show/hide original blocks -- keep them in DOM so nothing is removed
+  if (document.getElementById("orig_remove_en")) document.getElementById("orig_remove_en").style.display = (lang === "English") ? "block" : "none";
+  if (document.getElementById("orig_add_en")) document.getElementById("orig_add_en").style.display = (lang === "English") ? "block" : "none";
+  if (document.getElementById("orig_remove_fr")) document.getElementById("orig_remove_fr").style.display = (lang === "French") ? "block" : "none";
+  if (document.getElementById("orig_add_fr")) document.getElementById("orig_add_fr").style.display = (lang === "French") ? "block" : "none";
+  if (document.getElementById("orig_remove_bi")) document.getElementById("orig_remove_bi").style.display = (lang === "Bilingual") ? "block" : "none";
+  if (document.getElementById("orig_add_bi")) document.getElementById("orig_add_bi").style.display = (lang === "Bilingual") ? "block" : "none";
+}
+
+/* Basic page-load: hide all CP skill original selects until language selected (but keep DOM) */
+document.addEventListener("DOMContentLoaded", function() {
+  // Initially hide all CP selects (they exist in DOM but hidden)
+  if (document.getElementById("orig_remove_en")) document.getElementById("orig_remove_en").style.display = "none";
+  if (document.getElementById("orig_add_en")) document.getElementById("orig_add_en").style.display = "none";
+  if (document.getElementById("orig_remove_fr")) document.getElementById("orig_remove_fr").style.display = "none";
+  if (document.getElementById("orig_add_fr")) document.getElementById("orig_add_fr").style.display = "none";
+  if (document.getElementById("orig_remove_bi")) document.getElementById("orig_remove_bi").style.display = "none";
+  if (document.getElementById("orig_add_bi")) document.getElementById("orig_add_bi").style.display = "none";
+
+  // Also ensure Employee return-to-work container hidden initially
+  const rtw = document.getElementById("returnToWorkContainer");
+  if (rtw) rtw.style.display = "none";
+});
+
+function validateForm() {
+  const req = document.getElementById("wfm_request").value;
+
+  if (req === "Add/remove/change team meeting") {
+    const a = document.querySelector('input[name="team_meeting_action"]:checked');
+    const d = document.querySelector('input[name="team_meeting_date"]');
+    const s = document.querySelector('input[name="team_meeting_start"]');
+    const e = document.querySelector('input[name="team_meeting_end"]');
+    const n = document.querySelector('textarea[name="team_meeting_notes"]');
+    if (!a || !d.value || !s.value || !e.value) {
+      alert("Please complete all required fields for the team meeting.");
+      return false;
+    }
+    if (!n.value.trim()) {
+      alert("Please provide notes or a reason for the team meeting request.");
+      return false;
+    }
+  }
+
+  if (req === "Add/remove/move training") {
+    const a = document.querySelector('input[name="training_action"]:checked');
+    const d = document.querySelector('input[name="training_date"]');
+    const s = document.querySelector('input[name="training_start"]');
+    const e = document.querySelector('input[name="training_end"]');
+    const n = document.querySelector('textarea[name="training_notes"]');
+    if (!a || !d.value || !s.value || !e.value) {
+      alert("Please complete all required fields for the training request.");
+      return false;
+    }
+    if (!n.value.trim()) {
+      alert("Please provide notes or a reason for the training request.");
+      return false;
+    }
+  }
+
+  if (req === "Advisor arrived late, remove absence") {
+    const s = document.querySelector('input[name="actual_start_time"]');
+    const a = document.querySelector('input[name="actual_arrival_time"]');
+    const n = document.querySelector('textarea[name="late_arrival_notes"]');
+    if (!s.value || !a.value) {
+      alert("Please fill both Actual Start and Arrival times.");
+      return false;
+    }
+    if (!n.value.trim()) {
+      alert("Please provide notes for the late arrival.");
+      return false;
+    }
+  }
+
+  if (req === "CP skill update") {
+    // If CP skill update selected, require action + language + appropriate skill select + notes
+    const action = document.getElementById("cp_action");
+    const lang = document.getElementById("cp_language");
+    const notes = document.querySelector('textarea[name="cp_skill_notes"]');
+
+    if (!action || !lang || !action.value || !lang.value) {
+      alert("Select CP skill action and language.");
+      return false;
     }
 
-    function toggleAccommodationCP3(show) {
-        const el = document.getElementById("cp3Upload");
-        if (el) el.style.display = show ? "block" : "none";
-    }
-
-    function toggleAdditionalHoursMode(multi) {
-        const single = document.getElementById("singleDayFields");
-        const multiEl = document.getElementById("multiDayFields");
-        if (single && multiEl) {
-            single.style.display = multi ? "none" : "block";
-            multiEl.style.display = multi ? "block" : "none";
+    // Depending on language and action, ensure at least one of the corresponding original selects has value
+    if (lang.value === "English") {
+      // check add or remove english selects
+      if (action.value === "Add") {
+        const addEn = document.querySelector('select[name="skill_add_en"]');
+        if (!addEn || !addEn.value) {
+          alert("Select an English skill to add.");
+          return false;
         }
-    }
-
-    function toggleReturnToWork() {
-        const status = document.querySelector('input[name="status_update_type"]:checked');
-        const returnField = document.getElementById("returnToWorkContainer");
-        if (returnField) {
-            returnField.style.display = (status && status.value === "Inactive") ? "block" : "none";
+      } else if (action.value === "Remove") {
+        const remEn = document.querySelector('select[name="skill_remove_en"]');
+        if (!remEn || !remEn.value) {
+          alert("Select an English skill to remove.");
+          return false;
         }
+      }
+    } else if (lang.value === "French") {
+      if (action.value === "Add") {
+        const addFr = document.querySelector('select[name="skill_add_fr"]');
+        if (!addFr || !addFr.value) {
+          alert("Select a French skill to add.");
+          return false;
+        }
+      } else if (action.value === "Remove") {
+        const remFr = document.querySelector('select[name="skill_remove_fr"]');
+        if (!remFr || !remFr.value) {
+          alert("Select a French skill to remove.");
+          return false;
+        }
+      }
+    } else if (lang.value === "Bilingual") {
+      if (action.value === "Add") {
+        const addBi = document.querySelector('select[name="skill_add_bi"]');
+        if (!addBi || !addBi.value) {
+          alert("Select a bilingual skill to add.");
+          return false;
+        }
+      } else if (action.value === "Remove") {
+        const remBi = document.querySelector('select[name="skill_remove_bi"]');
+        if (!remBi || !remBi.value) {
+          alert("Select a bilingual skill to remove.");
+          return false;
+        }
+      }
     }
 
-    function toggleCPSkillLanguage() {
-        const lang = document.getElementById("cp_language").value;
-        if (document.getElementById("orig_remove_en")) document.getElementById("orig_remove_en").style.display = (lang === "English") ? "block" : "none";
-        if (document.getElementById("orig_add_en")) document.getElementById("orig_add_en").style.display = (lang === "English") ? "block" : "none";
-        if (document.getElementById("orig_remove_fr")) document.getElementById("orig_remove_fr").style.display = (lang === "French") ? "block" : "none";
-        if (document.getElementById("orig_add_fr")) document.getElementById("orig_add_fr").style.display = (lang === "French") ? "block" : "none";
-        if (document.getElementById("orig_remove_bi")) document.getElementById("orig_remove_bi").style.display = (lang === "Bilingual") ? "block" : "none";
-        if (document.getElementById("orig_add_bi")) document.getElementById("orig_add_bi").style.display = (lang === "Bilingual") ? "block" : "none";
+    if (!notes.value.trim()) {
+      alert("Please provide notes for the CP skill update.");
+      return false;
     }
+  }
 
-    document.addEventListener("DOMContentLoaded", function() {
-        ["orig_remove_en","orig_add_en","orig_remove_fr","orig_add_fr","orig_remove_bi","orig_add_bi"].forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.style.display = "none";
-        });
-        const rtw = document.getElementById("returnToWorkContainer");
-        if (rtw) rtw.style.display = "none";
-    });
-
-    function validateForm() {
-        const req = document.getElementById("wfm_request").value;
-        if (!req) { alert("Please select a request type."); return false; }
-        // Add the full validation code here, exactly as you had in your JS, including all fields
-        return true;
+  if (req === "Employee status update (not for schedule changes)") {
+    const emp = document.querySelector('input[name="status_update_employee"]');
+    const type = document.querySelector('input[name="status_update_type"]:checked');
+    const eff = document.querySelector('input[name="status_update_effective_date"]');
+    const ret = document.querySelector('input[name="status_update_return_date"]');
+    const notes = document.querySelector('textarea[name="status_update_notes"]');
+    if (!emp.value || !type || !eff.value) {
+      alert("Please complete all required fields for the status update.");
+      return false;
     }
-    </script>
-</head>
-<body>
-<h1>WFM Request Portal</h1>
-<form id="wfmForm" action="{{ url_for('submit') }}" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
-    <!-- Advisor Name -->
-    <div>
-        <label for="advisor_name">Advisor Name:</label>
-        <input type="text" id="advisor_name" name="advisor_name" required>
-    </div>
+    if (type.value === "Inactive" && !ret.value) {
+      alert("Please provide a Return to Work date for inactive status.");
+      return false;
+    }
+    if (!notes.value.trim()) {
+      alert("Please provide notes or a reason for the status update.");
+      return false;
+    }
+  }
 
-    <!-- WFM Request Type -->
-    <div>
-        <label for="wfm_request">Request Type:</label>
-        <select id="wfm_request" name="wfm_request" onchange="toggleRequestFields()" required>
-            <option value="">Select a request</option>
-            <option value="Accommodation request/update">Accommodation request/update</option>
-            <option value="Add additional hours">Add additional hours</option>
-            <option value="Add/remove/change team meeting">Add/remove/change team meeting</option>
-            <option value="Add/remove/move training">Add/remove/move training</option>
-            <option value="Add offline segment">Add offline segment</option>
-            <option value="Advisor arrived late, remove absence">Advisor arrived late, remove absence</option>
-            <option value="CP skill update">CP skill update</option>
-            <option value="Employee status update (not for schedule changes)">Employee status update (not for schedule changes)</option>
-            <option value="Is OT available?">Is OT available?</option>
-            <option value="Move break/lunch because of meeting">Move break/lunch because of meeting</option>
-            <option value="Schedule Update - CP3 use">Schedule Update - CP3 use</option>
-            <option value="Schedule Error Adjustment">Schedule Error Adjustment</option>
-            <option value="Shift swap/offer">Shift swap/offer</option>
-            <option value="Suggestions/Feedback">Suggestions/Feedback</option>
-            <option value="Unpaid time off/vacation">Unpaid time off/vacation</option>
-            <option value="Testing">Testing</option>
-        </select>
-    </div>
-
-    <!-- Accommodation request/update -->
-    <div id="AccommodationrequestupdateFields" style="display:none;">
-        <label for="accommodation_details">Accommodation Details:</label>
-        <textarea id="accommodation_details" name="accommodation_details" rows="4" cols="50"></textarea>
-        <div id="cp3Upload" style="display:none;">
-            <label for="accommodation_file">Upload CP3 File:</label>
-            <input type="file" id="accommodation_file" name="accommodation_file">
-        </div>
-    </div>
-
-    <!-- Add additional hours -->
-    <div id="AddadditionalhoursFields" style="display:none;">
-        <label><input type="radio" name="hours_mode" value="single" onclick="toggleAdditionalHoursMode(false)"> Single Day</label>
-        <label><input type="radio" name="hours_mode" value="multi" onclick="toggleAdditionalHoursMode(true)"> Multiple Days</label>
-
-        <div id="singleDayFields" style="display:none;">
-            <label for="single_date">Date:</label>
-            <input type="date" id="single_date" name="single_date">
-            <label for="single_hours">Hours:</label>
-            <input type="number" id="single_hours" name="single_hours" min="0" max="24">
-        </div>
-
-        <div id="multiDayFields" style="display:none;">
-            <label for="multi_start">Start Date:</label>
-            <input type="date" id="multi_start" name="multi_start">
-            <label for="multi_end">End Date:</label>
-            <input type="date" id="multi_end" name="multi_end">
-            <label for="multi_hours">Hours per Day:</label>
-            <input type="number" id="multi_hours" name="multi_hours" min="0" max="24">
-        </div>
-    </div>
-    <!-- Add/remove/change team meeting -->
-    <div id="AddremovechangeteammeetingFields" style="display:none;">
-        <label>Action:</label>
-        <label><input type="radio" name="team_meeting_action" value="Add"> Add</label>
-        <label><input type="radio" name="team_meeting_action" value="Remove"> Remove</label>
-        <label><input type="radio" name="team_meeting_action" value="Change"> Change</label>
-
-        <label for="team_meeting_date">Date:</label>
-        <input type="date" id="team_meeting_date" name="team_meeting_date">
-
-        <label for="team_meeting_start">Start Time:</label>
-        <input type="time" id="team_meeting_start" name="team_meeting_start">
-
-        <label for="team_meeting_end">End Time:</label>
-        <input type="time" id="team_meeting_end" name="team_meeting_end">
-
-        <label for="team_meeting_notes">Notes / Reason:</label>
-        <textarea id="team_meeting_notes" name="team_meeting_notes" rows="4" cols="50"></textarea>
-    </div>
-
-    <!-- Add/remove/move training -->
-    <div id="AddremovemovetrainingFields" style="display:none;">
-        <label>Action:</label>
-        <label><input type="radio" name="training_action" value="Add"> Add</label>
-        <label><input type="radio" name="training_action" value="Remove"> Remove</label>
-        <label><input type="radio" name="training_action" value="Move"> Move</label>
-
-        <label for="training_date">Date:</label>
-        <input type="date" id="training_date" name="training_date">
-
-        <label for="training_start">Start Time:</label>
-        <input type="time" id="training_start" name="training_start">
-
-        <label for="training_end">End Time:</label>
-        <input type="time" id="training_end" name="training_end">
-
-        <label for="training_notes">Notes / Reason:</label>
-        <textarea id="training_notes" name="training_notes" rows="4" cols="50"></textarea>
-    </div>
-
-    <!-- Add offline segment -->
-    <div id="AddofflinesegmentFields" style="display:none;">
-        <label for="offline_segment_date">Date:</label>
-        <input type="date" id="offline_segment_date" name="offline_segment_date">
-
-        <label for="offline_segment_start">Start Time:</label>
-        <input type="time" id="offline_segment_start" name="offline_segment_start">
-
-        <label for="offline_segment_end">End Time:</label>
-        <input type="time" id="offline_segment_end" name="offline_segment_end">
-
-        <label for="offline_segment_notes">Notes / Reason:</label>
-        <textarea id="offline_segment_notes" name="offline_segment_notes" rows="4" cols="50"></textarea>
-    </div>
-
-    <!-- Advisor arrived late, remove absence -->
-    <div id="AdvisorarrivedlateremoveabsenceFields" style="display:none;">
-        <label for="actual_start_time">Actual Start Time:</label>
-        <input type="time" id="actual_start_time" name="actual_start_time">
-
-        <label for="actual_arrival_time">Actual Arrival Time:</label>
-        <input type="time" id="actual_arrival_time" name="actual_arrival_time">
-
-        <label for="late_arrival_notes">Notes / Reason:</label>
-        <textarea id="late_arrival_notes" name="late_arrival_notes" rows="4" cols="50"></textarea>
-    </div>
-
-    <!-- CP skill update -->
-    <div id="CPskillupdateFields" style="display:none;">
-        <label for="cp_action">Action:</label>
-        <select id="cp_action" name="cp_action" onchange="toggleCPSkillLanguage()">
-            <option value="">Select Action</option>
-            <option value="Add">Add</option>
-            <option value="Remove">Remove</option>
-        </select>
-
-        <label for="cp_language">Language:</label>
-        <select id="cp_language" name="cp_language" onchange="toggleCPSkillLanguage()">
-            <option value="">Select Language</option>
-            <option value="English">English</option>
-            <option value="French">French</option>
-            <option value="Bilingual">Bilingual</option>
-        </select>
-
-        <!-- Original English selects -->
-        <div id="orig_add_en">
-            <label for="skill_add_en">Add English Skill:</label>
-            <select name="skill_add_en">
-                <option value="">Select Skill</option>
-                <option value="PS CC EN">PS CC EN</option>
-                <option value="PS Sales EN">PS Sales EN</option>
-                <option value="PS Test">PS Test</option>
-                <!-- Add all English skills -->
-            </select>
-        </div>
-        <div id="orig_remove_en">
-            <label for="skill_remove_en">Remove English Skill:</label>
-            <select name="skill_remove_en">
-                <option value="">Select Skill</option>
-                <option value="PS CC EN">PS CC EN</option>
-                <option value="PS Sales EN">PS Sales EN</option>
-                <option value="PS Test">PS Test</option>
-                <!-- Add all English skills -->
-            </select>
-        </div>
-
-        <!-- Original French selects -->
-        <div id="orig_add_fr">
-            <label for="skill_add_fr">Add French Skill:</label>
-            <select name="skill_add_fr">
-                <option value="">Select Skill</option>
-                <option value="PS CC FR">PS CC FR</option>
-                <option value="PS Sales FR">PS Sales FR</option>
-                <option value="PS Test">PS Test</option>
-                <!-- Add all French skills -->
-            </select>
-        </div>
-        <div id="orig_remove_fr">
-            <label for="skill_remove_fr">Remove French Skill:</label>
-            <select name="skill_remove_fr">
-                <option value="">Select Skill</option>
-                <option value="PS CC FR">PS CC FR</option>
-                <option value="PS Sales FR">PS Sales FR</option>
-                <option value="PS Test">PS Test</option>
-                <!-- Add all French skills -->
-            </select>
-        </div>
-
-        <!-- Original Bilingual selects -->
-        <div id="orig_add_bi">
-            <label for="skill_add_bi">Add Bilingual Skill:</label>
-            <select name="skill_add_bi">
-                <option value="">Select Skill</option>
-                <option value="SS CM EN">SS CM EN</option>
-                <option value="SS CM FR">SS CM FR</option>
-                <option value="SS Sales EN">SS Sales EN</option>
-                <option value="SS Sales FR">SS Sales FR</option>
-                <option value="SS Test">SS Test</option>
-                <option value="SS WL EN">SS WL EN</option>
-                <option value="SS WL FR">SS WL FR</option>
-                <option value="PS WL EN">PS WL EN</option>
-                <option value="PS WL FR">PS WL FR</option>
-                <!-- Add all Bilingual skills -->
-            </select>
-        </div>
-        <div id="orig_remove_bi">
-            <label for="skill_remove_bi">Remove Bilingual Skill:</label>
-            <select name="skill_remove_bi">
-                <option value="">Select Skill</option>
-                <option value="SS CM EN">SS CM EN</option>
-                <option value="SS CM FR">SS CM FR</option>
-                <option value="SS Sales EN">SS Sales EN</option>
-                <option value="SS Sales FR">SS Sales FR</option>
-                <option value="SS Test">SS Test</option>
-                <option value="SS WL EN">SS WL EN</option>
-                <option value="SS WL FR">SS WL FR</option>
-                <option value="PS WL EN">PS WL EN</option>
-                <option value="PS WL FR">PS WL FR</option>
-            </select>
-        </div>
-
-        <label for="cp_skill_notes">Notes:</label>
-        <textarea id="cp_skill_notes" name="cp_skill_notes" rows="4" cols="50"></textarea>
-    </div>
-
-    <!-- Employee status update -->
-    <div id="EmployeestatusupdatenotforschedulechangesFields" style="display:none;">
-        <label for="status_update_employee">Employee Name:</label>
-        <input type="text" id="status_update_employee" name="status_update_employee">
-
-        <label>Status Type:</label>
-        <label><input type="radio" name="status_update_type" value="Active" onclick="toggleReturnToWork()"> Active</label>
-        <label><input type="radio" name="status_update_type" value="Inactive" onclick="toggleReturnToWork()"> Inactive</label>
-
-        <label for="status_update_effective_date">Effective Date:</label>
-        <input type="date" id="status_update_effective_date" name="status_update_effective_date">
-
-        <div id="returnToWorkContainer" style="display:none;">
-            <label for="status_update_return_date">Return to Work Date:</label>
-            <input type="date" id="status_update_return_date" name="status_update_return_date">
-        </div>
-
-        <label for="status_update_notes">Notes / Reason:</label>
-        <textarea id="status_update_notes" name="status_update_notes" rows="4" cols="50"></textarea>
-    </div>
-
-      <!-- Is OT available? -->
-    <div id="IsOTavailableFields" style="display:none;">
-        <label for="ot_date">Date:</label>
-        <input type="date" id="ot_date" name="ot_date">
-
-        <label for="ot_shift">Shift:</label>
-        <select id="ot_shift" name="ot_shift">
-            <option value="">Select Shift</option>
-            <option value="Morning">Morning</option>
-            <option value="Afternoon">Afternoon</option>
-            <option value="Evening">Evening</option>
-        </select>
-
-        <label for="ot_notes">Notes / Reason:</label>
-        <textarea id="ot_notes" name="ot_notes" rows="4" cols="50"></textarea>
-    </div>
-
-    <!-- Move break/lunch because of meeting -->
-    <div id="MovebreaklunchbecauseofmeetingFields" style="display:none;">
-        <label for="break_date">Date:</label>
-        <input type="date" id="break_date" name="break_date">
-
-        <label for="break_shift">Shift:</label>
-        <select id="break_shift" name="break_shift">
-            <option value="">Select Shift</option>
-            <option value="Morning">Morning</option>
-            <option value="Afternoon">Afternoon</option>
-            <option value="Evening">Evening</option>
-        </select>
-
-        <label for="break_new_time">New Break/Lunch Time:</label>
-        <input type="time" id="break_new_time" name="break_new_time">
-
-        <label for="break_notes">Notes / Reason:</label>
-        <textarea id="break_notes" name="break_notes" rows="4" cols="50"></textarea>
-    </div>
-
-    <!-- Schedule Update - CP3 use -->
-    <div id="ScheduleUpdateCP3useFields" style="display:none;">
-        <label for="cp3_use_date">Date:</label>
-        <input type="date" id="cp3_use_date" name="cp3_use_date">
-
-        <label for="cp3_use_shift">Shift:</label>
-        <select id="cp3_use_shift" name="cp3_use_shift">
-            <option value="">Select Shift</option>
-            <option value="Morning">Morning</option>
-            <option value="Afternoon">Afternoon</option>
-            <option value="Evening">Evening</option>
-        </select>
-
-        <label for="cp3_use_reason">Reason / Notes:</label>
-        <textarea id="cp3_use_reason" name="cp3_use_reason" rows="4" cols="50"></textarea>
-
-        <label for="cp3_upload">Upload CP3 File:</label>
-        <input type="file" id="cp3_upload" name="cp3_upload">
-    </div>
-
-    <!-- Schedule Error Adjustment -->
-    <div id="ScheduleErrorAdjustmentFields" style="display:none;">
-        <label for="error_adj_date">Date:</label>
-        <input type="date" id="error_adj_date" name="error_adj_date">
-
-        <label for="error_adj_shift">Shift:</label>
-        <select id="error_adj_shift" name="error_adj_shift">
-            <option value="">Select Shift</option>
-            <option value="Morning">Morning</option>
-            <option value="Afternoon">Afternoon</option>
-            <option value="Evening">Evening</option>
-        </select>
-
-        <label for="error_adj_type">Adjustment Type:</label>
-        <select id="error_adj_type" name="error_adj_type">
-            <option value="">Select Type</option>
-            <option value="Add">Add</option>
-            <option value="Remove">Remove</option>
-            <option value="Modify">Modify</option>
-        </select>
-
-        <label for="error_adj_notes">Notes / Reason:</label>
-        <textarea id="error_adj_notes" name="error_adj_notes" rows="4" cols="50"></textarea>
-    </div>
-
-    <!-- Shift swap / offer -->
-    <div id="ShiftswapofferFields" style="display:none;">
-        <label for="swap_date">Date:</label>
-        <input type="date" id="swap_date" name="swap_date">
-
-        <label for="swap_shift">Shift:</label>
-        <select id="swap_shift" name="swap_shift">
-            <option value="">Select Shift</option>
-            <option value="Morning">Morning</option>
-            <option value="Afternoon">Afternoon</option>
-            <option value="Evening">Evening</option>
-        </select>
-
-        <label for="swap_with">Swap With (Employee Name):</label>
-        <input type="text" id="swap_with" name="swap_with">
-
-        <label for="swap_notes">Notes / Reason:</label>
-        <textarea id="swap_notes" name="swap_notes" rows="4" cols="50"></textarea>
-    </div>
-
-    <!-- Suggestions / Feedback -->
-    <div id="SuggestionsFeedbackFields" style="display:none;">
-        <label for="feedback_subject">Subject:</label>
-        <input type="text" id="feedback_subject" name="feedback_subject">
-
-        <label for="feedback_message">Message:</label>
-        <textarea id="feedback_message" name="feedback_message" rows="6" cols="50"></textarea>
-    </div>
-
-    <!-- Unpaid time off / vacation -->
-    <div id="UnpaidtimeoffvacationFields" style="display:none;">
-        <label for="timeoff_start">Start Date:</label>
-        <input type="date" id="timeoff_start" name="timeoff_start">
-
-        <label for="timeoff_end">End Date:</label>
-        <input type="date" id="timeoff_end" name="timeoff_end">
-
-        <label for="timeoff_type">Type:</label>
-        <select id="timeoff_type" name="timeoff_type">
-            <option value="">Select Type</option>
-            <option value="Vacation">Vacation</option>
-            <option value="Unpaid">Unpaid</option>
-            <option value="Other">Other</option>
-        </select>
-
-        <label for="timeoff_notes">Notes / Reason:</label>
-        <textarea id="timeoff_notes" name="timeoff_notes" rows="4" cols="50"></textarea>
-    </div>
-
-    <!-- Testing -->
-    <div id="TestingFields" style="display:none;">
-        <label for="test_field1">Test Field 1:</label>
-        <input type="text" id="test_field1" name="test_field1">
-
-        <label for="test_field2">Test Field 2:</label>
-        <input type="text" id="test_field2" name="test_field2">
-
-        <label for="test_notes">Notes:</label>
-        <textarea id="test_notes" name="test_notes" rows="4" cols="50"></textarea>
-    </div>
-
-    <!-- Submit button -->
-    <div style="margin-top:20px;">
-        <button type="submit" onclick="return validateForm()">Submit Request</button>
-    </div>
-
-</form>
+  return true;
+}
+</script>
 </body>
 </html>
