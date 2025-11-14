@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+I dont think i want <!DOCTYPE html>
 <html>
 <head>
   <title>WFM Request Form</title>
@@ -765,6 +765,8 @@ function toggleErrorAdjustmentDayInput(dayId) {
 
   <!-- Shift Offer Section -->
   <div id="shift_offer_section" style="margin-top:15px; display:none;">
+    <h4>Shift Offer <span style="font-size:12px; color:#777;">(For swapping a shift for a day off)</span></h4>
+
     <label>Date of Shift:</label>
     <input type="date" name="shift_offer_date">
 
@@ -774,38 +776,40 @@ function toggleErrorAdjustmentDayInput(dayId) {
     <label>Shift End Time:</label>
     <input type="text" name="shift_offer_end" placeholder="e.g. 5:00 PM">
 
-    <label>Person Offering the Shift:</label>
+    <label>Person Offering/Receiving the Shift:</label>
     <input type="text" name="shift_offer_person" placeholder="Full Name">
   </div>
 
   <!-- Shift Swap Section -->
   <div id="shift_swap_section" style="margin-top:15px; display:none;">
+    <h4>Shift Swap <span style="font-size:12px; color:#777;">(For swapping a shift for another shift)</span></h4>
+
     <h4>Employee 1 (Your Shift)</h4>
-    <label>Date of Your Shift:</label>
+    <label>Date of Employee 1's Shift:</label>
     <input type="date" name="shift_swap_emp1_date">
 
-    <label>Your Shift Start Time:</label>
+    <label>Employee 1 Shift Start Time:</label>
     <input type="text" name="shift_swap_emp1_start" placeholder="e.g. 9:00 AM">
 
-    <label>Your Shift End Time:</label>
+    <label>Employee 1 Shift End Time:</label>
     <input type="text" name="shift_swap_emp1_end" placeholder="e.g. 5:00 PM">
 
-    <label>Your Name:</label>
+    <label>Employee 1 Name:</label>
     <input type="text" name="shift_swap_emp1_name" placeholder="Full Name">
 
     <hr style="margin: 20px 0;">
 
-    <h4>Employee 2 (Swap Partner)</h4>
-    <label>Date of Partner's Shift:</label>
+    <h4>Employee 2</h4>
+    <label>Date of Employee 2's Shift:</label>
     <input type="date" name="shift_swap_emp2_date">
 
-    <label>Partner's Shift Start Time:</label>
+    <label>Employee 2 Shift Start Time:</label>
     <input type="text" name="shift_swap_emp2_start" placeholder="e.g. 8:00 AM">
 
-    <label>Partner's Shift End Time:</label>
+    <label>Employee 2 Shift End Time:</label>
     <input type="text" name="shift_swap_emp2_end" placeholder="e.g. 4:00 PM">
 
-    <label>Partner's Name:</label>
+    <label>Employee 2 Name:</label>
     <input type="text" name="shift_swap_emp2_name" placeholder="Full Name">
   </div>
 
@@ -822,12 +826,12 @@ function toggleErrorAdjustmentDayInput(dayId) {
 
   <label>Optional: Upload Screenshot for Swap Error</label>
   <input type="file" name="shift_swap_file" accept=".png,.jpg,.jpeg,.pdf">
-  <p style="font-size: 13px; color: #555;">Attach a screenshot or document if this request involves a swap error (optional).</p>
+  <p style="font-size: 13px; color: #555;">Attach a screenshot if this request involves a swap error (optional).</p>
 
   <hr style="margin: 25px 0;">
 
   <label>Notes:</label>
-  <textarea name="shift_swap_notes" placeholder="Add any relevant details about this shift swap or offer."></textarea>
+  <textarea name="shift_swap_notes" placeholder="Add any relevant details about this request."></textarea>
 </div>
 
 <script>
@@ -1077,6 +1081,7 @@ function validateForm() {
 </script>
 </body>
 </html>
+
 
 
 
