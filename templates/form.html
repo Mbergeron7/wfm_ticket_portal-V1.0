@@ -176,77 +176,398 @@
 
         <!-- Accommodation Section -->
     <div id="AccommodationrequestupdateFields" style="display:none;">
-      <!-- All accommodation fields preserved -->
-      <!-- ... -->
+      <label>Accommodation Action:</label>
+      <div>
+        <input type="radio" name="accommodation_action" value="Add"> Add
+        <input type="radio" name="accommodation_action" value="Update"> Update
+        <input type="radio" name="accommodation_action" value="Remove"> Remove
+      </div>
+
+      <label>Accommodation Type:</label>
+      <select name="accommodation_type">
+        <option value="" disabled selected>Select type</option>
+        <option value="School">School</option>
+        <option value="Personal">Personal</option>
+        <option value="Medical">Medical</option>
+      </select>
+
+      <label>Final Date of Accommodation:</label>
+      <input type="date" name="final_date">
+
+      <label>Return to Work Date:</label>
+      <input type="date" name="return_to_work_date">
+
+      <label>Do you have CP3 Approval?</label>
+      <div>
+        <input type="radio" name="cp3_approval_status" value="Yes" onclick="toggleAccommodationCP3(true)"> Yes
+        <input type="radio" name="cp3_approval_status" value="No" onclick="toggleAccommodationCP3(false)"> No
+      </div>
+
+      <div id="cp3Upload" style="display:none;">
+        <label>Upload CP3 Approval Screenshot:</label>
+        <input type="file" name="cp3_approval" accept=".pdf,.doc,.docx,.jpg,.png">
+      </div>
+
+      <label>Upload School Schedule (optional):</label>
+      <input type="file" name="school_schedule" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.png">
+
+      <label>Weekly Schedule:</label>
+      <input type="text" name="monday_schedule" placeholder="Monday start/end (HH:MM AM/PM)">
+      <input type="text" name="tuesday_schedule" placeholder="Tuesday start/end (HH:MM AM/PM)">
+      <input type="text" name="wednesday_schedule" placeholder="Wednesday start/end (HH:MM AM/PM)">
+      <input type="text" name="thursday_schedule" placeholder="Thursday start/end (HH:MM AM/PM)">
+      <input type="text" name="friday_schedule" placeholder="Friday start/end (HH:MM AM/PM)">
+      <input type="text" name="saturday_schedule" placeholder="Saturday start/end (HH:MM AM/PM)">
+      <input type="text" name="sunday_schedule" placeholder="Sunday start/end (HH:MM AM/PM)">
+
+      <label>Weekly Hours:</label>
+      <input type="number" name="weekly_hours" min="0" placeholder="Enter number of hours">
+
+      <label>Notes or Reason:</label>
+      <textarea name="accommodation_notes" placeholder="Explain reason for this request."></textarea>
     </div>
 
     <!-- Add Additional Hours Section -->
     <div id="AddadditionalhoursFields" style="display:none;">
-      <!-- All additional hours fields preserved -->
-      <!-- ... -->
+      <label>How many days are we adding hours to?</label>
+      <div>
+        <input type="radio" name="additional_days" value="1 Day" onclick="toggleAdditionalHoursMode(false)"> 1 Day
+        <input type="radio" name="additional_days" value="Multiple Days" onclick="toggleAdditionalHoursMode(true)"> Multiple Days
+      </div>
+
+      <div id="singleDayFields">
+        <label>Requested Date:</label>
+        <input type="date" name="additional_hours_date">
+        <label>Start Time:</label>
+        <input type="text" name="additional_start_time" placeholder="HH:MM AM/PM">
+        <label>End Time:</label>
+        <input type="text" name="additional_end_time" placeholder="HH:MM AM/PM">
+      </div>
+
+      <div id="multiDayFields" style="display:none;">
+        <label>Weekly Schedule:</label>
+        <input type="text" name="mon_start" placeholder="Monday start (HH:MM AM/PM)">
+        <input type="text" name="mon_end" placeholder="Monday end (HH:MM AM/PM)">
+        <input type="text" name="tue_start" placeholder="Tuesday start (HH:MM AM/PM)">
+        <input type="text" name="tue_end" placeholder="Tuesday end (HH:MM AM/PM)">
+        <input type="text" name="wed_start" placeholder="Wednesday start (HH:MM AM/PM)">
+        <input type="text" name="wed_end" placeholder="Wednesday end (HH:MM AM/PM)">
+        <input type="text" name="thu_start" placeholder="Thursday start (HH:MM AM/PM)">
+        <input type="text" name="thu_end" placeholder="Thursday end (HH:MM AM/PM)">
+        <input type="text" name="fri_start" placeholder="Friday start (HH:MM AM/PM)">
+        <input type="text" name="fri_end" placeholder="Friday end (HH:MM AM/PM)">
+        <input type="text" name="sat_start" placeholder="Saturday start (HH:MM AM/PM)">
+        <input type="text" name="sat_end" placeholder="Saturday end (HH:MM AM/PM)">
+        <input type="text" name="sun_start" placeholder="Sunday start (HH:MM AM/PM)">
+        <input type="text" name="sun_end" placeholder="Sunday end (HH:MM AM/PM)">
+      </div>
+
+      <label>Weekly Hours:</label>
+      <input type="number" name="additional_weekly_hours" min="0" placeholder="Enter number of hours">
+
+      <label>Notes or Reason:</label>
+      <textarea name="additional_hours_notes" placeholder="Explain reason for adding hours."></textarea>
     </div>
 
-    <!-- Add/Remove/Change Team Meeting Section -->
+        <!-- Add/Remove/Change Team Meeting Section -->
     <div id="AddremovechangeteammeetingFields" style="display:none;">
-      <!-- All team meeting fields preserved -->
-      <!-- ... -->
+      <label>Meeting Action:</label>
+      <div>
+        <input type="radio" name="team_meeting_action" value="Add"> Add
+        <input type="radio" name="team_meeting_action" value="Remove"> Remove
+        <input type="radio" name="team_meeting_action" value="Change"> Change
+      </div>
+
+      <label>Meeting Date:</label>
+      <input type="date" name="team_meeting_date">
+      <label>Start Time:</label>
+      <input type="text" name="team_meeting_start" placeholder="HH:MM AM/PM">
+      <label>End Time:</label>
+      <input type="text" name="team_meeting_end" placeholder="HH:MM AM/PM">
+      <label>Notes or Reason:</label>
+      <textarea name="team_meeting_notes" placeholder="Explain reason for meeting request."></textarea>
     </div>
 
     <!-- Add/Remove/Move Training Section -->
     <div id="AddremovemovetrainingFields" style="display:none;">
-      <!-- All training fields preserved -->
-      <!-- ... -->
+      <label>Training Action:</label>
+      <div>
+        <input type="radio" name="training_action" value="Add"> Add
+        <input type="radio" name="training_action" value="Remove"> Remove
+        <input type="radio" name="training_action" value="Move"> Move
+      </div>
+
+      <label>Training Date:</label>
+      <input type="date" name="training_date">
+      <label>Start Time:</label>
+      <input type="text" name="training_start" placeholder="HH:MM AM/PM">
+      <label>End Time:</label>
+      <input type="text" name="training_end" placeholder="HH:MM AM/PM">
+      <label>Notes or Reason:</label>
+      <textarea name="training_notes" placeholder="Explain reason for training request."></textarea>
     </div>
 
     <!-- Add Offline Segment Section -->
     <div id="AddofflinesegmentFields" style="display:none;">
-      <!-- All offline segment fields preserved -->
-      <!-- ... -->
+      <label>Offline Segment Date:</label>
+      <input type="date" name="offline_segment_date">
+      <label>Start Time:</label>
+      <input type="text" name="offline_segment_start" placeholder="HH:MM AM/PM">
+      <label>End Time:</label>
+      <input type="text" name="offline_segment_end" placeholder="HH:MM AM/PM">
+      <label>Which segment is being updated?</label>
+      <select name="offline_segment_type">
+        <option value="" disabled selected>Select segment</option>
+        <option>After Shift</option>
+        <option>Client Account Work</option>
+        <option>Coaching</option>
+        <option>Code of Conduct</option>
+        <option>Knowledge Assessment</option>
+        <option>Meeting</option>
+        <option>Personal</option>
+        <option>Store Visit</option>
+        <option>System Issue</option>
+        <option>System Outage</option>
+        <option>Training</option>
+      </select>
+      <label>Notes or Reason:</label>
+      <textarea name="offline_segment_notes" placeholder="Explain reason for this offline segment request."></textarea>
     </div>
 
     <!-- Advisor Arrived Late Section -->
     <div id="AdvisorarrivedlateremoveabsenceFields" style="display:none;">
-      <!-- All late arrival fields preserved -->
-      <!-- ... -->
+      <label>Actual Start Time:</label>
+      <input type="text" name="actual_start_time" placeholder="HH:MM AM/PM">
+      <label>Actual Arrival Time:</label>
+      <input type="text" name="actual_arrival_time" placeholder="HH:MM AM/PM">
+      <label>Notes or Reason:</label>
+      <textarea name="late_arrival_notes" placeholder="Explain reason for removing the absence."></textarea>
     </div>
 
-    <!-- CP Skill Update -->
+        <!-- CP Skill Update -->
     <div id="CPskillupdateFields" style="display:none;">
-      <!-- All CP skill update fields preserved -->
-      <!-- ... -->
+      <label>Action:</label>
+      <select id="cp_action" name="cp_action">
+        <option value="" disabled selected>Select action</option>
+        <option value="Add">Add</option>
+        <option value="Remove">Remove</option>
+      </select>
+
+      <label>Language (for add/remove):</label>
+      <select id="cp_language" name="cp_language" onchange="toggleCPSkillLanguage()">
+        <option value="" disabled selected>Select language</option>
+        <option value="English">English</option>
+        <option value="French">French</option>
+        <option value="Bilingual">Bilingual</option>
+      </select>
+
+      <!-- Remove English -->
+      <div id="orig_remove_en">
+        <label>Skill(s) to Remove – English:</label>
+        <select name="skill_remove_en">
+          <option value="">-- Select English Skill to Remove --</option>
+          <option>MoveBuddy</option>
+          <option>PS CC EN</option>
+          <option>PS Sales EN</option>
+          <option>PS WL EN</option>
+          <option>SS CM EN</option>
+          <option>SS Sales EN</option>
+          <option>SS WL EN</option>
+          <option>PS Test</option>
+          <option>SS Test</option>
+        </select>
+      </div>
+
+      <!-- Remove French -->
+      <div id="orig_remove_fr">
+        <label>Skill(s) to Remove – French:</label>
+        <select name="skill_remove_fr">
+          <option value="">-- Select French Skill to Remove --</option>
+          <option>PS CC FR</option>
+          <option>PS Sales FR</option>
+          <option>PS WL FR</option>
+          <option>SS CM FR</option>
+          <option>SS Sales FR</option>
+          <option>SS WL FR</option>
+        </select>
+      </div>
+
+      <!-- Remove Bilingual -->
+      <div id="orig_remove_bi">
+        <label>Skill(s) to Remove – Bilingual:</label>
+        <select name="skill_remove_bi">
+          <option value="">-- Select Bilingual Skill to Remove --</option>
+          <option>MoveBuddy Bilingual</option>
+          <option>PS CC Bilingual</option>
+          <option>PS Sales Bilingual</option>
+          <option>PS Test Bilingual</option>
+          <option>SS CM Bilingual</option>
+          <option>SS Sales Bilingual</option>
+          <option>SS Test Bilingual</option>
+          <option>SS WL Bilingual</option>
+          <option>PS WL Bilingual</option>
+        </select>
+      </div>
+
+      <!-- Add English -->
+      <div id="orig_add_en">
+        <label>Skill(s) to Add – English:</label>
+        <select name="skill_add_en">
+          <option value="">-- Select English Skill to Add --</option>
+          <option>MoveBuddy</option>
+          <option>PS CC EN</option>
+          <option>PS Sales EN</option>
+          <option>PS WL EN</option>
+          <option>SS CM EN</option>
+          <option>SS Sales EN</option>
+          <option>SS WL EN</option>
+          <option>PS Test</option>
+          <option>SS Test</option>
+        </select>
+      </div>
+
+      <!-- Add French -->
+      <div id="orig_add_fr">
+        <label>Skill(s) to Add – French:</label>
+        <select name="skill_add_fr">
+          <option value="">-- Select French Skill to Add --</option>
+          <option>PS CC FR</option>
+          <option>PS Sales FR</option>
+          <option>PS WL FR</option>
+          <option>SS CM FR</option>
+          <option>SS Sales FR</option>
+          <option>SS WL FR</option>
+        </select>
+      </div>
+
+      <!-- Add Bilingual -->
+      <div id="orig_add_bi">
+        <label>Skill(s) to Add – Bilingual:</label>
+        <select name="skill_add_bi">
+          <option value="">-- Select Bilingual Skill to Add --</option>
+          <option>MoveBuddy Bilingual</option>
+          <option>PS CC Bilingual</option>
+          <option>PS Sales Bilingual</option>
+          <option>PS Test Bilingual</option>
+          <option>SS CM Bilingual</option>
+          <option>SS Sales Bilingual</option>
+          <option>SS Test Bilingual</option>
+          <option>SS WL Bilingual</option>
+          <option>PS WL Bilingual</option>
+        </select>
+      </div>
+
+      <label>Notes or Reason:</label>
+      <textarea name="cp_skill_notes" placeholder="Explain reason for skill update."></textarea>
     </div>
 
-    <!-- Employee Status Update -->
+        <!-- Employee Status Update -->
     <div id="EmployeestatusupdatenotforschedulechangesFields" style="display:none;">
-      <!-- All status update fields preserved -->
-      <!-- ... -->
+      <h3>Employee Status Update</h3>
+      <label>Employee Name or ID:</label>
+      <input type="text" name="status_update_employee" placeholder="Enter full name or ID" required>
+
+      <label>Status Change:</label>
+      <div style="margin-top: 8px;">
+        <input type="radio" name="status_update_type" value="Active" onclick="toggleReturnToWork()" required> Active
+        <input type="radio" name="status_update_type" value="Inactive" onclick="toggleReturnToWork()"> Inactive
+        <input type="radio" name="status_update_type" value="Update" onclick="toggleReturnToWork()"> Update
+      </div>
+
+      <label style="margin-top: 20px;">Effective Date of Status Change:</label>
+      <input type="date" name="status_update_effective_date" required>
+
+      <div id="returnToWorkContainer" style="display:none;">
+        <label>Return to Work Date:</label>
+        <input type="date" name="status_update_return_date">
+      </div>
+
+      <label>Notes or Reason:</label>
+      <textarea name="status_update_notes" placeholder="Explain the context or reason for this status change." required></textarea>
     </div>
 
     <!-- Is OT Available -->
     <div id="IsOTavailableFields" style="display:none;">
-      <!-- All OT availability fields preserved -->
-      <!-- ... -->
+      <label>OT Date:</label>
+      <input type="date" name="ot_date">
+      <label>Notes:</label>
+      <textarea name="ot_notes" placeholder="Add any notes about OT availability."></textarea>
+      <hr style="margin: 25px 0;">
+      <h3>OT Availability</h3>
+      <p style="font-size: 13px; color: #555;">Enter the start and end times you’re available for overtime each day (if applicable):</p>
+      <label>Monday:</label><input type="text" name="ot_monday" placeholder="Start/End (HH:MM AM/PM)">
+      <label>Tuesday:</label><input type="text" name="ot_tuesday" placeholder="Start/End (HH:MM AM/PM)">
+      <label>Wednesday:</label><input type="text" name="ot_wednesday" placeholder="Start/End (HH:MM AM/PM)">
+      <label>Thursday:</label><input type="text" name="ot_thursday" placeholder="Start/End (HH:MM AM/PM)">
+      <label>Friday:</label><input type="text" name="ot_friday" placeholder="Start/End (HH:MM AM/PM)">
+      <label>Saturday:</label><input type="text" name="ot_saturday" placeholder="Start/End (HH:MM AM/PM)">
+      <label>Sunday:</label><input type="text" name="ot_sunday" placeholder="Start/End (HH:MM AM/PM)">
+      <label>Total Weekly OT Hours (optional):</label>
+      <input type="number" name="ot_weekly_hours" min="0" placeholder="Enter total OT hours">
     </div>
 
     <!-- Move Break/Lunch -->
     <div id="MovebreaklunchbecauseofmeetingFields" style="display:none;">
-      <!-- All break/lunch fields preserved -->
-      <!-- ... -->
+      <label>Original Break/Lunch Time:</label>
+      <input type="text" name="original_break_time" placeholder="HH:MM AM/PM">
+      <label>New Break/Lunch Time:</label>
+      <input type="text" name="new_break_time" placeholder="HH:MM AM/PM">
+      <label>Notes:</label>
+      <textarea name="break_notes"></textarea>
     </div>
 
     <!-- Schedule Update - CP3 Use -->
     <div id="ScheduleUpdateCP3useFields" style="display:none;">
-      <!-- All CP3 schedule update fields preserved -->
-      <!-- ... -->
+      <h3>Schedule Update - CP3 Use</h3>
+      <p style="font-size: 13px; color: #555;">Select whether this update applies to a single day or a full week:</p>
+      <label><input type="radio" name="cp3_type" value="single" onclick="toggleCP3Type()"> Single Day</label>
+      <label><input type="radio" name="cp3_type" value="multi" onclick="toggleCP3Type()"> Multiple Days (Week Of)</label>
+
+      <!-- Single Day Section -->
+      <div id="cp3_single_day" style="margin-top:15px; display:none;">
+        <label>Date:</label>
+        <input type="date" name="cp3_date">
+        <label>Old Start Time:</label>
+        <input type="text" name="cp3_old_start" placeholder="e.g. 9:00 AM">
+        <label>Old End Time:</label>
+        <input type="text" name="cp3_old_end" placeholder="e.g. 5:00 PM">
+        <label>New Start Time:</label>
+        <input type="text" name="cp3_new_start" placeholder="e.g. 8:30 AM">
+        <label>New End Time:</label>
+        <input type="text" name="cp3_new_end" placeholder="e.g. 4:30 PM">
+      </div>
+
+      <!-- Multi Day Section -->
+      <div id="cp3_multi_day" style="margin-top:15px; display:none;">
+        <label>Week Of:</label>
+        <input type="date" name="cp3_week_of">
+        <p style="font-size: 13px; color: #555;">Select which days to update and enter the new hours for those days:</p>
+        <label><input type="checkbox" onclick="toggleDayInput('cp3_monday')"> Monday:</label>
+        <input type="text" id="cp3_monday" name="cp3_monday" placeholder="New Hours (e.g. 9:00 AM - 5:00 PM)" disabled>
+        <label><input type="checkbox" onclick="toggleDayInput('cp3_tuesday')"> Tuesday:</label>
+        <input type="text" id="cp3_tuesday" name="cp3_tuesday" placeholder="New Hours (e.g. 9:00 AM - 5:00 PM)" disabled>
+        <label><input type="checkbox" onclick="toggleDayInput('cp3_wednesday')"> Wednesday:</label>
+        <input type="text" id="cp3_wednesday" name="cp3_wednesday" placeholder="New Hours (e.g. 9:00 AM - 5:00 PM)" disabled>
+        <label><input type="checkbox" onclick="toggleDayInput('cp3_thursday')"> Thursday:</label>
+        <input type="text" id="cp3_thursday" name="cp3_thursday" placeholder="New Hours (e.g. 9:00 AM - 5:00 PM)" disabled>
+        <label><input type="checkbox" onclick="toggleDayInput('cp3_friday')"> Friday:</label>
+        <input type="text" id="cp3_friday" name="cp3_friday" placeholder="New Hours (e.g. 9:00 AM - 5:00 PM)" disabled>
+        <label><input type="checkbox" onclick="toggleDayInput('cp3_saturday')"> Saturday:</label>
+        <input type="text" id="cp3_saturday" name="cp3_saturday" placeholder="New Hours (optional)" disabled>
+        <label><input type="checkbox" onclick="toggleDayInput('cp3_sunday')"> Sunday:</label>
+        <input type="text" id="cp3_sunday" name="cp3_sunday" placeholder="New Hours (optional)" disabled>
+      </div>
+
+      <hr style="margin: 25px 0;">
+      <label>CP3 Approval Upload:</label>
+      <input type="file" name="cp3_approval_file" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
+      <p style="font-size: 13px; color: #555;">Please upload the approved CP3 form or email confirmation for schedule changes.</p>
+      <hr style="margin: 25px 0;">
+      <label>Notes:</label>
+      <textarea name="cp3_notes" placeholder="Add any relevant details about this schedule update."></textarea>
     </div>
 
-    <!-- Schedule Error Adjustment -->
-    <div id="ScheduleErrorAdjustmentFields" style="display:none;">
-      <!-- All schedule error adjustment fields preserved -->
-      <!-- ... -->
-    </div>
-
-    <!-- Shift Swap/Offer -->
+        <!-- Shift Swap/Offer -->
     <div id="ShiftswapofferFields" style="display:none;">
       <label>Notes or Reason:</label>
       <textarea name="shift_swap_notes" placeholder="Explain reason for shift swap or offer."></textarea>
@@ -278,168 +599,136 @@
     <button type="submit">Submit</button>
   </form>
 
-  <script>
-function toggleCP3Type() {
-  const single = document.getElementById('cp3_single_day');
-  const multi = document.getElementById('cp3_multi_day');
-  const selected = document.querySelector('input[name="cp3_type"]:checked')?.value;
-
-  if (selected === 'single') {
-    single.style.display = 'block';
-    multi.style.display = 'none';
-  } else if (selected === 'multi') {
-    single.style.display = 'none';
-    multi.style.display = 'block';
-  }
-}
-
-function toggleDayInput(dayId) {
-  const input = document.getElementById(dayId);
-  if (input) {
-    input.disabled = !input.disabled;
-    if (input.disabled) {
-      input.value = '';
+   <script>
+    function toggleRequestFields() {
+      const selected = document.getElementById("wfm_request").value;
+      const sectionMap = {
+        "Accommodation request/update": "AccommodationrequestupdateFields",
+        "Add additional hours": "AddadditionalhoursFields",
+        "Add/remove/change team meeting": "AddremovechangeteammeetingFields",
+        "Add/remove/move training": "AddremovemovetrainingFields",
+        "Add offline segment": "AddofflinesegmentFields",
+        "Advisor arrived late, remove absence": "AdvisorarrivedlateremoveabsenceFields",
+        "CP skill update": "CPskillupdateFields",
+        "Employee status update (not for schedule changes)": "EmployeestatusupdatenotforschedulechangesFields",
+        "Is OT available?": "IsOTavailableFields",
+        "Move break/lunch because of meeting": "MovebreaklunchbecauseofmeetingFields",
+        "Schedule Update - CP3 use": "ScheduleUpdateCP3useFields",
+        "Schedule Error Adjustment": "ScheduleErrorAdjustmentFields",
+        "Shift swap/offer": "ShiftswapofferFields",
+        "Suggestions/Feedback": "SuggestionsFeedbackFields",
+        "Unpaid time off/vacation": "UnpaidtimeoffvacationFields",
+        "Testing": "TestingFields"
+      };
+      const allSections = document.querySelectorAll('div[id$="Fields"]');
+      allSections.forEach(div => div.style.display = 'none');
+      const targetId = sectionMap[selected];
+      const target = document.getElementById(targetId);
+      if (target) target.style.display = 'block';
     }
-  }
-}
 
-function toggleErrorAdjustmentDayInput(dayId) {
-  const input = document.getElementById(dayId);
-  if (input) {
-    input.disabled = !input.disabled;
-    if (input.disabled) {
-      input.value = '';
+    function toggleAccommodationCP3(show) {
+      const cp3 = document.getElementById("cp3Upload");
+      if (cp3) cp3.style.display = show ? "block" : "none";
     }
-  }
-}
 
-function validateForm() {
-  const req = document.getElementById("wfm_request").value;
+    function toggleReturnToWork() {
+      const selected = document.querySelector('input[name="status_update_type"]:checked')?.value;
+      const container = document.getElementById("returnToWorkContainer");
+      if (container) container.style.display = selected === "Inactive" ? "block" : "none";
+    }
 
-  // Insert all 16 request-type validation blocks here
-  // (Parts 1–3 of validateForm logic already provided)
+    function toggleDayInput(dayId) {
+      const input = document.getElementById(dayId);
+      if (input) {
+        input.disabled = !input.disabled;
+        if (input.disabled) input.value = '';
+      }
+    }
 
-  // Paste the full validateForm logic from earlier here
-  // It includes all request types from "Accommodation request/update" to "Testing"
+    function toggleErrorAdjustmentDayInput(dayId) {
+      const input = document.getElementById(dayId);
+      if (input) {
+        input.disabled = !input.disabled;
+        if (input.disabled) input.value = '';
+      }
+    }
 
-  return true;
-}
-</script>
+    function toggleAdditionalHoursMode(multi) {
+      document.getElementById("singleDayFields").style.display = multi ? "none" : "block";
+      document.getElementById("multiDayFields").style.display = multi ? "block" : "none";
+    }
+
+    function toggleCPSkillLanguage() {
+      const lang = document.getElementById("cp_language").value;
+      const all = ["en", "fr", "bi"];
+      all.forEach(l => {
+        document.getElementById("orig_add_" + l).style.display = "none";
+        document.getElementById("orig_remove_" + l).style.display = "none";
+      });
+      if (lang) {
+        document.getElementById("orig_add_" + lang.toLowerCase()).style.display = "block";
+        document.getElementById("orig_remove_" + lang.toLowerCase()).style.display = "block";
+      }
+    }
+
+    function toggleCP3Type() {
+      const single = document.getElementById('cp3_single_day');
+      const multi = document.getElementById('cp3_multi_day');
+      const selected = document.querySelector('input[name="cp3_type"]:checked')?.value;
+      if (selected === 'single') {
+        single.style.display = 'block';
+        multi.style.display = 'none';
+      } else if (selected === 'multi') {
+        single.style.display = 'none';
+        multi.style.display = 'block';
+      }
+    }
+
+    function toggleErrorAdjustmentType() {
+      const single = document.getElementById('error_adjustment_single_day');
+      const multi = document.getElementById('error_adjustment_multi_day');
+      const selected = document.querySelector('input[name="error_adjustment_type"]:checked')?.value;
+      if (selected === 'single') {
+        single.style.display = 'block';
+        multi.style.display = 'none';
+      } else if (selected === 'multi') {
+        single.style.display = 'none';
+        multi.style.display = 'block';
+      }
+    }
+
+    function validateForm() {
+      const requestType = document.getElementById("wfm_request").value;
+      const requiredFields = {
+        "Accommodation request/update": ["accommodation_action", "accommodation_type", "final_date", "weekly_hours"],
+        "Add additional hours": ["additional_days"],
+        "Add/remove/change team meeting": ["team_meeting_action", "team_meeting_date", "team_meeting_start", "team_meeting_end"],
+        "Add/remove/move training": ["training_action", "training_date", "training_start", "training_end"],
+        "Add offline segment": ["offline_segment_date", "offline_segment_start", "offline_segment_end", "offline_segment_type"],
+        "Advisor arrived late, remove absence": ["actual_start_time", "actual_arrival_time"],
+        "CP skill update": ["cp_action", "cp_language"],
+        "Employee status update (not for schedule changes)": ["status_update_employee", "status_update_type", "status_update_effective_date"],
+        "Is OT available?": ["ot_date"],
+        "Move break/lunch because of meeting": ["original_break_time", "new_break_time"],
+        "Schedule Update - CP3 use": ["cp3_type"],
+        "Schedule Error Adjustment": ["error_adjustment_type"],
+        "Shift swap/offer": [],
+        "Suggestions/Feedback": [],
+        "Unpaid time off/vacation": ["pto_start_date", "pto_end_date"],
+        "Testing": []
+      };
+
+      const fields = requiredFields[requestType] || [];
+      for (let name of fields) {
+        const field = document.querySelector(`[name="${name}"]`);
+        if (!field || (field.type === "radio" && !document.querySelector(`[name="${name}"]:checked`)) || (field.value === "")) {
+          alert("Please complete all required fields for this request type.");
+          return false;
+        }
+      }
+      return true;
+    }
+  </script>
 </body>
-</html>
-<script>
-function toggleRequestFields() {
-  const selected = document.getElementById("wfm_request").value;
-
-  const sectionMap = {
-    "Accommodation request/update": "AccommodationrequestupdateFields",
-    "Add additional hours": "AddadditionalhoursFields",
-    "Add/remove/change team meeting": "AddremovechangeteammeetingFields",
-    "Add/remove/move training": "AddremovemovetrainingFields",
-    "Add offline segment": "AddofflinesegmentFields",
-    "Advisor arrived late, remove absence": "AdvisorarrivedlateremoveabsenceFields",
-    "CP skill update": "CPskillupdateFields",
-    "Employee status update (not for schedule changes)": "EmployeestatusupdatenotforschedulechangesFields",
-    "Is OT available?": "IsOTavailableFields",
-    "Move break/lunch because of meeting": "MovebreaklunchbecauseofmeetingFields",
-    "Schedule Update - CP3 use": "ScheduleUpdateCP3useFields",
-    "Schedule Error Adjustment": "ScheduleErrorAdjustmentFields",
-    "Shift swap/offer": "ShiftswapofferFields",
-    "Suggestions/Feedback": "SuggestionsFeedbackFields",
-    "Unpaid time off/vacation": "UnpaidtimeoffvacationFields",
-    "Testing": "TestingFields"
-  };
-
-  const allSections = document.querySelectorAll('div[id$="Fields"]');
-  allSections.forEach(div => div.style.display = 'none');
-
-  const targetId = sectionMap[selected];
-  const target = document.getElementById(targetId);
-  if (target) {
-    target.style.display = 'block';
-  }
-}
-
-function toggleAccommodationCP3(show) {
-  const cp3 = document.getElementById("cp3Upload");
-  if (cp3) {
-    cp3.style.display = show ? "block" : "none";
-  }
-}
-
-function toggleReturnToWork() {
-  const selected = document.querySelector('input[name="status_update_type"]:checked')?.value;
-  const container = document.getElementById("returnToWorkContainer");
-  if (container) {
-    container.style.display = selected === "Inactive" ? "block" : "none";
-  }
-}
-</script>
-<script>
-  // 🔁 Helper: Show/hide request sections
-  function toggleRequestFields() {
-    const selected = document.getElementById("wfm_request").value;
-
-    const sectionMap = {
-      "Accommodation request/update": "AccommodationrequestupdateFields",
-      "Add additional hours": "AddadditionalhoursFields",
-      "Add/remove/change team meeting": "AddremovechangeteammeetingFields",
-      "Add/remove/move training": "AddremovemovetrainingFields",
-      "Add offline segment": "AddofflinesegmentFields",
-      "Advisor arrived late, remove absence": "AdvisorarrivedlateremoveabsenceFields",
-      "CP skill update": "CPskillupdateFields",
-      "Employee status update (not for schedule changes)": "EmployeestatusupdatenotforschedulechangesFields",
-      "Is OT available?": "IsOTavailableFields",
-      "Move break/lunch because of meeting": "MovebreaklunchbecauseofmeetingFields",
-      "Schedule Update - CP3 use": "ScheduleUpdateCP3useFields",
-      "Schedule Error Adjustment": "ScheduleErrorAdjustmentFields",
-      "Shift swap/offer": "ShiftswapofferFields",
-      "Suggestions/Feedback": "SuggestionsFeedbackFields",
-      "Unpaid time off/vacation": "UnpaidtimeoffvacationFields",
-      "Testing": "TestingFields"
-    };
-
-    const allSections = document.querySelectorAll('div[id$="Fields"]');
-    allSections.forEach(div => div.style.display = 'none');
-
-    const targetId = sectionMap[selected];
-    const target = document.getElementById(targetId);
-    if (target) {
-      target.style.display = 'block';
-    }
-  }
-
-  // ✅ Other helpers
-  function toggleAccommodationCP3(show) {
-    const cp3 = document.getElementById("cp3Upload");
-    if (cp3) cp3.style.display = show ? "block" : "none";
-  }
-
-  function toggleReturnToWork() {
-    const selected = document.querySelector('input[name="status_update_type"]:checked')?.value;
-    const container = document.getElementById("returnToWorkContainer");
-    if (container) container.style.display = selected === "Inactive" ? "block" : "none";
-  }
-
-  function toggleDayInput(dayId) {
-    const input = document.getElementById(dayId);
-    if (input) {
-      input.disabled = !input.disabled;
-      if (input.disabled) input.value = '';
-    }
-  }
-
-  function toggleErrorAdjustmentDayInput(dayId) {
-    const input = document.getElementById(dayId);
-    if (input) {
-      input.disabled = !input.disabled;
-      if (input.disabled) input.value = '';
-    }
-  }
-
-  // ✅ Full validateForm() goes here
-  // Paste the complete validateForm() logic from earlier parts
-</script>
-</body>
-</html>
-
+</html> 
