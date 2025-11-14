@@ -77,70 +77,38 @@ def home():
             timestamp = datetime.now(ZoneInfo("America/Toronto")).strftime("%Y-%m-%d %H:%M:%S")
             closed_timestamp = ""
 
-            row_data = {
-                "Advisor Name": data.get('advisor_name', ''),
-                "Date of Request": data.get('request_date', ''),
-                "LoB": data.get('lob', ''),
-                "Team Lead": data.get('team_lead', ''),
-                "WFM Request Type": data.get('wfm_request', ''),
-                "Details": data.get('details', ''),
-                "Submitted By": session.get('user_email', ''),
-                "Submitted At": timestamp,
-                "Closed At": closed_timestamp
-            }
+            # Capture all form fields + metadata
+            row_data = data.copy()
+            row_data["Submitted By"] = session.get('user_email', '')
+            row_data["Submitted At"] = timestamp
+            row_data["Closed At"] = closed_timestamp
 
             if sheet:
                 existing_values = sheet.get_all_values()
                 existing_headers = existing_values[0] if existing_values else []
 
-                if not existing_headers:
-                    sheet.insert_row(list(row_data.keys()), 1)
-                    existing_headers = list(row_data.keys())
-
+                # Add headers if missing
                 for key in row_data.keys():
                     if key not in existing_headers:
                         existing_headers.append(key)
                         sheet.update('1:1', [existing_headers])
 
+                # Append row in correct header order
                 row = [row_data.get(header, '') for header in existing_headers]
                 sheet.append_row(row)
                 print("✅ Row appended to Google Sheet.")
 
-                html_body = f"""
-                <html>
-                <body>
-                    <p>Hi {row_data['Advisor Name']},</p>
-                    <p>Your WFM ticket has been received:</p>
-                    <ul>
-                        <li><strong>Date:</strong> {row_data['Date of Request']}</li>
-                        <li><strong>LoB:</strong> {row_data['LoB']}</li>
-                        <li><strong>Team Lead:</strong> {row_data['Team Lead']}</li>
-                        <li><strong>Request Type:</strong> {row_data['WFM Request Type']}</li>
-                        <li><strong>Details:</strong> {row_data['Details']}</li>
-                        <li><strong>Submitted At:</strong> {row_data['Submitted At']}</li>
-                    </ul>
-                    <p>We'll notify you once it's resolved.</p>
-                    <p>Thanks,<br>Workforce Management</p>
-                </body>
-                </html>
-                """
+                # Build dynamic email body
+                html_body = f"<html><body><p>Hi {row_data.get('Advisor Name', 'Advisor')},</p><p>Your WFM ticket has been received:</p><ul>"
+                plain_body = f"Hi {row_data.get('Advisor Name', 'Advisor')},\n\nYour WFM ticket has been received.\n\n"
 
-                plain_body = f"""Hi {row_data['Advisor Name']},
+                for key, value in row_data.items():
+                    if key not in ["Submitted By", "Closed At"]:
+                        html_body += f"<li><strong>{key}:</strong> {value}</li>"
+                        plain_body += f"{key}: {value}\n"
 
-Your WFM ticket has been received.
-
-Date: {row_data['Date of Request']}
-LoB: {row_data['LoB']}
-Team Lead: {row_data['Team Lead']}
-Request Type: {row_data['WFM Request Type']}
-Details: {row_data['Details']}
-Submitted At: {row_data['Submitted At']}
-
-We'll notify you once it's resolved.
-
-Thanks,
-Workforce Management
-"""
+                html_body += "</ul><p>We'll notify you once it's resolved.</p><p>Thanks,<br>Workforce Management</p></body></html>"
+                plain_body += "\nWe'll notify you once it's resolved.\n\nThanks,\nWorkforce Management"
 
                 send_ticket_email(row_data["Submitted By"], "WFM Ticket Received", html_body, plain_body)
             else:
@@ -212,8 +180,3 @@ Workforce Management
 def logout():
     session.clear()
     return redirect('/login')
-
-
-
-
-
