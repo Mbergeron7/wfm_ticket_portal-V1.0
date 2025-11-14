@@ -330,11 +330,31 @@ function validateForm() {
 <script>
 function toggleRequestFields() {
   const selected = document.getElementById("wfm_request").value;
+
+  const sectionMap = {
+    "Accommodation request/update": "AccommodationrequestupdateFields",
+    "Add additional hours": "AddadditionalhoursFields",
+    "Add/remove/change team meeting": "AddremovechangeteammeetingFields",
+    "Add/remove/move training": "AddremovemovetrainingFields",
+    "Add offline segment": "AddofflinesegmentFields",
+    "Advisor arrived late, remove absence": "AdvisorarrivedlateremoveabsenceFields",
+    "CP skill update": "CPskillupdateFields",
+    "Employee status update (not for schedule changes)": "EmployeestatusupdatenotforschedulechangesFields",
+    "Is OT available?": "IsOTavailableFields",
+    "Move break/lunch because of meeting": "MovebreaklunchbecauseofmeetingFields",
+    "Schedule Update - CP3 use": "ScheduleUpdateCP3useFields",
+    "Schedule Error Adjustment": "ScheduleErrorAdjustmentFields",
+    "Shift swap/offer": "ShiftswapofferFields",
+    "Suggestions/Feedback": "SuggestionsFeedbackFields",
+    "Unpaid time off/vacation": "UnpaidtimeoffvacationFields",
+    "Testing": "TestingFields"
+  };
+
   const allSections = document.querySelectorAll('div[id$="Fields"]');
   allSections.forEach(div => div.style.display = 'none');
 
-  const id = selected.replace(/[^a-zA-Z0-9]/g, '').replace(/\s+/g, '') + "Fields";
-  const target = document.getElementById(id);
+  const targetId = sectionMap[selected];
+  const target = document.getElementById(targetId);
   if (target) {
     target.style.display = 'block';
   }
@@ -355,5 +375,71 @@ function toggleReturnToWork() {
   }
 }
 </script>
+<script>
+  // 🔁 Helper: Show/hide request sections
+  function toggleRequestFields() {
+    const selected = document.getElementById("wfm_request").value;
+
+    const sectionMap = {
+      "Accommodation request/update": "AccommodationrequestupdateFields",
+      "Add additional hours": "AddadditionalhoursFields",
+      "Add/remove/change team meeting": "AddremovechangeteammeetingFields",
+      "Add/remove/move training": "AddremovemovetrainingFields",
+      "Add offline segment": "AddofflinesegmentFields",
+      "Advisor arrived late, remove absence": "AdvisorarrivedlateremoveabsenceFields",
+      "CP skill update": "CPskillupdateFields",
+      "Employee status update (not for schedule changes)": "EmployeestatusupdatenotforschedulechangesFields",
+      "Is OT available?": "IsOTavailableFields",
+      "Move break/lunch because of meeting": "MovebreaklunchbecauseofmeetingFields",
+      "Schedule Update - CP3 use": "ScheduleUpdateCP3useFields",
+      "Schedule Error Adjustment": "ScheduleErrorAdjustmentFields",
+      "Shift swap/offer": "ShiftswapofferFields",
+      "Suggestions/Feedback": "SuggestionsFeedbackFields",
+      "Unpaid time off/vacation": "UnpaidtimeoffvacationFields",
+      "Testing": "TestingFields"
+    };
+
+    const allSections = document.querySelectorAll('div[id$="Fields"]');
+    allSections.forEach(div => div.style.display = 'none');
+
+    const targetId = sectionMap[selected];
+    const target = document.getElementById(targetId);
+    if (target) {
+      target.style.display = 'block';
+    }
+  }
+
+  // ✅ Other helpers
+  function toggleAccommodationCP3(show) {
+    const cp3 = document.getElementById("cp3Upload");
+    if (cp3) cp3.style.display = show ? "block" : "none";
+  }
+
+  function toggleReturnToWork() {
+    const selected = document.querySelector('input[name="status_update_type"]:checked')?.value;
+    const container = document.getElementById("returnToWorkContainer");
+    if (container) container.style.display = selected === "Inactive" ? "block" : "none";
+  }
+
+  function toggleDayInput(dayId) {
+    const input = document.getElementById(dayId);
+    if (input) {
+      input.disabled = !input.disabled;
+      if (input.disabled) input.value = '';
+    }
+  }
+
+  function toggleErrorAdjustmentDayInput(dayId) {
+    const input = document.getElementById(dayId);
+    if (input) {
+      input.disabled = !input.disabled;
+      if (input.disabled) input.value = '';
+    }
+  }
+
+  // ✅ Full validateForm() goes here
+  // Paste the complete validateForm() logic from earlier parts
+</script>
 </body>
 </html>
+
